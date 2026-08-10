@@ -37,6 +37,17 @@ describe("ProviderSettingsForm helpers", () => {
     });
   });
 
+  it("exposes OMP launch and profile fields without duplicating credential storage", () => {
+    const omp = DRIVER_OPTION_BY_VALUE[ProviderDriverKind.make("omp")];
+    expect(omp).toBeDefined();
+
+    expect(deriveProviderSettingsFields(omp!).map((field) => field.key)).toEqual([
+      "binaryPath",
+      "launchArgs",
+      "profile",
+    ]);
+  });
+
   it("preserves unknown config keys while omitting empty configurable fields", () => {
     const opencode = DRIVER_OPTION_BY_VALUE[ProviderDriverKind.make("opencode")];
     expect(opencode).toBeDefined();

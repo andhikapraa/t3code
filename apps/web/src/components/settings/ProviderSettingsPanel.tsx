@@ -347,6 +347,9 @@ function AccessGatedProviderSettings({
     <EnvironmentProviderSettings
       environmentId={environment.environmentId}
       environmentLabel={environment.label}
+      ompProfileConfigSupported={
+        environment.serverConfig?.environment.capabilities.ompProfileConfig === true
+      }
       readOnly={access.kind === "read-only"}
     />
   );
@@ -355,10 +358,12 @@ function AccessGatedProviderSettings({
 export function EnvironmentProviderSettings({
   environmentId,
   environmentLabel,
+  ompProfileConfigSupported,
   readOnly = false,
 }: {
   readonly environmentId: EnvironmentId;
   readonly environmentLabel: string;
+  readonly ompProfileConfigSupported: boolean;
   /**
    * Render the full provider layout, greyed out and inert, when this session's
    * credential lacks `orchestration:operate` on the environment. Showing the
@@ -828,10 +833,12 @@ export function EnvironmentProviderSettings({
             return (
               <ProviderInstanceCard
                 key={row.instanceId}
+                environmentId={environmentId}
                 instanceId={row.instanceId}
                 instance={row.instance}
                 driverOption={driverOption}
                 liveProvider={liveProvider}
+                ompProfileConfigSupported={ompProfileConfigSupported}
                 isExpanded={openInstanceDetails[row.instanceId] ?? false}
                 onExpandedChange={(open) =>
                   setOpenInstanceDetails((existing) => ({

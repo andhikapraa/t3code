@@ -14,6 +14,7 @@ import * as Arr from "effect/Array";
 import * as Result from "effect/Result";
 import { useState, type ReactNode } from "react";
 import {
+  type EnvironmentId,
   isProviderDriverKind,
   type ProviderInstanceConfig,
   type ProviderInstanceEnvironmentVariable,
@@ -43,6 +44,7 @@ import { ProviderModelsSection } from "./ProviderModelsSection";
 import { ProviderInstanceIcon } from "../chat/ProviderInstanceIcon";
 import { ProviderAccentColorPicker } from "./ProviderAccentColorPicker";
 import { RedactedSensitiveText } from "./RedactedSensitiveText";
+import { getOmpProfileResolutionKey, OmpProfileConfigEditor } from "./OmpProfileConfigEditor";
 import {
   getProviderVersionAdvisoryPresentation,
   PROVIDER_STATUS_STYLES,
@@ -319,9 +321,11 @@ function ProviderEnvironmentSection(props: {
 }
 
 interface ProviderInstanceCardProps {
+  readonly environmentId: EnvironmentId;
   readonly instanceId: ProviderInstanceId;
   readonly instance: ProviderInstanceConfig;
   readonly driverOption: DriverOption | undefined;
+  readonly ompProfileConfigSupported: boolean;
   readonly liveProvider: ServerProvider | undefined;
   readonly isExpanded: boolean;
   readonly onExpandedChange: (open: boolean) => void;
@@ -376,6 +380,7 @@ interface ProviderInstanceCardProps {
  *     flows through the envelope.
  */
 export function ProviderInstanceCard({
+  environmentId,
   instanceId,
   instance,
   driverOption,
@@ -384,6 +389,7 @@ export function ProviderInstanceCard({
   onExpandedChange,
   onUpdate,
   onDelete,
+  ompProfileConfigSupported,
   headerAction,
   hiddenModels,
   favoriteModels,
@@ -442,6 +448,14 @@ export function ProviderInstanceCard({
   const driverKind: ProviderDriverKind | null = isProviderDriverKind(instance.driver)
     ? instance.driver
     : null;
+
+  const ompProfileResolutionKey =
+    driverKind === "omp"
+      ? getOmpProfileResolutionKey({
+          config: instance.config,
+          environment: instance.environment ?? [],
+        })
+      : "";
 
   const customModels = readConfigStringArray(instance.config, "customModels");
   // Server-returned models may lag behind settings writes. Treat probe
@@ -771,6 +785,14 @@ export function ProviderInstanceCard({
                 idPrefix={`provider-instance-${instanceId}`}
                 variant="card"
                 onChange={updateConfig}
+              />
+            ) : null}
+
+            {driverKind === "omp" && ompProfileConfigSupported ? (
+              <OmpProfileConfigEditor
+                environmentId={environmentId}
+                instanceId={instanceId}
+                profileResolutionKey={ompProfileResolutionKey}
               />
             ) : null}
 

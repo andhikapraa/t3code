@@ -122,6 +122,7 @@ function renderPanel(options?: {
   hooks.beginRender();
   return EnvironmentProviderSettings({
     environmentId,
+    ompProfileConfigSupported: true,
     environmentLabel: "Remote device",
     ...(options?.readOnly === undefined ? {} : { readOnly: options.readOnly }),
   }) as ReactElement<Record<string, unknown>>;
