@@ -10,6 +10,31 @@ Object.assign(process.env, repoEnv);
 
 const APP_VARIANT = resolveAppVariant(repoEnv.APP_VARIANT);
 const isIosPersonalTeamBuild = repoEnv.T3CODE_IOS_PERSONAL_TEAM === "1";
+const isForkRelease = repoEnv.T3CODE_FORK_RELEASE === "1";
+const FORK_ANDROID_PACKAGE_PATTERN = /^[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)+$/;
+const forkAndroidPackage = repoEnv.T3CODE_FORK_ANDROID_PACKAGE?.trim() || "com.andhikapraa.t3code";
+const forkVersion = repoEnv.T3CODE_FORK_VERSION?.trim() || "0.0.0";
+const forkAndroidVersionCodeRaw = repoEnv.T3CODE_FORK_ANDROID_VERSION_CODE?.trim() || "1";
+const forkAndroidVersionCode = Number.parseInt(forkAndroidVersionCodeRaw, 10);
+
+if (
+  isForkRelease &&
+  (!/^\d+(?:\.\d+){2}(?:-[0-9A-Za-z.-]+)?$/.test(forkVersion) ||
+    !/^\d+$/.test(forkAndroidVersionCodeRaw) ||
+    !Number.isSafeInteger(forkAndroidVersionCode) ||
+    forkAndroidVersionCode < 1 ||
+    forkAndroidVersionCode > 2_100_000_000)
+) {
+  throw new Error(
+    "T3CODE_FORK_VERSION must be semver and T3CODE_FORK_ANDROID_VERSION_CODE must be between 1 and 2100000000.",
+  );
+}
+
+if (isForkRelease && !FORK_ANDROID_PACKAGE_PATTERN.test(forkAndroidPackage)) {
+  throw new Error(
+    "T3CODE_FORK_ANDROID_PACKAGE must be a reverse-DNS Android package such as com.example.t3code.",
+  );
+}
 
 const personalTeamBundleIdentifier = repoEnv.T3CODE_IOS_PERSONAL_TEAM_BUNDLE_ID?.trim();
 const IOS_BUNDLE_IDENTIFIER_PATTERN = /^[A-Za-z0-9-]+(?:\.[A-Za-z0-9-]+)+$/;
@@ -157,11 +182,11 @@ const sharingPlugin: NonNullable<ExpoConfig["plugins"]>[number] = [
 // family names without waiting for runtime font loading.
 
 const config: ExpoConfig = {
-  name: variant.appName,
+  name: isForkRelease ? "T3 Code OMP" : variant.appName,
   slug: "t3-code",
   platforms: ["ios", "android"],
-  scheme: variant.scheme,
-  version: "1.0.2",
+  scheme: isForkRelease ? "t3code-omp" : variant.scheme,
+  version: isForkRelease ? forkVersion : "1.0.2",
   runtimeVersion: {
     // Fingerprint (not appVersion) so an OTA only reaches binaries whose native
     // project — native deps, config plugins, AND patches/ — matches the update.
@@ -172,12 +197,16 @@ const config: ExpoConfig = {
   orientation: "portrait",
   icon: variant.assets.appIcon,
   userInterfaceStyle: "automatic",
-  updates: {
-    enabled: true,
-    url: "https://u.expo.dev/d763fcb8-d37c-41ea-a773-b54a0ab4a454",
-    checkAutomatically: "ON_LOAD",
-    fallbackToCacheTimeout: 0,
-  },
+  updates: isForkRelease
+    ? {
+        enabled: false,
+      }
+    : {
+        enabled: true,
+        url: "https://u.expo.dev/d763fcb8-d37c-41ea-a773-b54a0ab4a454",
+        checkAutomatically: "ON_LOAD",
+        fallbackToCacheTimeout: 0,
+      },
   ios: {
     icon: variant.assets.iosIcon,
     supportsTablet: true,
@@ -219,7 +248,8 @@ const config: ExpoConfig = {
   },
   android: {
     icon: variant.assets.appIcon,
-    package: variant.androidPackage,
+    package: isForkRelease ? forkAndroidPackage : variant.androidPackage,
+    versionCode: isForkRelease ? forkAndroidVersionCode : undefined,
     adaptiveIcon: {
       backgroundColor: variant.assets.androidAdaptiveBackgroundColor,
       foregroundImage: variant.assets.androidAdaptiveForeground,
@@ -338,6 +368,7 @@ const config: ExpoConfig = {
     "./plugins/withAndroidModernPopupMenu.cjs",
     "./plugins/withAndroidModernAlertDialog.cjs",
     "./plugins/withAndroidPredictiveBackCompat.cjs",
+    ...(isForkRelease ? ["./plugins/withForkAndroidReleaseSigning.cjs"] : []),
     ...(isIosPersonalTeamBuild ? ["./plugins/withoutIosPersonalTeamCapabilities.cjs"] : []),
   ],
   extra: {
@@ -364,11 +395,15 @@ const config: ExpoConfig = {
       tracesDataset: repoEnv.EXPO_PUBLIC_OTLP_TRACES_DATASET ?? null,
       tracesToken: repoEnv.EXPO_PUBLIC_OTLP_TRACES_TOKEN ?? null,
     },
-    eas: {
-      projectId: "d763fcb8-d37c-41ea-a773-b54a0ab4a454",
-    },
+    ...(isForkRelease
+      ? {}
+      : {
+          eas: {
+            projectId: "d763fcb8-d37c-41ea-a773-b54a0ab4a454",
+          },
+        }),
   },
-  owner: "pingdotgg",
+  owner: isForkRelease ? undefined : "pingdotgg",
 };
 
 export default config;
