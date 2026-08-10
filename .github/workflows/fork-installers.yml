@@ -1,0 +1,366 @@
+name: Fork Installers
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Fork release version without the v prefix (for example 0.0.33-omp.1)"
+        required: true
+        type: string
+      android_version_code:
+        description: "Monotonically increasing Android versionCode"
+        required: true
+        default: "3301"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fork-installers-${{ inputs.version }}
+  cancel-in-progress: false
+
+env:
+  NODE_OPTIONS: --max-old-space-size=4096
+
+jobs:
+  validate:
+    name: Validate release inputs
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.inputs.outputs.version }}
+      tag: ${{ steps.inputs.outputs.tag }}
+      android_version_code: ${{ steps.inputs.outputs.android_version_code }}
+    steps:
+      - id: inputs
+        name: Validate version and tag availability
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RAW_VERSION: ${{ inputs.version }}
+          RAW_ANDROID_VERSION_CODE: ${{ inputs.android_version_code }}
+        run: |
+          set -euo pipefail
+          version="${RAW_VERSION#v}"
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid version: $RAW_VERSION" >&2
+            exit 1
+          fi
+          if [[ ! "$RAW_ANDROID_VERSION_CODE" =~ ^[1-9][0-9]*$ ]]; then
+            echo "Android versionCode must be a positive integer." >&2
+            exit 1
+          fi
+          if (( ${#RAW_ANDROID_VERSION_CODE} > 10 )) || { (( ${#RAW_ANDROID_VERSION_CODE} == 10 )) && [[ "$RAW_ANDROID_VERSION_CODE" > "2100000000" ]]; }; then
+            echo "Android versionCode must be at most 2100000000." >&2
+            exit 1
+          fi
+          tag="v$version"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" >/dev/null 2>&1; then
+            echo "Release already exists: $tag" >&2
+            exit 1
+          fi
+          if git ls-remote --exit-code --tags "https://github.com/$GITHUB_REPOSITORY.git" "refs/tags/$tag" >/dev/null 2>&1; then
+            echo "Tag already exists: $tag" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "android_version_code=$RAW_ANDROID_VERSION_CODE" >> "$GITHUB_OUTPUT"
+
+  check:
+    name: Check fork release inputs and build contracts
+    needs: validate
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version-file: package.json
+          cache: true
+          run-install: |
+            args:
+              - --filter=@t3tools/mobile...
+              - --filter=@t3tools/desktop...
+              - --filter=@t3tools/scripts...
+
+      - name: Expose pnpm
+        run: |
+          pnpm_version="$(node --print \"require('./package.json').packageManager.split('@').pop()\")"
+          vp_pnpm_bin="$HOME/.vite-plus/package_manager/pnpm/$pnpm_version/pnpm/bin"
+          echo "$vp_pnpm_bin" >> "$GITHUB_PATH"
+          "$vp_pnpm_bin/pnpm" --version
+
+      - name: Check formatting
+        run: vp fmt --check .github/workflows/fork-installers.yml apps/mobile/app.config.ts apps/mobile/plugins/withForkAndroidReleaseSigning.cjs scripts/build-desktop-artifact.ts scripts/build-desktop-artifact.test.ts
+
+      - name: Check mobile configuration
+        working-directory: apps/mobile
+        env:
+          APP_VARIANT: production
+          T3CODE_FORK_RELEASE: "1"
+          T3CODE_FORK_VERSION: ${{ needs.validate.outputs.version }}
+          T3CODE_FORK_ANDROID_VERSION_CODE: ${{ needs.validate.outputs.android_version_code }}
+          T3CODE_FORK_ANDROID_PACKAGE: com.andhikapraa.t3code
+        run: |
+          config="$(pnpm exec expo config --json)"
+          node -e 'const config = JSON.parse(process.argv[1]); if (config.name !== "T3 Code OMP" || config.android.package !== "com.andhikapraa.t3code" || config.updates.enabled !== false) process.exit(1)' "$config"
+
+      - name: Check mobile types and desktop packaging contract
+        run: |
+          vp run --filter @t3tools/mobile typecheck
+          vp test run scripts/build-desktop-artifact.test.ts
+
+      - name: Run release smoke checks
+        run: node scripts/release-smoke.ts
+
+  desktop:
+    name: ${{ matrix.label }}
+    needs: [validate, check]
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: mac-arm64
+            label: macOS Apple Silicon installer
+            runner: macos-15
+            platform: mac
+            target: dmg
+            arch: arm64
+            rust_target: aarch64-apple-darwin
+          - id: mac-x64
+            label: macOS Intel installer
+            runner: macos-15-intel
+            platform: mac
+            target: dmg
+            arch: x64
+            rust_target: x86_64-apple-darwin
+          - id: linux-x64
+            label: Ubuntu x64 AppImage
+            runner: ubuntu-24.04
+            platform: linux
+            target: AppImage
+            arch: x64
+            rust_target: x86_64-unknown-linux-gnu
+          - id: linux-arm64
+            label: Ubuntu arm64 AppImage
+            runner: ubuntu-24.04-arm
+            platform: linux
+            target: AppImage
+            arch: arm64
+            rust_target: aarch64-unknown-linux-gnu
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version-file: package.json
+          cache: true
+          run-install: |
+            args:
+              - --filter=@t3tools/desktop...
+              - --filter=t3...
+              - --filter=@t3tools/scripts...
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.rust_target }}
+
+      - name: Install Linux packaging tools
+        if: matrix.platform == 'linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick libfuse2
+
+      - name: Build desktop installer
+        env:
+          T3CODE_DESKTOP_UPDATE_REPOSITORY: ${{ github.repository }}
+        run: |
+          vp run dist:desktop:artifact \
+            --platform "${{ matrix.platform }}" \
+            --target "${{ matrix.target }}" \
+            --arch "${{ matrix.arch }}" \
+            --build-version "${{ needs.validate.outputs.version }}" \
+            --output-dir "release-fork/${{ matrix.id }}" \
+            --verbose
+
+      - name: Collect installable desktop assets
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-assets
+          find "release-fork/${{ matrix.id }}" -maxdepth 1 -type f \
+            \( -name '*.dmg' -o -name '*.zip' -o -name '*.AppImage' \) \
+            -exec cp {} release-assets/ \;
+          test -n "$(find release-assets -maxdepth 1 -type f -print -quit)"
+
+      - name: Upload desktop assets
+        uses: actions/upload-artifact@v7
+        with:
+          name: fork-${{ matrix.id }}
+          path: release-assets/*
+          if-no-files-found: error
+          retention-days: 7
+
+  android:
+    name: Android universal APK
+    needs: [validate, check]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      APP_VARIANT: production
+      EXPO_NO_GIT_STATUS: "1"
+      T3CODE_FORK_RELEASE: "1"
+      T3CODE_FORK_VERSION: ${{ needs.validate.outputs.version }}
+      T3CODE_FORK_ANDROID_VERSION_CODE: ${{ needs.validate.outputs.android_version_code }}
+      T3CODE_FORK_ANDROID_PACKAGE: com.andhikapraa.t3code
+      T3CODE_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.FORK_ANDROID_KEYSTORE_PASSWORD }}
+      T3CODE_ANDROID_KEY_ALIAS: ${{ secrets.FORK_ANDROID_KEY_ALIAS }}
+      T3CODE_ANDROID_KEY_PASSWORD: ${{ secrets.FORK_ANDROID_KEY_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version-file: package.json
+          cache: true
+          run-install: |
+            args:
+              - --filter=@t3tools/mobile...
+
+      - name: Expose pnpm
+        run: |
+          pnpm_version="$(node --print \"require('./package.json').packageManager.split('@').pop()\")"
+          vp_pnpm_bin="$HOME/.vite-plus/package_manager/pnpm/$pnpm_version/pnpm/bin"
+          echo "$vp_pnpm_bin" >> "$GITHUB_PATH"
+          "$vp_pnpm_bin/pnpm" --version
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle cache
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android SDK components
+        run: |
+          sdkmanager \
+            "platform-tools" \
+            "platforms;android-36" \
+            "build-tools;36.0.0" \
+            "ndk;27.1.12297006"
+
+      - name: Restore private Android signing key
+        env:
+          KEYSTORE_BASE64: ${{ secrets.FORK_ANDROID_KEYSTORE_BASE64 }}
+        run: |
+          set -euo pipefail
+          required=(
+            KEYSTORE_BASE64
+            T3CODE_ANDROID_KEYSTORE_PASSWORD
+            T3CODE_ANDROID_KEY_ALIAS
+            T3CODE_ANDROID_KEY_PASSWORD
+          )
+          for name in "${required[@]}"; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "Missing required repository secret: $name" >&2
+              exit 1
+            fi
+          done
+          keystore_path="$RUNNER_TEMP/t3code-fork-release.jks"
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$keystore_path"
+          chmod 600 "$keystore_path"
+          echo "T3CODE_ANDROID_KEYSTORE_PATH=$keystore_path" >> "$GITHUB_ENV"
+
+      - name: Generate Android project
+        working-directory: apps/mobile
+        run: pnpm exec expo prebuild --clean --platform android --no-install
+
+      - name: Build signed universal APK
+        working-directory: apps/mobile/android
+        run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
+
+      - name: Verify APK signature and collect asset
+        run: |
+          set -euo pipefail
+          apk="apps/mobile/android/app/build/outputs/apk/release/app-release.apk"
+          test -f "$apk"
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs "$apk"
+          mkdir -p release-assets
+          cp "$apk" "release-assets/T3-Code-OMP-${{ needs.validate.outputs.version }}-android-universal.apk"
+
+      - name: Upload Android asset
+        uses: actions/upload-artifact@v7
+        with:
+          name: fork-android
+          path: release-assets/*
+          if-no-files-found: error
+          retention-days: 7
+
+  release:
+    name: Publish fork GitHub release
+    needs: [validate, desktop, android]
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - name: Download installer assets
+        uses: actions/download-artifact@v8
+        with:
+          pattern: fork-*
+          path: release-assets
+          merge-multiple: true
+
+      - name: Generate checksums and release notes
+        run: |
+          set -euo pipefail
+          cd release-assets
+          find . -maxdepth 1 -type f ! -name SHA256SUMS.txt -printf '%f\n' | sort | xargs sha256sum > SHA256SUMS.txt
+          cd ..
+          cat > release-notes.md <<'EOF'
+          Personal OMP-enabled T3 Code installers built from this fork.
+
+          ## Install
+
+          - **Android:** download the universal APK, allow installation from your browser/files app, then install it. The package is `com.andhikapraa.t3code`, so it remains separate from official T3 Code builds.
+          - **Apple Silicon Mac mini/MacBook:** use the `arm64.dmg` asset.
+          - **Intel Mac:** use the `x64.dmg` asset.
+          - **Ubuntu x64:** download the x64 AppImage, run `chmod +x <file>.AppImage`, then launch it.
+          - **Ubuntu arm64:** use the arm64 AppImage with the same command.
+
+          macOS artifacts are unsigned personal builds. On first launch, right-click the app and choose **Open**. If macOS still blocks it, run `xattr -dr com.apple.quarantine '/Applications/T3 Code (Alpha).app'` after copying the app to Applications.
+
+          Android is signed with the private key stored in this fork's GitHub Actions secrets. Keep the local backup of that key to publish installable updates without uninstalling the app.
+
+          Automatic Expo updates are disabled in the Android fork build. Desktop update metadata points to this GitHub repository; these release assets remain the source of truth.
+          EOF
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ needs.validate.outputs.tag }}" \
+            release-assets/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "T3 Code OMP ${{ needs.validate.outputs.version }}" \
+            --notes-file release-notes.md \
+            --latest
