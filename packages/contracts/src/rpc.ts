@@ -66,6 +66,12 @@ import {
   OrchestrationRpcSchemas,
   OrchestrationGetWorkflowScriptError,
 } from "./orchestration.ts";
+import {
+  OmpProfileConfigError,
+  OmpProfileConfigReadInput,
+  OmpProfileConfigSnapshot,
+  OmpProfileConfigWriteInput,
+} from "./ompProfileConfig.ts";
 import { ProviderInstanceId } from "./providerInstance.ts";
 import {
   RelayClientInstallFailedError,
@@ -228,6 +234,8 @@ export const WS_METHODS = {
   serverGetConfig: "server.getConfig",
   serverRefreshProviders: "server.refreshProviders",
   serverUpdateProvider: "server.updateProvider",
+  serverGetOmpProfileConfig: "server.getOmpProfileConfig",
+  serverUpdateOmpProfileConfig: "server.updateOmpProfileConfig",
   serverUpdateServer: "server.updateServer",
   serverUpdateServerWithProgress: "server.updateServerWithProgress",
   serverUpsertKeybinding: "server.upsertKeybinding",
@@ -309,6 +317,17 @@ export const WsServerUpdateProviderRpc = Rpc.make(WS_METHODS.serverUpdateProvide
   payload: ServerProviderUpdateInput,
   success: ServerProviderUpdatedPayload,
   error: Schema.Union([ServerProviderUpdateError, EnvironmentAuthorizationError]),
+});
+export const WsServerGetOmpProfileConfigRpc = Rpc.make(WS_METHODS.serverGetOmpProfileConfig, {
+  payload: OmpProfileConfigReadInput,
+  success: OmpProfileConfigSnapshot,
+  error: Schema.Union([OmpProfileConfigError, EnvironmentAuthorizationError]),
+});
+
+export const WsServerUpdateOmpProfileConfigRpc = Rpc.make(WS_METHODS.serverUpdateOmpProfileConfig, {
+  payload: OmpProfileConfigWriteInput,
+  success: OmpProfileConfigSnapshot,
+  error: Schema.Union([OmpProfileConfigError, EnvironmentAuthorizationError]),
 });
 
 export const WsServerUpdateServerRpc = Rpc.make(WS_METHODS.serverUpdateServer, {
@@ -807,6 +826,8 @@ export const WsRpcGroup = RpcGroup.make(
   WsServerGetConfigRpc,
   WsServerRefreshProvidersRpc,
   WsServerUpdateProviderRpc,
+  WsServerGetOmpProfileConfigRpc,
+  WsServerUpdateOmpProfileConfigRpc,
   WsServerUpdateServerRpc,
   WsServerUpdateServerWithProgressRpc,
   WsServerUpsertKeybindingRpc,

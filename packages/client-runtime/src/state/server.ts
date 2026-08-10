@@ -730,6 +730,18 @@ export function createServerEnvironmentAtoms<R, E>(
       scheduler: configScheduler,
       concurrency: configConcurrency,
     }),
+    getOmpProfileConfig: createEnvironmentRpcCommand(runtime, {
+      label: "environment-data:server:get-omp-profile-config",
+      tag: WS_METHODS.serverGetOmpProfileConfig,
+      scheduler: configScheduler,
+      concurrency: configConcurrency,
+    }),
+    updateOmpProfileConfig: createEnvironmentRpcCommand(runtime, {
+      label: "environment-data:server:update-omp-profile-config",
+      tag: WS_METHODS.serverUpdateOmpProfileConfig,
+      scheduler: configScheduler,
+      concurrency: configConcurrency,
+    }),
     updateServer,
     upsertKeybinding: createEnvironmentRpcCommand(runtime, {
       label: "environment-data:server:upsert-keybinding",

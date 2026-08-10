@@ -5,6 +5,7 @@ import { ProviderInstanceId } from "./providerInstance.ts";
 import {
   ClientSettingsSchema,
   ClientSettingsPatch,
+  OmpSettings,
   DEFAULT_SERVER_SETTINGS,
   ServerSettings,
   ServerSettingsPatch,
@@ -15,6 +16,7 @@ const decodeClientSettingsPatch = Schema.decodeUnknownSync(ClientSettingsPatch);
 const decodeServerSettings = Schema.decodeUnknownSync(ServerSettings);
 const decodeServerSettingsPatch = Schema.decodeUnknownSync(ServerSettingsPatch);
 const encodeServerSettings = Schema.encodeSync(ServerSettings);
+const decodeOmpSettings = Schema.decodeUnknownSync(OmpSettings);
 
 describe("ClientSettings word wrap", () => {
   it("defaults word wrap on", () => {
@@ -130,6 +132,7 @@ describe("ServerSettings.providerInstances (slice-2 invariant)", () => {
     // Legacy `providers` struct is still hydrated with its per-driver defaults
     // so existing call sites keep working through the migration.
     expect(decoded.providers.codex.enabled).toBe(true);
+    expect(decoded.providers.omp.enabled).toBe(true);
   });
 
   it("decodes a multi-instance map mixing first-party and fork drivers", () => {
@@ -172,6 +175,53 @@ describe("ServerSettings.providerInstances (slice-2 invariant)", () => {
         providerInstances: { "1bad": { driver: "codex" } },
       }),
     ).toThrow();
+  });
+});
+
+describe("OmpSettings", () => {
+  it("defaults to the ambient binary and default profile", () => {
+    expect(decodeOmpSettings({})).toEqual({
+      enabled: true,
+      binaryPath: "omp",
+      launchArgs: "",
+      profile: "",
+      customModels: [],
+    });
+  });
+  it("accepts legacy OMP settings patches", () => {
+    expect(
+      decodeServerSettingsPatch({
+        providers: {
+          omp: {
+            enabled: false,
+            binaryPath: "/opt/omp",
+            launchArgs: "--profile work",
+            profile: "work",
+            customModels: ["local-model"],
+          },
+        },
+      }).providers?.omp,
+    ).toEqual({
+      enabled: false,
+      binaryPath: "/opt/omp",
+      launchArgs: "--profile work",
+      profile: "work",
+      customModels: ["local-model"],
+    });
+  });
+
+  it("trims instance launch and profile settings", () => {
+    expect(
+      decodeOmpSettings({
+        binaryPath: "  /opt/homebrew/bin/omp  ",
+        launchArgs: "  --no-lsp  ",
+        profile: "  work  ",
+      }),
+    ).toMatchObject({
+      binaryPath: "/opt/homebrew/bin/omp",
+      launchArgs: "--no-lsp",
+      profile: "work",
+    });
   });
 });
 

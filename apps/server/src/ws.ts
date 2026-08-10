@@ -80,6 +80,7 @@ import {
 } from "./observability/RpcInstrumentation.ts";
 import * as ProviderRegistry from "./provider/Services/ProviderRegistry.ts";
 import * as ProviderMaintenanceRunner from "./provider/providerMaintenanceRunner.ts";
+import * as OmpProfileConfig from "./provider/OmpProfileConfig.ts";
 import * as ServerSelfUpdate from "./cloud/selfUpdate.ts";
 import * as ServerLifecycleEvents from "./serverLifecycleEvents.ts";
 import * as ServerRuntimeStartup from "./serverRuntimeStartup.ts";
@@ -368,6 +369,7 @@ const makeWsRpcLayer = (
       const portDiscovery = yield* PortScanner.PortDiscovery;
       const providerRegistry = yield* ProviderRegistry.ProviderRegistry;
       const providerMaintenanceRunner = yield* ProviderMaintenanceRunner.ProviderMaintenanceRunner;
+      const ompProfileConfig = yield* OmpProfileConfig.OmpProfileConfigService;
       const serverSelfUpdate = yield* ServerSelfUpdate.ServerSelfUpdate;
       const config = yield* ServerConfig.ServerConfig;
       const lifecycleEvents = yield* ServerLifecycleEvents.ServerLifecycleEvents;
@@ -1421,6 +1423,18 @@ const makeWsRpcLayer = (
               "rpc.aggregate": "server",
             },
           ),
+        [WS_METHODS.serverGetOmpProfileConfig]: (input) =>
+          observeRpcEffect(
+            WS_METHODS.serverGetOmpProfileConfig,
+            ompProfileConfig.read(input.instanceId),
+            {
+              "rpc.aggregate": "server",
+            },
+          ),
+        [WS_METHODS.serverUpdateOmpProfileConfig]: (input) =>
+          observeRpcEffect(WS_METHODS.serverUpdateOmpProfileConfig, ompProfileConfig.write(input), {
+            "rpc.aggregate": "server",
+          }),
         [WS_METHODS.serverUpdateServer]: (input) =>
           observeRpcEffect(WS_METHODS.serverUpdateServer, serverSelfUpdate.update(input), {
             "rpc.aggregate": "server",
@@ -2161,6 +2175,7 @@ export const websocketRpcRouteLayer = Layer.unwrap(
             makeWsRpcLayer(session, previewAutomationBroker).pipe(
               Layer.provideMerge(RpcSerialization.layerJson),
               Layer.provide(ProviderMaintenanceRunner.layer),
+              Layer.provide(OmpProfileConfig.layer),
               Layer.provide(Layer.succeed(ServerSelfUpdate.ServerSelfUpdate, serverSelfUpdate)),
               Layer.provide(
                 SourceControlDiscovery.layer.pipe(
