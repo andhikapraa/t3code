@@ -4,15 +4,19 @@ import * as Schema from "effect/Schema";
 import { ProviderInstanceId } from "./providerInstance.ts";
 import {
   ClientSettingsSchema,
+  ClientSettingsPatch,
+  OmpSettings,
   DEFAULT_SERVER_SETTINGS,
   ServerSettings,
   ServerSettingsPatch,
 } from "./settings.ts";
 
 const decodeClientSettings = Schema.decodeUnknownSync(ClientSettingsSchema);
+const decodeClientSettingsPatch = Schema.decodeUnknownSync(ClientSettingsPatch);
 const decodeServerSettings = Schema.decodeUnknownSync(ServerSettings);
 const decodeServerSettingsPatch = Schema.decodeUnknownSync(ServerSettingsPatch);
 const encodeServerSettings = Schema.encodeSync(ServerSettings);
+const decodeOmpSettings = Schema.decodeUnknownSync(OmpSettings);
 
 describe("ClientSettings word wrap", () => {
   it("defaults word wrap on", () => {
@@ -31,7 +35,93 @@ describe("ClientSettings word wrap", () => {
   });
 });
 
+describe("ClientSettings glass opacity", () => {
+  it("defaults to a readable translucent surface", () => {
+    expect(decodeClientSettings({}).glassOpacity).toBe(80);
+  });
+
+  it.each([39, 101, 72.5])("rejects an invalid glass opacity: %s", (value) => {
+    expect(() => decodeClientSettings({ glassOpacity: value })).toThrow();
+    expect(() => decodeClientSettingsPatch({ glassOpacity: value })).toThrow();
+  });
+
+  it.each([40, 75, 100])("accepts a glass opacity within the supported range: %s", (value) => {
+    expect(decodeClientSettings({ glassOpacity: value }).glassOpacity).toBe(value);
+    expect(decodeClientSettingsPatch({ glassOpacity: value }).glassOpacity).toBe(value);
+  });
+});
+
+describe("ClientSettings environment identification", () => {
+  it("defaults to artwork and accepts each presentation mode", () => {
+    expect(decodeClientSettings({}).environmentIdentificationMode).toBe("artwork");
+
+    for (const mode of ["artwork", "pill", "none"] as const) {
+      expect(
+        decodeClientSettingsPatch({ environmentIdentificationMode: mode })
+          .environmentIdentificationMode,
+      ).toBe(mode);
+    }
+  });
+
+  it("rejects unsupported presentation modes", () => {
+    expect(() => decodeClientSettings({ environmentIdentificationMode: "badge" })).toThrow();
+    expect(() => decodeClientSettingsPatch({ environmentIdentificationMode: "badge" })).toThrow();
+  });
+});
+
+describe("ClientSettings sidebar v2", () => {
+  it("defaults the beta off with a three-day auto-settle threshold", () => {
+    const settings = decodeClientSettings({});
+    expect(settings.sidebarV2Enabled).toBe(false);
+    expect(settings.sidebarAutoSettleAfterDays).toBe(3);
+  });
+
+  it("treats settings written before the beta had a per-channel default as unconfigured", () => {
+    // The stored blob always carries `sidebarV2Enabled`, so only the companion
+    // flag can distinguish "user opted out" from "never touched it".
+    expect(decodeClientSettings({ sidebarV2Enabled: false }).sidebarV2ConfiguredByUser).toBe(false);
+    expect(decodeClientSettings({ sidebarV2Enabled: true }).sidebarV2ConfiguredByUser).toBe(false);
+  });
+
+  it("preserves an explicit beta choice", () => {
+    const settings = decodeClientSettings({
+      sidebarV2Enabled: false,
+      sidebarV2ConfiguredByUser: true,
+    });
+    expect(settings.sidebarV2Enabled).toBe(false);
+    expect(settings.sidebarV2ConfiguredByUser).toBe(true);
+  });
+
+  it("carries an explicit beta opt-out through the patch the beta toggle writes", () => {
+    const patch = decodeClientSettingsPatch({
+      sidebarV2Enabled: false,
+      sidebarV2ConfiguredByUser: true,
+    });
+    expect(patch.sidebarV2Enabled).toBe(false);
+    expect(patch.sidebarV2ConfiguredByUser).toBe(true);
+  });
+
+  it("allows auto-settle by inactivity to be disabled", () => {
+    expect(
+      decodeClientSettings({ sidebarAutoSettleAfterDays: null }).sidebarAutoSettleAfterDays,
+    ).toBeNull();
+  });
+
+  it.each([-1, 0, 91])("rejects an auto-settle threshold outside 1..90: %s", (value) => {
+    expect(() => decodeClientSettings({ sidebarAutoSettleAfterDays: value })).toThrow();
+    expect(() => decodeClientSettingsPatch({ sidebarAutoSettleAfterDays: value })).toThrow();
+  });
+});
+
 describe("ServerSettings.providerInstances (slice-2 invariant)", () => {
+  it("defaults text generation to Luna at low reasoning effort", () => {
+    expect(DEFAULT_SERVER_SETTINGS.textGenerationModelSelection).toEqual({
+      instanceId: ProviderInstanceId.make("codex"),
+      model: "gpt-5.6-luna",
+      options: [{ id: "reasoningEffort", value: "low" }],
+    });
+  });
+
   it("defaults to an empty record so legacy configs without the key still decode", () => {
     expect(DEFAULT_SERVER_SETTINGS.providerInstances).toEqual({});
   });
@@ -42,6 +132,7 @@ describe("ServerSettings.providerInstances (slice-2 invariant)", () => {
     // Legacy `providers` struct is still hydrated with its per-driver defaults
     // so existing call sites keep working through the migration.
     expect(decoded.providers.codex.enabled).toBe(true);
+    expect(decoded.providers.omp.enabled).toBe(true);
   });
 
   it("decodes a multi-instance map mixing first-party and fork drivers", () => {
@@ -87,15 +178,89 @@ describe("ServerSettings.providerInstances (slice-2 invariant)", () => {
   });
 });
 
+describe("OmpSettings", () => {
+  it("defaults to the ambient binary and default profile", () => {
+    expect(decodeOmpSettings({})).toEqual({
+      enabled: true,
+      binaryPath: "omp",
+      launchArgs: "",
+      profile: "",
+      customModels: [],
+    });
+  });
+  it("accepts legacy OMP settings patches", () => {
+    expect(
+      decodeServerSettingsPatch({
+        providers: {
+          omp: {
+            enabled: false,
+            binaryPath: "/opt/omp",
+            launchArgs: "--profile work",
+            profile: "work",
+            customModels: ["local-model"],
+          },
+        },
+      }).providers?.omp,
+    ).toEqual({
+      enabled: false,
+      binaryPath: "/opt/omp",
+      launchArgs: "--profile work",
+      profile: "work",
+      customModels: ["local-model"],
+    });
+  });
+
+  it("trims instance launch and profile settings", () => {
+    expect(
+      decodeOmpSettings({
+        binaryPath: "  /opt/homebrew/bin/omp  ",
+        launchArgs: "  --no-lsp  ",
+        profile: "  work  ",
+      }),
+    ).toMatchObject({
+      binaryPath: "/opt/homebrew/bin/omp",
+      launchArgs: "--no-lsp",
+      profile: "work",
+    });
+  });
+});
+
 describe("ServerSettings worktree defaults", () => {
-  it("defaults start-from-origin off for legacy configs", () => {
-    expect(decodeServerSettings({}).newWorktreesStartFromOrigin).toBe(false);
+  it("defaults start-from-origin on for legacy configs", () => {
+    expect(decodeServerSettings({}).newWorktreesStartFromOrigin).toBe(true);
   });
 
   it("accepts start-from-origin updates", () => {
     expect(
-      decodeServerSettingsPatch({ newWorktreesStartFromOrigin: true }).newWorktreesStartFromOrigin,
-    ).toBe(true);
+      decodeServerSettingsPatch({ newWorktreesStartFromOrigin: false }).newWorktreesStartFromOrigin,
+    ).toBe(false);
+  });
+});
+
+describe("ServerSettings.sourceControlWritingStyle", () => {
+  it("defaults all style settings for legacy configs", () => {
+    const settings = decodeServerSettings({});
+
+    expect(settings.sourceControlWritingStyle).toEqual({
+      mode: "repo_conventions",
+      customInstructions: "",
+      followChangeRequestTemplates: true,
+    });
+    expect(settings.sourceControlWriterModelSelection).toBeNull();
+  });
+
+  it("trims partial style updates", () => {
+    const patch = decodeServerSettingsPatch({
+      sourceControlWritingStyle: {
+        mode: "custom",
+        customInstructions: "  Prefer concise wording.  ",
+      },
+    });
+
+    expect(patch.sourceControlWritingStyle).toEqual({
+      mode: "custom",
+      customInstructions: "Prefer concise wording.",
+    });
   });
 });
 

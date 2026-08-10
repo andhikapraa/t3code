@@ -1,6 +1,6 @@
 import {
-  DEFAULT_GIT_TEXT_GENERATION_MODEL,
-  DEFAULT_GIT_TEXT_GENERATION_MODEL_BY_PROVIDER,
+  DEFAULT_TEXT_GENERATION_MODEL,
+  DEFAULT_TEXT_GENERATION_MODEL_BY_PROVIDER,
   defaultInstanceIdForDriver,
   type ModelSelection,
   ProviderDriverKind,
@@ -22,7 +22,11 @@ import {
   resolveSelectableProvider,
 } from "./providerModels";
 import { ModelEsque } from "./components/chat/providerIconUtils";
-import { type ProviderInstanceEntry, deriveProviderInstanceEntries } from "./providerInstances";
+import {
+  type ProviderInstanceEntry,
+  deriveProviderInstanceEntries,
+  NO_PROVIDER_MODEL_SELECTION,
+} from "./providerInstances";
 import { sortModelsForProviderInstance } from "./modelOrdering";
 
 const MAX_CUSTOM_MODEL_COUNT = 32;
@@ -75,6 +79,8 @@ export interface AppModelOption {
   shortName?: string;
   subProvider?: string;
   isCustom: boolean;
+  isDefault?: boolean;
+  isLegacy?: boolean;
 }
 
 function toAppModelOption(model: ServerProvider["models"][number]): AppModelOption {
@@ -85,6 +91,8 @@ function toAppModelOption(model: ServerProvider["models"][number]): AppModelOpti
   };
   if (model.shortName) option.shortName = model.shortName;
   if (model.subProvider) option.subProvider = model.subProvider;
+  if (model.isDefault) option.isDefault = true;
+  if (model.isLegacy) option.isLegacy = true;
   return option;
 }
 
@@ -247,7 +255,9 @@ export function resolveAppModelSelectionForInstance(
   const options = getAppModelOptionsForInstance(settings, entry);
   return (
     resolveSelectableModel(entry.driverKind, selectedModel, options) ??
+    options.find((option) => option.isDefault)?.slug ??
     options[0]?.slug ??
+    entry.models.find((model) => model.isDefault)?.slug ??
     entry.models[0]?.slug ??
     null
   );
@@ -277,7 +287,7 @@ export function resolveAppModelSelectionState(
 ): ModelSelection {
   const selection = settings.textGenerationModelSelection ?? {
     instanceId: DEFAULT_TEXT_GENERATION_INSTANCE_ID,
-    model: DEFAULT_GIT_TEXT_GENERATION_MODEL,
+    model: DEFAULT_TEXT_GENERATION_MODEL,
   };
   const entries = deriveProviderInstanceEntries(providers);
   const selectedEntry = entries.find(
@@ -292,9 +302,9 @@ export function resolveAppModelSelectionState(
     const model =
       resolveAppModelSelectionForInstance(entry.instanceId, settings, providers, selectedModel) ??
       entry.models[0]?.slug ??
-      DEFAULT_GIT_TEXT_GENERATION_MODEL_BY_PROVIDER[entry.driverKind];
+      DEFAULT_TEXT_GENERATION_MODEL_BY_PROVIDER[entry.driverKind];
     if (!model) {
-      return createModelSelection(entry.instanceId, "", []);
+      return NO_PROVIDER_MODEL_SELECTION;
     }
     const provider = entry.driverKind;
     const { modelOptionsForDispatch } = getComposerProviderState({

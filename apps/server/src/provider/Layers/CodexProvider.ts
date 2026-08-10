@@ -22,7 +22,7 @@ import type {
   ServerProviderModel,
   ServerProviderSkill,
 } from "@t3tools/contracts";
-import { ServerSettingsError } from "@t3tools/contracts";
+import { PREFERRED_DEFAULT_CODEX_MODELS, ServerSettingsError } from "@t3tools/contracts";
 
 import { createModelCapabilities } from "@t3tools/shared/model";
 import { resolveSpawnCommand } from "@t3tools/shared/shell";
@@ -62,6 +62,11 @@ const REASONING_EFFORT_LABELS: Readonly<Record<string, string>> = {
 };
 
 const DEFAULT_SERVICE_TIER_ID = "default";
+const CURRENT_CODEX_MODELS = new Set(["gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol"]);
+
+export function isLegacyCodexModel(model: string): boolean {
+  return !CURRENT_CODEX_MODELS.has(model);
+}
 
 function reasoningEffortLabel(reasoningEffort: string): string {
   return REASONING_EFFORT_LABELS[reasoningEffort] ?? reasoningEffort;
@@ -189,8 +194,35 @@ function parseCodexModelListResponse(
     slug: model.model,
     name: toDisplayName(model),
     isCustom: false,
+    ...(model.isDefault ? { isDefault: true } : {}),
+    ...(isLegacyCodexModel(model.model) ? { isLegacy: true } : {}),
     capabilities: mapCodexModelCapabilities(model),
   }));
+}
+
+/**
+ * Prefer our own default-model ranking when one of the preferred slugs is in
+ * the live catalog; otherwise keep whatever Codex itself flagged as default.
+ */
+export function applyPreferredCodexDefaultModel(
+  models: ReadonlyArray<ServerProviderModel>,
+): ReadonlyArray<ServerProviderModel> {
+  const preferredSlug = PREFERRED_DEFAULT_CODEX_MODELS.find((slug) =>
+    models.some((model) => model.slug === slug && !model.isCustom),
+  );
+  if (!preferredSlug) {
+    return models;
+  }
+  return models.map((model) => {
+    if (model.slug === preferredSlug) {
+      return model.isDefault ? model : { ...model, isDefault: true };
+    }
+    if (!model.isDefault) {
+      return model;
+    }
+    const { isDefault: _isDefault, ...rest } = model;
+    return rest;
+  });
 }
 
 function appendCustomCodexModels(
@@ -376,7 +408,9 @@ const probeCodexAppServerProvider = Effect.fn("probeCodexAppServerProvider")(fun
   return {
     account: accountResponse,
     version,
-    models: appendCustomCodexModels(models, input.customModels ?? []),
+    models: applyPreferredCodexDefaultModel(
+      appendCustomCodexModels(models, input.customModels ?? []),
+    ),
     skills: parseCodexSkillsListResponse(skillsResponse, input.cwd),
   } satisfies CodexAppServerProviderSnapshot;
 });
