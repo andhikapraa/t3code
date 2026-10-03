@@ -1,0 +1,14 @@
+**/node_modules
+**/dist
+**/dist-*
+.git
+.repos
+.t3
+.plans
+release
+release-*
+apps/mobile
+apps/marketing
+native/**/target
+**/.turbo
+**/.vite
