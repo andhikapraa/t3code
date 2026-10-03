@@ -13,9 +13,36 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  meta:
+    name: Resolve version
+    if: github.repository != 'pingdotgg/t3code'
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      tag: ${{ steps.meta.outputs.tag }}
+      name: ${{ steps.meta.outputs.name }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: apps/desktop/package.json
+          sparse-checkout-cone-mode: false
+      # Same scheme as scripts/resolve-nightly-release.ts, inlined so this job
+      # needs no dependency install: next patch + -nightly.<date>.<run>.
+      - id: meta
+        run: |
+          version="$(node -p '
+            const [maj, min, pat] = require("./apps/desktop/package.json").version.replace(/[-+].*$/, "").split(".").map(Number);
+            `${maj}.${min}.${pat + 1}`')-nightly.$(date -u +%Y%m%d).${{ github.run_number }}"
+          {
+            echo "version=$version"
+            echo "tag=v$version"
+            echo "name=T3 Code Nightly $version (${GITHUB_SHA::12})"
+          } | tee -a "$GITHUB_OUTPUT"
+
   mac:
     name: macOS arm64
-    if: github.repository != 'pingdotgg/t3code'
+    needs: meta
     runs-on: macos-15
     timeout-minutes: 90
     steps:
@@ -43,17 +70,8 @@ jobs:
         with:
           targets: aarch64-apple-darwin
 
-      - id: meta
-        name: Resolve version
-        run: |
-          node scripts/resolve-nightly-release.ts \
-            --date "$(date -u +%Y%m%d)" \
-            --run-number "${{ github.run_number }}" \
-            --sha "$GITHUB_SHA" \
-            --github-output
-
       - name: Align package versions
-        run: node scripts/update-release-package-versions.ts "${{ steps.meta.outputs.version }}"
+        run: node scripts/update-release-package-versions.ts "${{ needs.meta.outputs.version }}"
 
       # Public T3 Connect identifiers, the same ones official builds embed.
       - name: Enable T3 Connect config
@@ -89,7 +107,7 @@ jobs:
         run: |
           vp run dist:desktop:artifact \
             --platform mac --target dmg --arch arm64 \
-            --build-version "${{ steps.meta.outputs.version }}" \
+            --build-version "${{ needs.meta.outputs.version }}" \
             --signed --verbose
 
       - name: Verify signature
@@ -103,16 +121,93 @@ jobs:
           codesign --verify --deep --strict "$app"
           codesign -dvv "$app" 2>&1 | grep -E 'Authority|Identifier|Timestamp'
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-mac
+          path: |
+            release/*.dmg
+            release/*.zip
+            release/*.blockmap
+            release/*-mac.yml
+          if-no-files-found: error
+
+  linux:
+    name: Linux x64
+    needs: meta
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          sparse-checkout: |
+            /*
+            !/.repos/
+          sparse-checkout-cone-mode: false
+
+      - name: Install Linux build libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libsecret-1-dev pkg-config imagemagick
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version-file: package.json
+          cache: true
+          run-install: false
+
+      - name: Install dependencies
+        run: vp install --filter=@t3tools/desktop... --filter=t3... --filter=@t3tools/web... --filter=@t3tools/scripts...
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: x86_64-unknown-linux-gnu
+
+      - name: Align package versions
+        run: node scripts/update-release-package-versions.ts "${{ needs.meta.outputs.version }}"
+
+      - name: Enable T3 Connect config
+        run: cp .env.example .env
+
+      - name: Build
+        env:
+          T3CODE_DESKTOP_UPDATE_REPOSITORY: ${{ github.repository }}
+        run: |
+          vp run dist:desktop:artifact \
+            --platform linux --target AppImage --arch x64 \
+            --build-version "${{ needs.meta.outputs.version }}" \
+            --verbose
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-linux
+          path: |
+            release/*.AppImage
+            release/*-linux.yml
+          if-no-files-found: error
+
+  publish:
+    name: Publish release
+    needs: [meta, mac, linux]
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: release
+          merge-multiple: true
+
       - name: Publish release
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          shopt -s nullglob
-          files=(release/*.dmg release/*.zip release/*.blockmap release/*-mac.yml)
-          gh release create "${{ steps.meta.outputs.tag }}" "${files[@]}" \
+          ls -la release
+          gh release create "${{ needs.meta.outputs.tag }}" release/* \
             --repo "$GITHUB_REPOSITORY" \
             --target "$GITHUB_SHA" \
-            --title "${{ steps.meta.outputs.name }}" \
+            --title "${{ needs.meta.outputs.name }}" \
             --notes "Fork build of $GITHUB_SHA." \
             --prerelease
