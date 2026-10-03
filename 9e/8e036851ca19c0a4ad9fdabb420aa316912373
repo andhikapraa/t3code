@@ -1,0 +1,85 @@
+apps/mobile/src/features/threads/ComposerSideQuestion.tsx
+  s_c776e78b994960::t_a7cc9ddae6bca9 1-90
+apps/mobile/src/features/threads/ThreadDetailScreen.tsx
+  s_c776e78b994960::t_5e6b6728ca3e7e 11,109,148-152,1187-1193
+apps/mobile/src/features/threads/ThreadRouteScreen.tsx
+  s_c776e78b994960::t_6f742d5b828437 999
+apps/mobile/src/state/side-questions.ts
+  s_c776e78b994960::t_cad223f93e535b 1-78
+apps/mobile/src/state/use-thread-composer-state.ts
+  s_c776e78b994960::t_5f4381d32c6dd9 31,33,60,197-200,627-644,750,1067
+apps/server/src/auth/RpcAuthorization.ts
+  s_c776e78b994960::t_6af3cfdee17ad4 155-156
+apps/server/src/orchestration-v2/ThreadSideQuestion.ts
+  s_82b21cef74fd31::t_fbec77a037f2bb 1-96
+apps/server/src/provider/Drivers/PiDriver.ts
+  s_c776e78b994960::t_b0411d6c1a116c 21,193-199
+apps/server/src/provider/PiCommands.test.ts
+  s_c776e78b994960::t_4292ca8058dc3d 7,101,104,107,111,114
+apps/server/src/provider/PiCommands.ts
+  s_c776e78b994960::t_ba320e7a8ad750 11-18,37-41
+apps/server/src/provider/PiSideQuestion.test.ts
+  s_c776e78b994960::t_6e2730a5157695 1-51
+apps/server/src/provider/PiSideQuestion.ts
+  s_c776e78b994960::t_0542ff991903a0 1-202
+apps/server/src/provider/ProviderDriver.ts
+  s_c776e78b994960::t_de64cbfb580031 33,39,96-107
+apps/server/src/server.ts
+  s_c776e78b994960::t_ec95f75fb974f1 161,541
+apps/server/src/ws.ts
+  s_c776e78b994960::t_9765ba9551a52d 155,1107,3718-3721
+apps/web/src/components/ChatView.tsx
+  s_c776e78b994960::t_26237346b0e208 38-39,105,108,3423-3425,7172-7190,7198-7202,7280,8146-8169
+apps/web/src/components/chat/ComposerSideQuestion.tsx
+  s_c776e78b994960::t_df883ad5cbe03b 1-88
+apps/web/src/state/sideQuestions.ts
+  s_c776e78b994960::t_39863bbe2b6f7d 1-78
+docs/user/providers-pi.md
+  s_70a48f0c8c227c::t_ab6844616c2599 36-46
+packages/client-runtime/src/rpc/client.ts
+  s_c776e78b994960::t_e7f57e0c55c7be 74-75
+packages/client-runtime/src/state/threadSideQuestion.test.ts
+  s_c776e78b994960::t_a1ca9904b76649 1-31
+packages/client-runtime/src/state/threadSideQuestion.ts
+  s_c776e78b994960::t_79cb04bc6bf9ac 1-134
+packages/client-runtime/src/state/threads.ts
+  s_c776e78b994960::t_8d29e2978c54e7 1007
+packages/contracts/src/index.ts
+  s_c776e78b994960::t_fae933bd1ab6c5 43
+packages/contracts/src/rpc.ts
+  s_c776e78b994960::t_650364259890dc 139-143,540-542,1532-1538,1863
+packages/contracts/src/sideQuestion.ts
+  s_70a48f0c8c227c::t_f119cc5bd222d7 1-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9e8e036851ca19c0a4ad9fdabb420aa316912373",
+  "prompts": {},
+  "sessions": {
+    "s_70a48f0c8c227c": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10226-e0db-71da-bcfb-477f4f65b7c6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    },
+    "s_82b21cef74fd31": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a102dd-c471-703a-88da-21f522188026",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    },
+    "s_c776e78b994960": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a102d4-c3d5-7416-9b1e-2c65d270d105",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
