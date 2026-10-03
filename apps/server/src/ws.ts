@@ -152,6 +152,7 @@ import {
 } from "./orchestration-v2/WireProjection.ts";
 import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
 import * as ThreadSearch from "./orchestration-v2/ThreadSearch.ts";
+import * as ThreadSideQuestion from "./orchestration-v2/ThreadSideQuestion.ts";
 import * as OrchestrationEventStore from "./persistence/Services/OrchestrationEventStore.ts";
 import { userFacingDispatchErrorMessage } from "./orchestration-v2/UserFacingErrors.ts";
 import {
@@ -1103,6 +1104,7 @@ const makeWsRpcLayer = (
       const projectService = yield* ProjectService.ProjectService;
       const managedFolders = yield* ManagedProjectFolders.ManagedProjectFolders;
       const threadSearch = yield* ThreadSearch.ThreadSearch;
+      const threadSideQuestion = yield* ThreadSideQuestion.ThreadSideQuestion;
 
       const providerSessionsV2 = yield* ProviderSessionManager.ProviderSessionManagerV2;
       const analytics = yield* AnalyticsService.AnalyticsService;
@@ -3713,6 +3715,10 @@ const makeWsRpcLayer = (
             ),
             { "rpc.aggregate": "server" },
           ),
+        [WS_METHODS.threadAskSideQuestion]: (input) =>
+          observeRpcStream(WS_METHODS.threadAskSideQuestion, threadSideQuestion.ask(input), {
+            "rpc.aggregate": "orchestration",
+          }),
       });
       return handlers;
     }),

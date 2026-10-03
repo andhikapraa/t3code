@@ -30,11 +30,13 @@ import type {
   ProviderDriverKind,
   ProviderInstanceEnvironment,
   ProviderInstanceId,
+  ModelSelection,
   ServerProvider,
 } from "@t3tools/contracts";
 import type * as Effect from "effect/Effect";
 import type * as Schema from "effect/Schema";
 import type * as Scope from "effect/Scope";
+import type * as Stream from "effect/Stream";
 
 import type { TextGeneration } from "../textGeneration/TextGeneration.ts";
 import type { ProviderAdapterV2Shape } from "../orchestration-v2/ProviderAdapter.ts";
@@ -91,6 +93,18 @@ export interface ProviderInstance {
   >;
   readonly orchestrationAdapter: ProviderAdapterV2Shape;
   readonly textGeneration: TextGeneration["Service"];
+  /**
+   * Answer a side question (`/btw`) from a throwaway copy of a provider
+   * thread, streaming answer text. Must never write to the live thread.
+   * Absent when the driver cannot fork its native conversation.
+   */
+  readonly askSideQuestion?: (input: {
+    readonly cwd: string;
+    readonly nativeThreadId: string;
+    readonly modelSelection: ModelSelection;
+    readonly question: string;
+    readonly previousTurns: ReadonlyArray<{ readonly question: string; readonly answer: string }>;
+  }) => Stream.Stream<string, ProviderDriverError>;
   readonly auth?: ProviderAuthController;
   readonly acpSessionManagement?: {
     readonly listSessions: (input: {

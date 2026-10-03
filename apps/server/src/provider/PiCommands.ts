@@ -8,6 +8,14 @@ export const PI_COMPACT_SLASH_COMMAND: ServerProviderSlashCommand = {
   input: { hint: "Optional instructions" },
 };
 
+// Handled by the client as a side question (thread.askSideQuestion), never sent as a turn.
+// Replaces a user extension's TUI-only /btw, which cannot run over RPC.
+export const PI_BTW_SLASH_COMMAND: ServerProviderSlashCommand = {
+  name: "btw",
+  description: "Ask a side question without adding it to the conversation",
+  input: { hint: "Question" },
+};
+
 export interface PiCompactCommand {
   readonly customInstructions?: string;
 }
@@ -26,7 +34,11 @@ export function parsePiCompactCommand(text: string): PiCompactCommand | null {
 export function withPiBuiltinSlashCommands(
   commands: ReadonlyArray<ServerProviderSlashCommand>,
 ): ReadonlyArray<ServerProviderSlashCommand> {
-  return [PI_COMPACT_SLASH_COMMAND, ...commands.filter((command) => command.name !== "compact")];
+  return [
+    PI_COMPACT_SLASH_COMMAND,
+    PI_BTW_SLASH_COMMAND,
+    ...commands.filter((command) => command.name !== "compact" && command.name !== "btw"),
+  ];
 }
 
 export interface PiDiscoveredCommands {

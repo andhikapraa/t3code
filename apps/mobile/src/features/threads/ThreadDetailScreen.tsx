@@ -8,6 +8,7 @@ import type { EnvironmentThreadShell } from "@t3tools/client-runtime/state/shell
 import type {
   CodexFeedbackSubmission,
   EnvironmentThreadStatus,
+  SideQuestionTopic,
 } from "@t3tools/client-runtime/state/threads";
 import { useKeyboardChatComposerInset, useKeyboardScrollToEnd } from "@legendapp/list/keyboard";
 import { resolveProviderSkillsForCwd } from "@t3tools/client-runtime/providerSkills";
@@ -105,6 +106,7 @@ import type {
 } from "../../lib/threadActivity";
 import { PendingApprovalCard } from "./PendingApprovalCard";
 import { ComposerFeedback } from "./ComposerFeedback";
+import { ComposerSideQuestion } from "./ComposerSideQuestion";
 import { ComposerUsageLimits } from "./ComposerUsageLimits";
 import { PendingUserInputCard } from "./PendingUserInputCard";
 import { ProviderSubagentBar } from "./ProviderSubagentBar";
@@ -143,6 +145,11 @@ export interface ThreadDetailScreenProps {
   readonly environmentLabel: string | null;
   readonly feedbackSubmissions: ReadonlyArray<CodexFeedbackSubmission>;
   readonly onDismissFeedback: (id: MessageId) => void;
+  readonly sideQuestion: {
+    readonly topic: SideQuestionTopic | null;
+    readonly cancel: () => void;
+    readonly close: () => void;
+  };
   readonly selectedThreadFeed: ReadonlyArray<ThreadFeedEntry>;
   readonly activityRun: ThreadFeedLatestRun | null;
   readonly activeWorkStartedAt: string | null;
@@ -1177,6 +1184,13 @@ export const ThreadDetailScreen = memo(function ThreadDetailScreen(props: Thread
                   thread={props.selectedThread}
                   environmentId={props.environmentId}
                 />
+                {props.sideQuestion.topic ? (
+                  <ComposerSideQuestion
+                    topic={props.sideQuestion.topic}
+                    onCancel={props.sideQuestion.cancel}
+                    onClose={props.sideQuestion.close}
+                  />
+                ) : null}
                 {props.feedbackSubmissions.map((submission) => (
                   <ComposerFeedback
                     key={submission.id}

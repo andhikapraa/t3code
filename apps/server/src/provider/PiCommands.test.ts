@@ -4,6 +4,7 @@ import {
   expandPiSkillReference,
   parsePiCompactCommand,
   parsePiDiscoveredCommands,
+  PI_BTW_SLASH_COMMAND,
   PI_COMPACT_SLASH_COMMAND,
   withPiBuiltinSlashCommands,
 } from "./PiCommands.ts";
@@ -97,17 +98,20 @@ it("parses a standalone /compact command and optional instructions", () => {
   expect(parsePiCompactCommand("please /compact")).toBeNull();
 });
 
-it("prepends the builtin compact command without duplicating a discovered one", () => {
+it("prepends the builtin commands without duplicating discovered ones", () => {
   expect(withPiBuiltinSlashCommands([{ name: "hello", description: "Say hello." }])).toEqual([
     PI_COMPACT_SLASH_COMMAND,
+    PI_BTW_SLASH_COMMAND,
     { name: "hello", description: "Say hello." },
   ]);
+  // A user's TUI-only /btw extension is replaced by T3's side question.
   expect(
     withPiBuiltinSlashCommands([
       { name: "compact", description: "Extension compact." },
+      { name: "btw", description: "Extension btw." },
       { name: "hello" },
     ]),
-  ).toEqual([PI_COMPACT_SLASH_COMMAND, { name: "hello" }]);
+  ).toEqual([PI_COMPACT_SLASH_COMMAND, PI_BTW_SLASH_COMMAND, { name: "hello" }]);
 });
 
 it("leaves unrelated dollar-prefixed text unchanged", () => {
