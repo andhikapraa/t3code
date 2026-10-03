@@ -28,7 +28,9 @@ import { clampFileAttachmentUploadBytes } from "@t3tools/client-runtime/state/at
 import { nextPastedTextFileName, pastedTextDisposition } from "@t3tools/client-runtime/text-paste";
 import {
   parseCodexFeedbackCommand,
+  parseSideQuestionCommand,
   submitCodexFeedback,
+  supportsSideQuestions,
   type CodexFeedbackSubmission,
 } from "@t3tools/client-runtime/state/threads";
 import { resolveThreadWorkingStartedAt } from "@t3tools/client-runtime/state/models";
@@ -55,6 +57,7 @@ import { appendPendingThreadMessages } from "../features/threads/pending-thread-
 import { threadAllowsProviderSwitch } from "./thread-provider-switching";
 import { appAtomRegistry } from "../state/atom-registry";
 import { pendingThreadCreationMessage } from "./pending-thread-creation";
+import { useSideQuestion } from "./side-questions";
 import {
   composerAttachmentUploadBlockReason,
   composerAttachmentUploadsAtom,
@@ -191,6 +194,10 @@ export function useThreadComposerState() {
   const uploadThreadFeedback = useAtomCommand(threadEnvironment.uploadFeedback, {
     reportFailure: false,
   });
+  const sideQuestion = useSideQuestion(
+    selectedThreadShell?.environmentId ?? null,
+    selectedThreadShell?.id ?? null,
+  );
   const editQueuedRun = useAtomCommand(threadEnvironment.editQueuedRun, {
     label: "edit queued message",
     reportFailure: false,
@@ -617,6 +624,24 @@ export function useThreadComposerState() {
       const provider = serverConfig?.providers.find(
         (entry) => entry.instanceId === modelSelection.instanceId,
       );
+      // /btw runs beside the thread and is never queued as a message.
+      const sideQuestionText =
+        attachments.length === 0 &&
+        (draft.context?.records.length ?? 0) === 0 &&
+        supportsSideQuestions(provider?.driver)
+          ? parseSideQuestionCommand(text)
+          : null;
+      if (sideQuestionText !== null) {
+        if (thread.activeProviderThreadId === null) {
+          Alert.alert("Start the thread first", "Send a message before asking a side question.");
+          return null;
+        }
+        if (sideQuestionText.length === 0 || sideQuestion.running) return null;
+        clearComposerDraftContent(threadKey);
+        // An open card means the user is following up on it.
+        void sideQuestion.ask(sideQuestionText);
+        return null;
+      }
       const feedbackCommand =
         attachments.length === 0 && provider?.driver === "codex"
           ? parseCodexFeedbackCommand(text)
@@ -722,6 +747,7 @@ export function useThreadComposerState() {
       selectedEnvironmentRuntime?.serverConfig,
       selectedThreadCreation,
       selectedThreadShell,
+      sideQuestion,
       uploadThreadFeedback,
     ],
   );
@@ -1038,6 +1064,7 @@ export function useThreadComposerState() {
   return {
     feedbackSubmissions,
     dismissFeedback,
+    sideQuestion,
     selectedThreadFeed,
     selectedThreadActivityRun,
     selectedThreadQueueCount,

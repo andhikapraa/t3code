@@ -33,6 +33,17 @@ Pi loads its normal user and project extensions. Blocking `select`, `confirm`, `
 dialogs work in T3 Code. Notifications appear in the work log. Pi terminal decoration such as
 titles, status lines, and widgets does not have a T3 Code equivalent.
 
+## Side Questions
+
+Send `/btw` followed by a question in an existing Pi thread to ask about the conversation without
+adding to it, even while Pi is working. The answer appears above the composer and is never sent to
+the thread. While it is open, `/btw` again asks a follow-up; close it to start over. Side answers are
+not saved.
+
+T3 Code answers from a temporary copy of the Pi session with tools turned off, using the thread's
+model. Each side question starts a separate Pi process and uses your provider quota. A `/btw`
+command from a Pi extension is replaced by this one in T3 Code.
+
 ## Permission Modes
 
 T3 Code applies the composer permission mode through Pi's blocking tool hook:

@@ -35,6 +35,8 @@ import {
 } from "@t3tools/shared/usageLimits";
 import { feedbackBannerItem } from "./chat/ComposerFeedback";
 import { usageLimitsBannerItem } from "./chat/ComposerUsageLimits";
+import { sideQuestionBannerItem } from "./chat/ComposerSideQuestion";
+import { useSideQuestion } from "~/state/sideQuestions";
 import { getTerminalLabel } from "@t3tools/shared/terminalLabels";
 import * as Schema from "effect/Schema";
 import { Minimize2Icon } from "lucide-react";
@@ -100,8 +102,10 @@ import { threadSupportsProviderHandoff } from "@t3tools/client-runtime/state/thr
 import {
   codexFeedbackMessage,
   parseCodexFeedbackCommand,
+  parseSideQuestionCommand,
   shouldShowLoadEarlierControl,
   submitCodexFeedback,
+  supportsSideQuestions,
   type CodexFeedbackSubmission,
 } from "@t3tools/client-runtime/state/threads";
 import { resolveThreadLastVisitedAt } from "./Sidebar.logic";
@@ -3416,6 +3420,9 @@ export default function ChatView(props: ChatViewProps) {
       ),
     [],
   );
+  // /btw: answered from a throwaway fork of the provider session, never sent as a turn.
+  const sideQuestionsOffered = supportsSideQuestions(activeProviderStatus?.driver);
+  const sideQuestion = useSideQuestion(environmentId, isServerThread ? threadId : null);
   const {
     beginLocalDispatch,
     resetLocalDispatch,
@@ -7162,6 +7169,25 @@ export default function ChatView(props: ChatViewProps) {
           },
         })
       : null;
+  const sideQuestionBanner = useMemo(
+    () =>
+      sideQuestion.topic === null
+        ? null
+        : sideQuestionBannerItem({
+            topic: sideQuestion.topic,
+            cwd: activeWorkspaceRoot,
+            environmentId,
+            onCancel: sideQuestion.cancel,
+            onClose: sideQuestion.close,
+          }),
+    [
+      activeWorkspaceRoot,
+      environmentId,
+      sideQuestion.cancel,
+      sideQuestion.close,
+      sideQuestion.topic,
+    ],
+  );
   const composerBannerItems = useMemo<ComposerBannerStackItem[]>(() => {
     const limitRecoveryItems = limitRecoveryBanner === null ? [] : [limitRecoveryBanner];
     const backgroundWorkItems = backgroundWorkBannerItem === null ? [] : [backgroundWorkBannerItem];
@@ -7169,8 +7195,11 @@ export default function ChatView(props: ChatViewProps) {
       resumeCompactionBannerItem === null ? [] : [resumeCompactionBannerItem];
     const wokeThreadItems = wokeThreadBannerItem === null ? [] : [wokeThreadBannerItem];
     const parkedThreadItems = parkedThreadBannerItem === null ? [] : [parkedThreadBannerItem];
-    // The user asked for this one, so it leads the notice tier instead of trailing it.
-    const usageLimitsItems = usageLimitsBanner === null ? [] : [usageLimitsBanner];
+    // The user asked for these, so they lead the notice tier instead of trailing it.
+    const usageLimitsItems = [
+      ...(sideQuestionBanner === null ? [] : [sideQuestionBanner]),
+      ...(usageLimitsBanner === null ? [] : [usageLimitsBanner]),
+    ];
     const projectCloneItems = projectCloneBannerItem === null ? [] : [projectCloneBannerItem];
     if (!localCheckoutBranchMismatch || !showBranchMismatchBanner || !activeBranchMismatchKey) {
       return [
@@ -7248,6 +7277,7 @@ export default function ChatView(props: ChatViewProps) {
     projectCloneBannerItem,
     resumeCompactionBannerItem,
     showBranchMismatchBanner,
+    sideQuestionBanner,
     systemComposerBannerItems,
     usageLimitsBanner,
     wokeThreadBannerItem,
@@ -8111,6 +8141,30 @@ export default function ChatView(props: ChatViewProps) {
         setComposerDraftPrompt(composerDraftTarget, "");
         composerRef.current?.resetCursorState();
       }
+      return;
+    }
+    // /btw runs beside the thread, so it skips the busy-turn guards below on purpose.
+    const sideQuestionText =
+      sideQuestionsOffered && !directAnnotation && !composerHasNonPromptContent
+        ? parseSideQuestionCommand(promptRef.current)
+        : null;
+    if (sideQuestionText !== null) {
+      if (!isServerThread || activeThread?.activeProviderThreadId == null) {
+        toastManager.add(
+          stackedThreadToast({
+            type: "warning",
+            title: "Start the thread first",
+            description: "Send a message before asking a side question.",
+          }),
+        );
+        return;
+      }
+      if (sideQuestionText.length === 0 || sideQuestion.running) return;
+      promptRef.current = "";
+      setComposerDraftPrompt(composerDraftTarget, "");
+      composerRef.current?.resetCursorState();
+      // An open panel means the user is following up on it.
+      void sideQuestion.ask(sideQuestionText);
       return;
     }
 
