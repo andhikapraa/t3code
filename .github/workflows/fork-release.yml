@@ -1,0 +1,112 @@
+name: Fork Release
+
+# Personal fork builds. Versions use the nightly scheme so installs follow this
+# repository's prereleases through the nightly update channel.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fork-release
+  cancel-in-progress: false
+
+jobs:
+  mac:
+    name: macOS arm64
+    if: github.repository != 'pingdotgg/t3code'
+    runs-on: macos-15
+    timeout-minutes: 90
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          sparse-checkout: |
+            /*
+            !/.repos/
+          sparse-checkout-cone-mode: false
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version-file: package.json
+          cache: true
+          run-install: false
+
+      - name: Install dependencies
+        run: vp install --filter=@t3tools/desktop... --filter=t3... --filter=@t3tools/web... --filter=@t3tools/scripts...
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin
+
+      - id: meta
+        name: Resolve version
+        run: |
+          node scripts/resolve-nightly-release.ts \
+            --date "$(date -u +%Y%m%d)" \
+            --run-number "${{ github.run_number }}" \
+            --sha "$GITHUB_SHA" \
+            --github-output
+
+      - name: Align package versions
+        run: node scripts/update-release-package-versions.ts "${{ steps.meta.outputs.version }}"
+
+      # Public T3 Connect identifiers, the same ones official builds embed.
+      - name: Enable T3 Connect config
+        run: cp .env.example .env
+
+      - name: Import signing certificate
+        env:
+          CERT_P12: ${{ secrets.FORK_MAC_CERT_P12 }}
+          CERT_PASSWORD: ${{ secrets.FORK_MAC_CERT_PASSWORD }}
+        run: |
+          set -euo pipefail
+          keychain="$RUNNER_TEMP/fork-signing.keychain-db"
+          keychain_password="$(openssl rand -hex 16)"
+          printf '%s' "$CERT_P12" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security create-keychain -p "$keychain_password" "$keychain"
+          security set-keychain-settings "$keychain"
+          security unlock-keychain -p "$keychain_password" "$keychain"
+          security import "$RUNNER_TEMP/cert.p12" -k "$keychain" -P "$CERT_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$keychain_password" "$keychain" >/dev/null
+          security list-keychains -d user -s "$keychain" $(security list-keychains -d user | tr -d '"')
+          rm "$RUNNER_TEMP/cert.p12"
+
+      - name: Build
+        env:
+          T3CODE_DESKTOP_UPDATE_REPOSITORY: ${{ github.repository }}
+          T3CODE_FORK_MAC_SIGN_IDENTITY: T3 Code Fork
+        run: |
+          vp run dist:desktop:artifact \
+            --platform mac --target dmg --arch arm64 \
+            --build-version "${{ steps.meta.outputs.version }}" \
+            --signed --verbose
+
+      - name: Verify signature
+        run: |
+          set -euo pipefail
+          app="$(find release -maxdepth 3 -name '*.app' -type d | head -1)"
+          if [[ -z "$app" ]]; then
+            hdiutil attach -nobrowse -mountpoint "$RUNNER_TEMP/dmg" release/*.dmg
+            app="$(find "$RUNNER_TEMP/dmg" -maxdepth 1 -name '*.app' | head -1)"
+          fi
+          codesign --verify --deep --strict "$app"
+          codesign -dvv "$app" 2>&1 | grep -E 'Authority|Identifier|Timestamp'
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          shopt -s nullglob
+          files=(release/*.dmg release/*.zip release/*.blockmap release/*-mac.yml)
+          gh release create "${{ steps.meta.outputs.tag }}" "${files[@]}" \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "${{ steps.meta.outputs.name }}" \
+            --notes "Fork build of $GITHUB_SHA." \
+            --prerelease
