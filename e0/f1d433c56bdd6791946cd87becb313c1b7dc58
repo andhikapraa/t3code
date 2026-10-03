@@ -1,0 +1,22 @@
+.github/workflows/fork-release.yml
+  s_9aa2dac7a9717d::t_b0373736e4ba0e 1-112
+scripts/build-desktop-artifact.ts
+  s_9aa2dac7a9717d::t_cdd77874f6b85b 3651
+  s_9aa2dac7a9717d::t_6b1ce2aae0766f 2670-2672,2736-2738
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "e0f1d433c56bdd6791946cd87becb313c1b7dc58",
+  "prompts": {},
+  "sessions": {
+    "s_9aa2dac7a9717d": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a101b2-f970-7678-8d97-6170bcf1a3e0",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
