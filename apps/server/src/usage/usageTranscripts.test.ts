@@ -6,6 +6,7 @@ import {
   parseClaudeLine,
   parseCodexLine,
   parseGrokLine,
+  parsePiLine,
   totalTokens,
 } from "./usageTranscripts.ts";
 
@@ -594,5 +595,71 @@ describe("parseGrokLine", () => {
 
     const records = parseGrokLine(line);
     expect(records[0]?.timestampMs).toBe(1_786_372_566_000);
+  });
+});
+
+describe("parsePiLine", () => {
+  /** Shaped after a real Pi session assistant entry. */
+  function piLine(usage: Record<string, unknown>, extra?: Record<string, unknown>): string {
+    return JSON.stringify({
+      type: "message",
+      id: "d084305b",
+      parentId: "0c65f403",
+      timestamp: "2026-10-04T14:26:42.399Z",
+      message: {
+        role: "assistant",
+        api: "openai-responses",
+        provider: "axon",
+        model: "gpt-6-astra",
+        usage,
+        stopReason: "toolUse",
+        timestamp: 1_791_123_995_367,
+        responseId: "msg_011",
+        ...extra,
+      },
+    });
+  }
+
+  it("maps Pi usage onto shared totals and keeps Pi's cost", () => {
+    const record = parsePiLine(
+      piLine({
+        input: 2332,
+        output: 33,
+        cacheRead: 17920,
+        cacheWrite: 0,
+        reasoning: 16,
+        totalTokens: 20285,
+        cost: { total: 0.04289 },
+      }),
+      "session-1",
+    );
+    expect(record).toEqual({
+      provider: "pi",
+      timestampMs: 1_791_123_995_367,
+      model: "gpt-6-astra",
+      sessionId: "session-1",
+      totals: {
+        uncachedInputTokens: 2332,
+        cachedInputTokens: 17920,
+        cacheCreationTokens: 0,
+        outputTokens: 33,
+        reasoningTokens: 16,
+      },
+      reportedCostUsd: 0.04289,
+      speed: "standard",
+      dedupeKey: "pi:msg_011",
+    });
+    // Pi's own totalTokens already counts reasoning inside output.
+    expect(totalTokens(record!.totals)).toBe(20285);
+  });
+
+  it("leaves unknown-rate requests to the price table", () => {
+    const record = parsePiLine(piLine({ input: 10, output: 5, cost: { total: 0 } }), "s");
+    expect(record?.reportedCostUsd).toBeNull();
+  });
+
+  it("skips aborted requests and non-assistant entries", () => {
+    expect(parsePiLine(piLine({ input: 0, output: 0, totalTokens: 0 }), "s")).toBeNull();
+    expect(parsePiLine(piLine({ input: 10, output: 5 }, { role: "toolResult" }), "s")).toBeNull();
   });
 });

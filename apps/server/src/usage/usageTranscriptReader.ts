@@ -32,6 +32,8 @@ import {
   parseCodexRecord,
   parseGrokLine,
   parseGrokRecord,
+  parsePiLine,
+  parsePiRecord,
   type CodexScanState,
   type UsageRecord,
 } from "./usageTranscripts.ts";
@@ -93,7 +95,7 @@ type SelectedFields = { readonly [key: string]: true | SelectedFields };
 
 // Keep the fields consumed by usageTranscripts, including reducer state and
 // dedupe/cost metadata. A selected subtree (usage) keeps future token fields.
-const USAGE_FIELDS: Record<"claude" | "codex" | "grok", SelectedFields> = {
+const USAGE_FIELDS: Record<"claude" | "codex" | "grok" | "pi", SelectedFields> = {
   claude: {
     type: true,
     timestamp: true,
@@ -124,10 +126,19 @@ const USAGE_FIELDS: Record<"claude" | "codex" | "grok", SelectedFields> = {
       update: { sessionUpdate: true, prompt_id: true, usage: true },
     },
   },
+  pi: {
+    type: true,
+    id: true,
+    timestamp: true,
+    message: { role: true, model: true, timestamp: true, responseId: true, usage: true },
+  },
 };
 
 function selectUsageFields(provider: UsageProviderKind) {
-  const fields = USAGE_FIELDS[provider === "codex" || provider === "grok" ? provider : "claude"];
+  const fields =
+    USAGE_FIELDS[
+      provider === "codex" || provider === "grok" || provider === "pi" ? provider : "claude"
+    ];
   return (path: ReadonlyArray<string | number | null>): boolean => {
     let selected: true | SelectedFields = fields;
     for (const key of path) {
@@ -225,6 +236,17 @@ export async function readDirectoryVolumeId(path: string): Promise<string> {
   }
 }
 
+/**
+ * Pi entries do not repeat their session id, and a resumed parse never sees
+ * the header line, so take it from the path. Top-level sessions are named
+ * `<timestamp>_<id>.jsonl`; anything else, such as a subagent run's
+ * `session.jsonl`, is identified by its path.
+ */
+function readPiSessionId(filePath: string): string {
+  const match = /_([0-9a-f-]{36})\.jsonl$/i.exec(NodePath.basename(filePath));
+  return match?.[1] ?? filePath;
+}
+
 async function guardMatches(
   handle: NodeFSP.FileHandle,
   position: TranscriptParsePosition,
@@ -278,6 +300,7 @@ export async function readTranscriptRecords(
 
   try {
     let codexState = initialCodexScanState();
+    const piSessionId = provider === "pi" ? readPiSessionId(filePath) : "";
     let resumed = false;
     let start = 0;
     if (
@@ -310,7 +333,7 @@ export async function readTranscriptRecords(
         for (const grokRecord of parseGrokLine(line)) out.push(grokRecord);
         return;
       }
-      const record = parseClaudeLine(line);
+      const record = provider === "pi" ? parsePiLine(line, piSessionId) : parseClaudeLine(line);
       if (record !== null) out.push(record);
     };
 
@@ -360,7 +383,9 @@ export async function readTranscriptRecords(
           const record =
             provider === "codex"
               ? parseCodexRecord(projected, state)
-              : parseClaudeRecord(projected);
+              : provider === "pi"
+                ? parsePiRecord(projected, piSessionId)
+                : parseClaudeRecord(projected);
           if (record !== null) out.push(record);
         }
       } else if (pendingBytes > 0) {

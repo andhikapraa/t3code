@@ -72,7 +72,7 @@ export function totalTokens(totals: UsageTokenTotals): number {
  * an order of magnitude.
  */
 export function mightCarryUsage(line: string, provider: UsageProviderKind): boolean {
-  if (provider === "claude") return line.includes('"usage"');
+  if (provider === "claude" || provider === "pi") return line.includes('"usage"');
   if (provider === "grok") return line.includes('"turn_completed"');
   return line.includes('"token_count"');
 }
@@ -525,6 +525,94 @@ export function parseGrokRecord(parsed: unknown): readonly UsageRecord[] {
     });
   }
   return results;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Pi                                                                         */
+/* -------------------------------------------------------------------------- */
+
+/**
+ * Parses one line of a Pi session file (`<agent-dir>/sessions/<cwd>/*.jsonl`).
+ *
+ * Every assistant `message` entry carries that request's own usage, so lines
+ * sum directly. Pi's `input` excludes cache reads, `output` already includes
+ * `reasoning`, and `cost` is Pi's own estimate from its model registry. Entries
+ * do not repeat the session id, so the caller passes the one from the header
+ * or file name.
+ */
+export function parsePiLine(line: string, sessionId: string): UsageRecord | null {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(line);
+  } catch {
+    return null;
+  }
+  return parsePiRecord(parsed, sessionId);
+}
+
+export function parsePiRecord(parsed: unknown, sessionId: string): UsageRecord | null {
+  if (typeof parsed !== "object" || parsed === null) return null;
+  const record = parsed as Record<string, unknown>;
+  if (record["type"] !== "message") return null;
+
+  const message = record["message"];
+  if (typeof message !== "object" || message === null) return null;
+  const messageRecord = message as Record<string, unknown>;
+  if (messageRecord["role"] !== "assistant") return null;
+
+  const usage = messageRecord["usage"];
+  if (typeof usage !== "object" || usage === null) return null;
+  const usageRecord = usage as Record<string, unknown>;
+
+  const model = typeof messageRecord["model"] === "string" ? messageRecord["model"] : "";
+  if (model.length === 0) return null;
+
+  const messageTimestamp = messageRecord["timestamp"];
+  const timestampMs =
+    typeof messageTimestamp === "number" && Number.isFinite(messageTimestamp)
+      ? messageTimestamp
+      : parseTimestampMs(record["timestamp"]);
+  if (timestampMs === null) return null;
+
+  const totals: UsageTokenTotals = {
+    uncachedInputTokens: int(usageRecord["input"]),
+    cachedInputTokens: int(usageRecord["cacheRead"]),
+    cacheCreationTokens: int(usageRecord["cacheWrite"]),
+    outputTokens: int(usageRecord["output"]),
+    reasoningTokens: int(usageRecord["reasoning"]),
+  };
+  // Aborted and errored requests are recorded with all-zero usage.
+  if (totalTokens(totals) === 0) return null;
+
+  const cost = usageRecord["cost"];
+  const costTotal =
+    typeof cost === "object" && cost !== null ? (cost as Record<string, unknown>)["total"] : null;
+  const responseId =
+    typeof messageRecord["responseId"] === "string" ? messageRecord["responseId"] : null;
+  const entryId = typeof record["id"] === "string" ? record["id"] : null;
+
+  return {
+    provider: "pi",
+    timestampMs,
+    model,
+    sessionId,
+    totals,
+    // Pi writes zero for models missing from its registry, including custom
+    // providers. Let the shared price table estimate those records.
+    reportedCostUsd:
+      typeof costTotal === "number" && Number.isFinite(costTotal) && costTotal > 0
+        ? costTotal
+        : null,
+    speed: "standard",
+    // A forked session copies its parent's entries into a new file. Entry ids
+    // are short, so pair them with the timestamp when no response id exists.
+    dedupeKey:
+      responseId !== null
+        ? `pi:${responseId}`
+        : entryId !== null
+          ? `pi:${entryId}:${timestampMs}`
+          : null,
+  };
 }
 
 export { EMPTY_TOTALS };
