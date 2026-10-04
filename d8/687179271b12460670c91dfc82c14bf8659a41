@@ -1,0 +1,19 @@
+infra/relay/src/db.ts
+  s_70a48f0c8c227c::t_61fb108552807b 8,53-64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "d8687179271b12460670c91dfc82c14bf8659a41",
+  "prompts": {},
+  "sessions": {
+    "s_70a48f0c8c227c": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10226-e0db-71da-bcfb-477f4f65b7c6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
