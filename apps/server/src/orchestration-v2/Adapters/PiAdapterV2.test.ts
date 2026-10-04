@@ -1450,6 +1450,35 @@ describe("PiAdapterV2", () => {
     }).pipe(Effect.scoped, Effect.provide(testLayer)),
   );
 
+  it.effect("splits a multi-line select title into a short header and a question body", () =>
+    Effect.gen(function* () {
+      const fake = yield* makeFakePi;
+      const { runtime, takeEvent } = yield* openRuntime(fake);
+      yield* runtime.ensureThread({
+        threadId: THREAD_ID,
+        modelSelection: modelSelection("default"),
+        runtimePolicy,
+      });
+      yield* fake.emit({
+        type: "extension_ui_request",
+        id: "ui-select",
+        method: "select",
+        title:
+          "Allow project MCP server “miro”?\nProject config: /p/.mcp.json\n\nCan run commands.",
+        options: ["Don't allow", "Allow"],
+      });
+      const event = yield* takeEvent(
+        (event) =>
+          event.type === "turn_item.updated" && event.turnItem.type === "user_input_request",
+      );
+      if (event.type !== "turn_item.updated" || event.turnItem.type !== "user_input_request")
+        return assert.fail("expected a user input request");
+      const question = event.turnItem.questions[0];
+      assert.equal(question?.header, "Allow project MCP server “miro”?");
+      assert.equal(question?.question, "Project config: /p/.mcp.json\n\nCan run commands.");
+    }).pipe(Effect.scoped, Effect.provide(testLayer)),
+  );
+
   it.effect("offers an explicit empty value for extension input dialogs", () =>
     Effect.gen(function* () {
       const fake = yield* makeFakePi;

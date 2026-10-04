@@ -2915,10 +2915,17 @@ function piQuestion(
   // prefill is surfaced inside the question text; without it the user would
   // edit blind against content they cannot see.
   const prefill = method === "editor" ? recordString(event, "prefill") : undefined;
-  const question = recordString(event, "message") ?? recordString(event, "placeholder") ?? title;
+  // Pi's select/input dialogs carry their whole prompt in `title`, often several
+  // lines. The first line is the header; the rest becomes the question body.
+  const [titleHead = title, ...titleRest] = title.split("\n");
+  const titleBody = titleRest.join("\n").trim();
+  const question =
+    recordString(event, "message") ??
+    recordString(event, "placeholder") ??
+    (titleBody.length > 0 ? titleBody : title);
   return {
     id: questionId,
-    header: title,
+    header: titleHead.trim() || title,
     question:
       prefill === undefined || prefill.length === 0
         ? question
