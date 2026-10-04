@@ -1,0 +1,40 @@
+apps/server/src/usage/usageTranscriptReader.ts
+  s_4686c5ce7d8659::t_54560d2919da66 35-36,98,129-134,138-141,239-249,303,336,386-388
+apps/server/src/usage/UsageService.test.ts
+  s_4686c5ce7d8659::t_561368b77fc41e 112
+apps/web/src/components/usage/usageProviders.ts
+  s_4686c5ce7d8659::t_a47b7fdfbe4310 44
+apps/server/src/usage/usageTranscripts.test.ts
+  s_4686c5ce7d8659::t_d83c3f87287859 9,600-664
+  s_4686c5ce7d8659::t_d591fe2f1b63be 665
+apps/server/src/usage/usageTranscripts.ts
+  s_4686c5ce7d8659::t_c3f8c5b4a7c064 75,530-616
+  s_4686c5ce7d8659::t_205b4d07babcba 617
+apps/server/src/usage/usageScanCache.ts
+  s_4686c5ce7d8659::t_a47b7fdfbe4310 303-304
+packages/contracts/src/usage.ts
+  s_4686c5ce7d8659::t_a47b7fdfbe4310 41
+apps/server/src/usage/UsageService.ts
+  s_4686c5ce7d8659::t_e363c0d8662cf1 306,345-348,354-358
+docs/user/usage.md
+  s_4686c5ce7d8659::t_6a61842c14f86b 9,23-25
+  s_4686c5ce7d8659::t_0e34c8fe184083 26
+apps/mobile/src/features/usage/usageProviders.ts
+  s_4686c5ce7d8659::t_a47b7fdfbe4310 15,25,41
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "84a40d202c82741db934c190d49034208043e9f7",
+  "prompts": {},
+  "sessions": {
+    "s_4686c5ce7d8659": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1074f-0bd1-74fc-aedc-313e27440f8e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
