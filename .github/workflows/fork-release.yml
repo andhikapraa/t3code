@@ -280,7 +280,7 @@ jobs:
           run-install: false
 
       - name: Install dependencies
-        run: vp install --filter=@t3tools/mobile...
+        run: vp install --filter=@t3tools/mobile... --filter=@t3tools/scripts...
 
       - name: Setup Java
         uses: actions/setup-java@v5
