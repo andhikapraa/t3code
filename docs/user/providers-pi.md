@@ -40,8 +40,9 @@ adding to it, even while Pi is working. The answer appears above the composer an
 the thread. While it is open, `/btw` again asks a follow-up; close it to start over. Side answers are
 not saved.
 
-T3 Code answers from a temporary copy of the Pi session with tools turned off, using the thread's
-model. Each side question starts a separate Pi process and uses your provider quota. A `/btw`
+Side questions use the thread's model with Pi's tools turned off and are never added to the thread.
+Your Pi extensions still load, so code an extension runs on its own is not covered by that. Each
+side question uses your provider quota and takes longer to start than a normal reply. A `/btw`
 command from a Pi extension is replaced by this one in T3 Code.
 
 ## Permission Modes

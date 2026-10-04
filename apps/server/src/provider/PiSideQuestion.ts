@@ -31,10 +31,12 @@ import {
   buildPiRpcLaunch,
   resolvePiLaunchArgs,
 } from "../orchestration-v2/Adapters/piT3McpInjection.ts";
+import { PI_THINKING_LEVELS } from "./Layers/piThinkingCapabilities.ts";
 import { ProviderDriverError } from "./Errors.ts";
 
 const PI_SIDE_QUESTION_TIMEOUT_MS = 5 * 60_000;
 const isProviderDriverError = Schema.is(ProviderDriverError);
+const PI_KNOWN_THINKING_LEVELS: ReadonlySet<string> = new Set(PI_THINKING_LEVELS);
 const PI_INHERIT_MODEL_SLUG = "default";
 const PI_DIALOG_METHODS = new Set(["select", "confirm", "input", "editor"]);
 
@@ -166,7 +168,8 @@ export const makePiSideQuestion =
           });
         }
         const thinking = getModelSelectionStringOptionValue(modelSelection, "thinking");
-        if (thinking !== undefined) {
+        // Like the live session, skip levels Pi does not know rather than fail.
+        if (thinking !== undefined && PI_KNOWN_THINKING_LEVELS.has(thinking)) {
           yield* connection.request({ type: "set_thinking_level", level: thinking });
         }
 

@@ -31,10 +31,13 @@ export function useSideQuestion(environmentId: EnvironmentId | null, threadId: T
     setState(null);
   }, []);
 
-  // Leaving the thread stops its in-flight answer.
+  // Leaving the thread stops its in-flight answer and discards the conversation.
   const previousThreadKey = useRef(threadKey);
   useEffect(() => {
-    if (previousThreadKey.current !== threadKey) abortRef.current?.abort();
+    if (previousThreadKey.current !== threadKey) {
+      abortRef.current?.abort();
+      setState(null);
+    }
     previousThreadKey.current = threadKey;
   }, [threadKey]);
   useEffect(() => () => abortRef.current?.abort(), []);
@@ -68,7 +71,9 @@ export function useSideQuestion(environmentId: EnvironmentId | null, threadId: T
         signal: abort.signal,
         onDelta: (delta) => update((turn) => ({ ...turn, answer: turn.answer + delta })),
       });
-      if (abortRef.current === abort) abortRef.current = null;
+      // A newer question (after Close) owns the panel now; this outcome is stale.
+      if (abortRef.current !== abort) return;
+      abortRef.current = null;
       update((turn) => ({ ...turn, ...outcome }));
     },
     [environmentId, registry, threadId, threadKey, topic],

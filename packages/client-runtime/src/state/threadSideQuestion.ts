@@ -42,9 +42,41 @@ export function parseSideQuestionCommand(text: string): string | null {
   return match[1]?.trim() ?? "";
 }
 
+// Mirror the `ThreadSideQuestionInput` limits so the client never clears a
+// draft the server would reject.
+const SIDE_QUESTION_MAX_CHARS = 20_000;
+const SIDE_QUESTION_MAX_PREVIOUS_TURNS = 20;
+const SIDE_QUESTION_MAX_CONTEXT_ANSWER_CHARS = 200_000;
+
+/** Why a parsed `/btw` question cannot be sent, or null when it can. */
+export function sideQuestionBlockReason(question: string): string | null {
+  if (question.length === 0) return "Add a question after /btw.";
+  if (question.length > SIDE_QUESTION_MAX_CHARS) {
+    return `Side questions are limited to ${SIDE_QUESTION_MAX_CHARS.toLocaleString("en-US")} characters.`;
+  }
+  return null;
+}
+
 /** Side questions are answered from a fork of the provider's native session. */
 export function supportsSideQuestions(driver: string | null | undefined): boolean {
   return driver === "pi";
+}
+
+/**
+ * Answered turns sent as follow-up context. Long chains keep only the most
+ * recent turns, and very long answers are cut, so the request stays within the
+ * server's limits.
+ */
+export function sideQuestionContextTurns(
+  turns: ReadonlyArray<SideQuestionTurn>,
+): ThreadSideQuestionInput["previousTurns"] {
+  return turns
+    .filter((turn) => turn.status === "done")
+    .slice(-SIDE_QUESTION_MAX_PREVIOUS_TURNS)
+    .map(({ question, answer }) => ({
+      question,
+      answer: answer.slice(0, SIDE_QUESTION_MAX_CONTEXT_ANSWER_CHARS),
+    }));
 }
 
 export function updateLastSideQuestionTurn(
@@ -114,9 +146,7 @@ export function createSideQuestionCommand<R, E>(
       input: {
         threadId: input.threadId,
         question: input.question,
-        previousTurns: input.previousTurns
-          .filter((turn) => turn.status === "done")
-          .map(({ question, answer }) => ({ question, answer })),
+        previousTurns: sideQuestionContextTurns(input.previousTurns),
       },
       onDelta: (delta) => {
         if (!input.signal.aborted) input.onDelta(delta);

@@ -104,6 +104,7 @@ import {
   parseCodexFeedbackCommand,
   parseSideQuestionCommand,
   shouldShowLoadEarlierControl,
+  sideQuestionBlockReason,
   submitCodexFeedback,
   supportsSideQuestions,
   type CodexFeedbackSubmission,
@@ -3421,7 +3422,14 @@ export default function ChatView(props: ChatViewProps) {
     [],
   );
   // /btw: answered from a throwaway fork of the provider session, never sent as a turn.
-  const sideQuestionsOffered = supportsSideQuestions(activeProviderStatus?.driver);
+  // Gated on the provider the thread actually runs on (what the server forks),
+  // not the composer's pending model pick.
+  const sideQuestionsOffered = supportsSideQuestions(
+    isServerThread
+      ? providerStatuses.find((entry) => entry.instanceId === serverThread.providerInstanceId)
+          ?.driver
+      : activeProviderStatus?.driver,
+  );
   const sideQuestion = useSideQuestion(environmentId, isServerThread ? threadId : null);
   const {
     beginLocalDispatch,
@@ -8149,6 +8157,13 @@ export default function ChatView(props: ChatViewProps) {
         ? parseSideQuestionCommand(promptRef.current)
         : null;
     if (sideQuestionText !== null) {
+      const blockReason = sideQuestionBlockReason(sideQuestionText);
+      if (blockReason !== null) {
+        toastManager.add(
+          stackedThreadToast({ type: "warning", title: "Side question", description: blockReason }),
+        );
+        return;
+      }
       if (!isServerThread || activeThread?.activeProviderThreadId == null) {
         toastManager.add(
           stackedThreadToast({
@@ -8159,7 +8174,7 @@ export default function ChatView(props: ChatViewProps) {
         );
         return;
       }
-      if (sideQuestionText.length === 0 || sideQuestion.running) return;
+      if (sideQuestion.running) return;
       promptRef.current = "";
       setComposerDraftPrompt(composerDraftTarget, "");
       composerRef.current?.resetCursorState();
