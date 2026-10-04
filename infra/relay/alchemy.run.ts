@@ -16,11 +16,7 @@ import ApiLive, { Api } from "./src/worker.ts";
 export default Alchemy.Stack(
   "T3CodeRelay",
   {
-    providers: Layer.mergeAll(
-      Axiom.providers(),
-      Cloudflare.providers(),
-      Drizzle.providers(),
-    ),
+    providers: Layer.mergeAll(Axiom.providers(), Cloudflare.providers(), Drizzle.providers()),
     state: Cloudflare.state(),
   },
   Effect.gen(function* () {
