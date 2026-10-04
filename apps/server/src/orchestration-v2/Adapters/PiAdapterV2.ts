@@ -78,6 +78,7 @@ import {
   type ProviderAdapterDriverCreateInput,
 } from "../ProviderAdapterDriver.ts";
 import { makeProviderFailure, makeProviderRetryTurnItem } from "../ProviderFailure.ts";
+import { isUsageLimitMessage } from "../UsageLimitResetEstimate.ts";
 import { turnScopedSelectionTransition } from "../ProviderSelectionTransition.ts";
 import {
   makePiRpcConnection,
@@ -105,6 +106,13 @@ const DEFAULT_PI_SETTINGS = Schema.decodeSync(PiSettings)({});
  * from the user's own settings.json (`defaultProvider`/`defaultModel`).
  */
 const PI_INHERIT_MODEL_SLUG = "default";
+
+/**
+ * Pi gives up on a rate limit after its own short backoff. Classifying it as a
+ * usage limit lets T3 offer resume-at-reset instead of a dead-end error.
+ */
+const piFailureClass = (message: string) =>
+  isUsageLimitMessage(message) ? ("usage_limit" as const) : ("provider_error" as const);
 
 const STREAM_FLUSH_MS = 50;
 const PI_REQUEST_TIMEOUT_MS = 15_000;
@@ -1608,9 +1616,11 @@ export function makePiAdapterV2(
             if (recordString(message, "role") !== "assistant") return;
             yield* completeOpenStreamItems(turn);
             if (recordString(message, "stopReason") === "error" && turn.failure === null) {
+              const errorMessage =
+                recordString(message, "errorMessage") ?? "Pi reported a model error.";
               turn.failure = makeProviderFailure({
-                message: recordString(message, "errorMessage") ?? "Pi reported a model error.",
-                class: "provider_error",
+                message: errorMessage,
+                class: piFailureClass(errorMessage),
               });
             }
             return;
@@ -1700,9 +1710,11 @@ export function makePiAdapterV2(
               Math.trunc(recordNumber(event, "maxAttempts") ?? attempt),
             );
             const retryDelayMs = Math.max(0, Math.trunc(recordNumber(event, "delayMs") ?? 0));
+            const errorMessage =
+              recordString(event, "errorMessage") ?? "Pi provider request failed.";
             const failure = makeProviderFailure({
-              message: recordString(event, "errorMessage") ?? "Pi provider request failed.",
-              class: "provider_error",
+              message: errorMessage,
+              class: piFailureClass(errorMessage),
               retryable: true,
             });
             const current = turn.activeProviderRetry;
@@ -1742,9 +1754,10 @@ export function makePiAdapterV2(
               turn.failure = null;
               return;
             }
+            const finalError = recordString(event, "finalError") ?? "Pi auto-retry failed.";
             const failure = makeProviderFailure({
-              message: recordString(event, "finalError") ?? "Pi auto-retry failed.",
-              class: "provider_error",
+              message: finalError,
+              class: piFailureClass(finalError),
               retryable: false,
             });
             const attempt = Math.max(1, Math.trunc(recordNumber(event, "attempt") ?? 1));

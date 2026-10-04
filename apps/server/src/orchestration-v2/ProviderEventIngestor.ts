@@ -7,6 +7,7 @@ import {
   type OrchestrationV2Run,
   type OrchestrationV2ProviderTurn,
   type OrchestrationV2Subagent,
+  type OrchestrationV2ProviderFailure,
   type ModelSelection,
   type RuntimeMode,
   type ProviderInteractionMode,
@@ -27,12 +28,17 @@ import * as Schema from "effect/Schema";
 
 import { getModelSelectionStringOptionValue } from "@t3tools/shared/model";
 import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
+import * as ProviderRegistry from "../provider/Services/ProviderRegistry.ts";
 import * as EventSink from "./EventSink.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as IdAllocator from "./IdAllocator.ts";
 import { ProviderAdapterV2Event } from "./ProviderAdapter.ts";
 import { makeProviderFailureTurnItem } from "./ProviderFailure.ts";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
+import { estimateUsageLimitResetAt, needsResetEstimate } from "./UsageLimitResetEstimate.ts";
+
+/** How long a gateway rate limit without a known reset waits before resuming. */
+const FALLBACK_USAGE_LIMIT_WAIT_MS = 5 * 60_000;
 
 export class ProviderEventNormalizeError extends Schema.TaggedError<ProviderEventNormalizeError>()(
   "ProviderEventNormalizeError",
@@ -264,6 +270,33 @@ export const layer: Layer.Layer<
     const threadCommands = yield* ThreadCommandExecutor.ThreadCommandExecutor;
     const analytics = yield* ProviderTurnAnalytics;
     const completedTurnAnalytics = new Set<string>();
+    // Optional: provider snapshots supply upstream reset times. Without them a
+    // gateway limit still gets the fixed fallback wait.
+    const providerRegistry = yield* Effect.serviceOption(ProviderRegistry.ProviderRegistry);
+
+    /** Gives a gateway usage limit the reset time its upstream account publishes. */
+    const withResetEstimate = Effect.fn("ProviderEventIngestor.withResetEstimate")(function* (
+      input: ProviderEventIngestInput,
+      failure: OrchestrationV2ProviderFailure,
+      occurredAt: DateTime.Utc,
+    ) {
+      if (!needsResetEstimate(failure)) return failure;
+      const model = yield* projections.getThread(input.threadId).pipe(
+        Effect.map((thread) => thread.modelSelection.model),
+        Effect.orElseSucceed(() => ""),
+      );
+      const providers =
+        providerRegistry._tag === "Some" ? yield* providerRegistry.value.getProviders : [];
+      return {
+        ...failure,
+        resetAt: estimateUsageLimitResetAt({
+          model,
+          providers,
+          failedAtMs: DateTime.toEpochMillis(occurredAt),
+          fallbackMs: FALLBACK_USAGE_LIMIT_WAIT_MS,
+        }),
+      };
+    });
 
     const makeDomainEvent = (
       input: ProviderEventIngestInput,
@@ -524,7 +557,7 @@ export const layer: Layer.Layer<
                   providerThreadId: input.event.providerThreadId,
                   providerTurnId: input.event.providerTurnId,
                   itemOrdinal: input.event.failureItemOrdinal,
-                  failure: input.event.failure,
+                  failure: yield* withResetEstimate(input, input.event.failure, occurredAt),
                   ...(input.event.retry === undefined ? {} : { retry: input.event.retry }),
                   ...(input.event.retryStartedAt === undefined
                     ? {}

@@ -2088,12 +2088,11 @@ export default function ChatView(props: ChatViewProps) {
     if (!isServerThread || serverProjection === null) return null;
     const run = latestExecutedRun(serverProjection.runs);
     if (run?.status === "interrupted") return run.id;
-    return run?.status === "failed" &&
-      serverRuntime?.lastErrorClass === "usage_limit" &&
-      latestRootProviderFailure(run, serverProjection.turnItems)?.class === "usage_limit"
+    // A provider failure, including a dropped connection, resumes the same session.
+    return run?.status === "failed" && latestRootProviderFailure(run, serverProjection.turnItems)
       ? run.id
       : null;
-  }, [isServerThread, serverProjection, serverRuntime?.lastErrorClass]);
+  }, [isServerThread, serverProjection]);
   const parentSubagentThreadId =
     activeThread?.lineage.relationshipToParent === "subagent"
       ? activeThread.lineage.parentThreadId

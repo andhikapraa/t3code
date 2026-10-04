@@ -162,6 +162,10 @@ Queued messages appear above the composer. Rows show a thumbnail of any attached
 the text. Drag a row by its handle to reorder it, use the handle's arrow keys, promote the message
 to a steer, or remove it.
 
+When a turn stops because you pressed Stop, the connection dropped, or the provider failed after
+its own retries, press **Resume** in an empty composer on web or desktop to continue from where it
+stopped in the same session.
+
 If the server restarts, saved queued messages keep their order and are held. Press
 **Resume** in an empty composer on web or desktop, or **Resume queue** in the queue
 sheet on mobile, to continue. You can edit, reorder, or remove held messages without starting them.

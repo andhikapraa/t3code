@@ -4094,7 +4094,7 @@ it.layer(SharedApplicationDataPlaneTestLayer)("shared application data plane", (
 });
 
 it.layer(TestLayer)("usage-limit recovery", (it) => {
-  it.effect.each(["interrupted", "usage_limit"] as const)(
+  it.effect.each(["interrupted", "usage_limit", "provider_error"] as const)(
     "manually resumes an %s run ahead of its queued message only once",
     (reason) =>
       Effect.gen(function* () {
@@ -4177,6 +4177,41 @@ it.layer(TestLayer)("usage-limit recovery", (it) => {
           ],
         });
         let scheduledResume: ReturnType<typeof limitRecoveryCommand> = null;
+        if (reason === "provider_error") {
+          yield* events.write({
+            events: [
+              {
+                id: EventId.make(`manual-resume:error:${reason}`),
+                type: "turn-item.updated",
+                threadId,
+                occurredAt: now,
+                payload: {
+                  id: TurnItemId.make(`manual-resume:error:${reason}`),
+                  type: "error",
+                  threadId,
+                  runId: source.id,
+                  nodeId: source.rootNodeId,
+                  providerThreadId: null,
+                  providerTurnId: null,
+                  nativeItemRef: null,
+                  parentItemId: null,
+                  ordinal: 2,
+                  status: "failed",
+                  title: "Provider error",
+                  startedAt: now,
+                  completedAt: now,
+                  updatedAt: now,
+                  failure: {
+                    class: "transport_error",
+                    message: "socket hang up",
+                    code: null,
+                    retryable: true,
+                  },
+                },
+              },
+            ],
+          });
+        }
         if (reason === "usage_limit") {
           const resetAt = DateTime.formatIso(DateTime.add(now, { minutes: 1 }));
           yield* events.write({

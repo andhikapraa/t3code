@@ -1985,6 +1985,39 @@ describe("PiAdapterV2", () => {
     }).pipe(Effect.scoped, Effect.provide(testLayer)),
   );
 
+  it.effect("classifies a gateway rate limit as a usage limit", () =>
+    Effect.gen(function* () {
+      const fake = yield* makeFakePi;
+      const { runtime, takeEvent } = yield* openRuntime(fake);
+      const providerThread = yield* runtime.ensureThread({
+        threadId: THREAD_ID,
+        modelSelection: modelSelection("default"),
+        runtimePolicy,
+      });
+      yield* startTurn(runtime, providerThread);
+      yield* fake.takeRequest("prompt");
+      yield* fake.emit({ type: "agent_start" });
+      const finalError =
+        'axon API error (429): {"message":"All credentials for model claude-opus-5-5 are cooling down","code":"model_cooldown"}';
+      yield* fake.emit({
+        type: "auto_retry_start",
+        attempt: 3,
+        maxAttempts: 3,
+        delayMs: 8_000,
+        errorMessage: finalError,
+      });
+      yield* fake.emit({ type: "auto_retry_end", success: false, attempt: 3, finalError });
+      yield* fake.emit({ type: "agent_settled" });
+
+      const terminal = yield* takeEvent((event) => event.type === "turn.terminal");
+      assert.isTrue(
+        terminal.type === "turn.terminal" &&
+          terminal.status === "failed" &&
+          terminal.failure.class === "usage_limit",
+      );
+    }).pipe(Effect.scoped, Effect.provide(testLayer)),
+  );
+
   it.effect("marks retry progress recovered when Pi succeeds", () =>
     Effect.gen(function* () {
       const fake = yield* makeFakePi;

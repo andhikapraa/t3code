@@ -66,6 +66,13 @@ installs Pi's example `subagent` extension, T3 Code also shows its task progress
 UI. Pi runs those children without a session, so they cannot be opened or resumed as T3 Code
 threads.
 
+## Rate Limits
+
+When Pi's own retries give up on a rate limit, T3 Code shows the usage-limit banner, where you can
+choose **Resume at reset**. For Claude and GPT models, the reset time comes from your Claude Code
+or Codex usage limits when that window is full. A short burst limit has no published reset, so
+T3 Code waits 5 minutes before resuming.
+
 ## Troubleshooting
 
 - If Pi is unavailable, confirm that the configured binary runs on the server machine, then refresh

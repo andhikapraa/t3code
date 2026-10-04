@@ -1169,6 +1169,55 @@ layer("ProviderEventIngestorV2", (it) => {
     }),
   );
 
+  it.effect("gives a usage limit without a reset time a short fallback wait", () =>
+    Effect.gen(function* () {
+      const now = yield* DateTime.now;
+      const eventSink = yield* EventSink.EventSinkV2;
+      const projectionStore = yield* ProjectionStore.ProjectionStoreV2;
+      const ingestor = yield* ProviderEventIngestor.ProviderEventIngestorV2;
+      const idAllocator = yield* IdAllocator.IdAllocatorV2;
+      const threadEvent = yield* threadCreatedEvent(now);
+      const providerSessionId = yield* idAllocator.allocate.providerSession({
+        providerInstanceId: modelSelection.instanceId,
+        threadId: threadEvent.threadId,
+      });
+      yield* eventSink.write({ events: [threadEvent] });
+      yield* ingestor.ingestNormalized({
+        providerSessionId,
+        providerInstanceId: modelSelection.instanceId,
+        threadId: threadEvent.threadId,
+        event: {
+          type: "turn.terminal",
+          driver: CODEX_DRIVER,
+          providerThreadId: idAllocator.derive.providerThread({
+            driver: CODEX_DRIVER,
+            nativeThreadId: "native-thread-limited",
+          }),
+          providerTurnId: idAllocator.derive.providerTurn({
+            driver: CODEX_DRIVER,
+            nativeTurnId: "native-turn-limited",
+          }),
+          runOrdinal: 1,
+          failureItemOrdinal: 102,
+          status: "failed",
+          failure: makeProviderFailure({ message: "429 cooling down", class: "usage_limit" }),
+          threadDisposition: "reusable",
+        },
+      });
+
+      const projection = yield* projectionStore.getThreadProjection(threadEvent.threadId);
+      const errorItem = projection.visibleTurnItems.find(
+        (candidate) => candidate.item.type === "error",
+      )?.item;
+      assert.equal(errorItem?.type, "error");
+      if (errorItem?.type !== "error") return;
+      const resetAt = errorItem.failure.resetAt;
+      assert.ok(resetAt);
+      const waitMs = Date.parse(resetAt) - DateTime.toEpochMillis(errorItem.completedAt ?? now);
+      assert.equal(waitMs, 5 * 60_000);
+    }),
+  );
+
   it.effect("routes provider-owned child artifacts to their child app thread", () =>
     Effect.gen(function* () {
       const now = yield* DateTime.now;
