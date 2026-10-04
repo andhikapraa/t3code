@@ -12,6 +12,23 @@ concurrency:
   group: fork-release
   cancel-in-progress: false
 
+# T3 Connect against the fork's self-hosted relay (infra/relay) and Clerk app.
+# scripts/lib/public-config.ts reads these from the process environment, so
+# every build step embeds them; they are public client identifiers.
+env:
+  T3CODE_CLERK_PUBLISHABLE_KEY: ${{ vars.T3CODE_CLERK_PUBLISHABLE_KEY }}
+  T3CODE_CLERK_JWT_TEMPLATE: ${{ vars.T3CODE_CLERK_JWT_TEMPLATE }}
+  T3CODE_CLERK_CLI_OAUTH_CLIENT_ID: ${{ vars.T3CODE_CLERK_CLI_OAUTH_CLIENT_ID }}
+  T3CODE_RELAY_URL: ${{ vars.T3CODE_RELAY_URL }}
+  T3CODE_HOSTED_APP_URL: ${{ vars.T3CODE_HOSTED_APP_URL }}
+  VITE_HOSTED_APP_URL: ${{ vars.T3CODE_HOSTED_APP_URL }}
+  T3CODE_MOBILE_OTLP_TRACES_URL: ${{ vars.T3CODE_MOBILE_OTLP_TRACES_URL }}
+  T3CODE_MOBILE_OTLP_TRACES_DATASET: ${{ vars.T3CODE_MOBILE_OTLP_TRACES_DATASET }}
+  T3CODE_MOBILE_OTLP_TRACES_TOKEN: ${{ secrets.T3CODE_MOBILE_OTLP_TRACES_TOKEN }}
+  T3CODE_RELAY_CLIENT_OTLP_TRACES_URL: ${{ vars.T3CODE_RELAY_CLIENT_OTLP_TRACES_URL }}
+  T3CODE_RELAY_CLIENT_OTLP_TRACES_DATASET: ${{ vars.T3CODE_RELAY_CLIENT_OTLP_TRACES_DATASET }}
+  T3CODE_RELAY_CLIENT_OTLP_TRACES_TOKEN: ${{ secrets.T3CODE_RELAY_CLIENT_OTLP_TRACES_TOKEN }}
+
 jobs:
   meta:
     name: Resolve version
@@ -72,10 +89,6 @@ jobs:
 
       - name: Align package versions
         run: node scripts/update-release-package-versions.ts "${{ needs.meta.outputs.version }}"
-
-      # Public T3 Connect identifiers, the same ones official builds embed.
-      - name: Enable T3 Connect config
-        run: cp .env.example .env
 
       - name: Import signing certificate
         env:
@@ -169,9 +182,6 @@ jobs:
       - name: Align package versions
         run: node scripts/update-release-package-versions.ts "${{ needs.meta.outputs.version }}"
 
-      - name: Enable T3 Connect config
-        run: cp .env.example .env
-
       - name: Build
         env:
           T3CODE_DESKTOP_UPDATE_REPOSITORY: ${{ github.repository }}
@@ -206,8 +216,6 @@ jobs:
             /*
             !/.repos/
           sparse-checkout-cone-mode: false
-      - name: Enable T3 Connect config
-        run: cp .env.example .env
       - uses: docker/setup-buildx-action@v3
       - uses: docker/login-action@v3
         with:
@@ -218,7 +226,18 @@ jobs:
         with:
           context: .
           push: true
-          build-args: T3CODE_VERSION=${{ needs.meta.outputs.version }}
+          build-args: |
+            T3CODE_VERSION=${{ needs.meta.outputs.version }}
+            T3CODE_CLERK_PUBLISHABLE_KEY=${{ env.T3CODE_CLERK_PUBLISHABLE_KEY }}
+            T3CODE_CLERK_JWT_TEMPLATE=${{ env.T3CODE_CLERK_JWT_TEMPLATE }}
+            T3CODE_CLERK_CLI_OAUTH_CLIENT_ID=${{ env.T3CODE_CLERK_CLI_OAUTH_CLIENT_ID }}
+            T3CODE_RELAY_URL=${{ env.T3CODE_RELAY_URL }}
+            T3CODE_HOSTED_APP_URL=${{ env.T3CODE_HOSTED_APP_URL }}
+            T3CODE_RELAY_CLIENT_OTLP_TRACES_URL=${{ env.T3CODE_RELAY_CLIENT_OTLP_TRACES_URL }}
+            T3CODE_RELAY_CLIENT_OTLP_TRACES_DATASET=${{ env.T3CODE_RELAY_CLIENT_OTLP_TRACES_DATASET }}
+          # Ingest-only, but kept out of image history.
+          secrets: |
+            relay_client_otlp_token=${{ secrets.T3CODE_RELAY_CLIENT_OTLP_TRACES_TOKEN }}
           tags: |
             ghcr.io/${{ github.repository }}:nightly
             ghcr.io/${{ github.repository }}:${{ needs.meta.outputs.version }}
