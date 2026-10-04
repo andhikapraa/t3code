@@ -1,0 +1,24 @@
+apps/server/src/orchestration-v2/Adapters/PiAdapterV2.test.ts
+  s_1d8191d4b4d4e9::t_23e8e16ceef7cd 1453-1480
+  s_1d8191d4b4d4e9::t_3bb2f887bf8aa6 1481
+apps/server/src/orchestration-v2/Adapters/PiAdapterV2.ts
+  s_1d8191d4b4d4e9::t_55b581e5111441 2918-2925,2928
+apps/web/src/components/chat/ComposerPendingUserInputPanel.tsx
+  s_1d8191d4b4d4e9::t_929a86e5027dea 193,236-238
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "99a7fab94e7ffff218beac1c41c8f530178dd651",
+  "prompts": {},
+  "sessions": {
+    "s_1d8191d4b4d4e9": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10599-71bc-7301-911f-147c29c40cc2",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}

@@ -1,0 +1,49 @@
+apps/server/src/provider/Drivers/ClaudeSkillDispatch.test.ts
+  s_b126739c41758d::t_aba3f45a3adc8b 30-42
+packages/shared/src/composerInlineTokens.test.ts
+  s_b126739c41758d::t_c18b1029c1b92b 65-84
+packages/shared/src/composerInlineTokens.ts
+  s_b126739c41758d::t_f526d47a910a18 32-33,35
+  s_b126739c41758d::t_84c5914c6637c6 27-29,31,34,38,40-42,46
+apps/server/src/provider/PiCommands.ts
+  s_b126739c41758d::t_a0b9f9cd413d98 2,117
+  s_b126739c41758d::t_83c9aa2e45b331 108-111,113-115,119-126
+apps/server/src/provider/Drivers/CursorSkills.ts
+  s_b126739c41758d::t_dd02f64ab9f5dc 14
+  s_b126739c41758d::t_65b3e92c9377ac 286-294
+apps/mobile/modules/t3-markdown-text/src/nativeMarkdownText.ts
+  s_b126739c41758d::t_9dd8d9998f1361 2-5,356
+apps/server/src/orchestration-v2/Adapters/PiAdapterV2.ts
+  s_b126739c41758d::t_e3862e33ec319b 443-446,449,1985,2176-2180,2182
+apps/server/src/provider/Drivers/CursorSkills.test.ts
+  s_b126739c41758d::t_e3b2f2d62a909d 165-166
+apps/server/src/provider/PiCommands.test.ts
+  s_b126739c41758d::t_622c4a27914b14 140-145
+  s_b126739c41758d::t_0f01d7ecd665f6 117-119,121,123-139,146,149-152,157-158
+  s_b126739c41758d::t_6496cb8153e2fa 122
+apps/server/src/provider/Drivers/ClaudeSkillDispatch.ts
+  s_b126739c41758d::t_9e4c9e299b3bf6 26
+  s_b126739c41758d::t_64d626368e66e1 70-72
+apps/web/src/components/chat/SkillInlineText.tsx
+  s_b126739c41758d::t_991c77716396a0 4,15
+apps/server/src/orchestration-v2/Adapters/PiAdapterV2.test.ts
+  s_b126739c41758d::t_fe15ec43b7803d 946,982-987
+  s_b126739c41758d::t_8684351c3a0210 991-1021
+  s_b126739c41758d::t_a9c4e09cb9d149 988-990
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "414d7578c7e7022883eb984503d0c3f85e58527d",
+  "prompts": {},
+  "sessions": {
+    "s_b126739c41758d": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10591-a496-7077-91cc-6a5c6f87fb1e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
