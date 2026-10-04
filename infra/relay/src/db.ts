@@ -5,6 +5,7 @@ import * as Config from "effect/Config";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
+import * as Redacted from "effect/Redacted";
 
 export class RelayDb extends Context.Service<
   RelayDb,
@@ -49,6 +50,18 @@ export const RelayPostgresOrigin = Effect.gen(function* () {
 export const RelayHyperdrive = Effect.gen(function* () {
   return yield* Cloudflare.Hyperdrive.Connection("RelayHyperdrive", {
     origin: yield* RelayPostgresOrigin,
+    // Alchemy derives a local-emulation origin for every Hyperdrive binding and
+    // cannot emulate an Access-guarded one, so give `alchemy dev` a local
+    // Postgres. Deployed Workers always use `origin` above.
+    dev: {
+      scheme: "postgres",
+      host: "localhost",
+      port: 5432,
+      database: "t3relay",
+      user: "t3relay",
+      password: Redacted.make("t3relay"),
+      sslmode: "disable",
+    },
     caching: {
       disabled: true,
     },
