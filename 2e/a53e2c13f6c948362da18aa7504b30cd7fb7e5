@@ -1,0 +1,41 @@
+apps/server/src/orchestration-v2/UsageLimitResetEstimate.test.ts
+  s_4686c5ce7d8659::t_57450b56244978 1-83
+apps/server/src/orchestration-v2/ProviderEventIngestor.test.ts
+  s_4686c5ce7d8659::t_c7f30de0193b3f 1172-1220
+apps/server/src/orchestration-v2/UsageLimitResetEstimate.ts
+  s_4686c5ce7d8659::t_0a2bbbe8e04181 6,53
+  s_4686c5ce7d8659::t_bd54d94434ee23 1-5,7-52,54-59
+apps/server/src/orchestration-v2/Orchestrator.ts
+  s_4686c5ce7d8659::t_947ee1513e1a6a 4314-4316,4320
+apps/server/src/orchestration-v2/Adapters/PiAdapterV2.ts
+  s_4686c5ce7d8659::t_fd04b77b40bca4 81,110-116,1619-1620,1622-1623,1713-1714,1716-1717,1757
+  s_4686c5ce7d8659::t_b94270c4395226 1759-1760
+apps/web/src/components/ChatView.tsx
+  s_4686c5ce7d8659::t_2b3d4add883920 2091-2092,2095
+apps/server/src/orchestration-v2/Adapters/PiAdapterV2.test.ts
+  s_4686c5ce7d8659::t_57450b56244978 1988-2020
+apps/server/src/orchestration-v2/runtimeLayer.test.ts
+  s_4686c5ce7d8659::t_11f64b5be66280 4097,4180-4214
+docs/user/composer.md
+  s_4686c5ce7d8659::t_fababee0d053d2 165-168
+docs/user/providers-pi.md
+  s_4686c5ce7d8659::t_fababee0d053d2 69-75
+apps/server/src/orchestration-v2/ProviderEventIngestor.ts
+  s_4686c5ce7d8659::t_015f3c60faeb41 10,31,38-41,273-299,560
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2ea53e2c13f6c948362da18aa7504b30cd7fb7e5",
+  "prompts": {},
+  "sessions": {
+    "s_4686c5ce7d8659": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1074f-0bd1-74fc-aedc-313e27440f8e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
