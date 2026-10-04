@@ -291,9 +291,8 @@ jobs:
       - name: Setup Gradle cache
         uses: gradle/actions/setup-gradle@v5
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-
+      # ubuntu-24.04 ships the Android SDK at $ANDROID_HOME; Gradle installs the
+      # platform, build-tools, and NDK versions the project pins on first use.
       - name: Restore signing key and Firebase config
         env:
           KEYSTORE_BASE64: ${{ secrets.FORK_ANDROID_KEYSTORE_BASE64 }}
