@@ -1,0 +1,19 @@
+infra/relay/alchemy.run.ts
+  s_70a48f0c8c227c::t_fe35fcc5702f36 19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "ef0d0eff0908910a2106fcbb008de7442370a648",
+  "prompts": {},
+  "sessions": {
+    "s_70a48f0c8c227c": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10226-e0db-71da-bcfb-477f4f65b7c6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
