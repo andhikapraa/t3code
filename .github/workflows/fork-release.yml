@@ -244,9 +244,103 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  # Sideloaded Android client. The development package installs next to the
+  # store app, matching the fork's Firebase app and Clerk SSO allowlist.
+  android:
+    name: Android APK
+    needs: meta
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    env:
+      APP_VARIANT: development
+      MOBILE_VERSION_POLICY: appVersion
+      EXPO_NO_GIT_STATUS: "1"
+      T3CODE_MOBILE_UPDATES_ENABLED: "0"
+      # Nightly run number keeps versionCode increasing across releases.
+      T3CODE_ANDROID_VERSION_CODE: ${{ github.run_number }}
+      EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY: ${{ vars.T3CODE_CLERK_PUBLISHABLE_KEY }}
+      EXPO_PUBLIC_CLERK_JWT_TEMPLATE: ${{ vars.T3CODE_CLERK_JWT_TEMPLATE }}
+      T3CODE_ANDROID_KEYSTORE_PASSWORD: ${{ secrets.FORK_ANDROID_KEYSTORE_PASSWORD }}
+      T3CODE_ANDROID_KEY_ALIAS: ${{ secrets.FORK_ANDROID_KEY_ALIAS }}
+      T3CODE_ANDROID_KEY_PASSWORD: ${{ secrets.FORK_ANDROID_KEY_PASSWORD }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: |
+            /*
+            !/.repos/
+          sparse-checkout-cone-mode: false
+
+      - name: Setup Vite+
+        uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version-file: package.json
+          cache: true
+          run-install: false
+
+      - name: Install dependencies
+        run: vp install --filter=@t3tools/mobile...
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Gradle cache
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Restore signing key and Firebase config
+        env:
+          KEYSTORE_BASE64: ${{ secrets.FORK_ANDROID_KEYSTORE_BASE64 }}
+          GOOGLE_SERVICES_JSON: ${{ secrets.FORK_ANDROID_GOOGLE_SERVICES_JSON }}
+        run: |
+          set -euo pipefail
+          for name in KEYSTORE_BASE64 T3CODE_ANDROID_KEYSTORE_PASSWORD T3CODE_ANDROID_KEY_ALIAS T3CODE_ANDROID_KEY_PASSWORD; do
+            if [[ -z "${!name:-}" ]]; then echo "Missing secret for $name" >&2; exit 1; fi
+          done
+          keystore="$RUNNER_TEMP/fork-release.jks"
+          printf '%s' "$KEYSTORE_BASE64" | base64 --decode > "$keystore"
+          chmod 600 "$keystore"
+          echo "T3CODE_ANDROID_KEYSTORE_PATH=$keystore" >> "$GITHUB_ENV"
+          if [[ -n "${GOOGLE_SERVICES_JSON:-}" ]]; then
+            services="$RUNNER_TEMP/google-services.json"
+            printf '%s' "$GOOGLE_SERVICES_JSON" > "$services"
+            echo "T3CODE_ANDROID_GOOGLE_SERVICES_FILE=$services" >> "$GITHUB_ENV"
+          fi
+
+      - name: Align package versions
+        run: node scripts/update-release-package-versions.ts "${{ needs.meta.outputs.version }}"
+
+      - name: Generate Android project
+        working-directory: apps/mobile
+        run: vp exec expo prebuild --clean --platform android --no-install
+
+      - name: Build signed APK
+        working-directory: apps/mobile/android
+        run: ./gradlew :app:assembleRelease --no-daemon --stacktrace
+
+      - name: Verify signature
+        run: |
+          set -euo pipefail
+          apk=apps/mobile/android/app/build/outputs/apk/release/app-release.apk
+          "$(ls -d "$ANDROID_HOME"/build-tools/* | sort -V | tail -1)/apksigner" verify --print-certs "$apk"
+          mkdir -p release
+          cp "$apk" "release/T3-Code-${{ needs.meta.outputs.version }}-android.apk"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-android
+          path: release/*.apk
+          if-no-files-found: error
+
   publish:
     name: Publish release
-    needs: [meta, mac, linux]
+    needs: [meta, mac, linux, android]
     runs-on: ubuntu-24.04
     steps:
       # Only the installers; the image job also uploads a .dockerbuild record.
