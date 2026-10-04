@@ -342,6 +342,25 @@ jobs:
     needs: [meta, mac, linux, android]
     runs-on: ubuntu-24.04
     steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          sparse-checkout: .github/scripts
+
+      - name: Write release notes
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          git fetch --quiet --no-tags https://github.com/pingdotgg/t3code.git main:refs/remotes/upstream/main
+          # Upstream reuses the nightly tag scheme, so ask this repository for
+          # its own last release instead of reading tags.
+          prev="$(gh release list --repo "$GITHUB_REPOSITORY" --limit 1 --json tagName --jq '.[0].tagName // ""')"
+          if [[ -n "$prev" ]]; then git fetch --quiet origin "refs/tags/$prev:refs/tags/$prev"; fi
+          .github/scripts/fork-release-notes.sh "$GITHUB_SHA" upstream/main "$prev" > "$RUNNER_TEMP/notes.md"
+          cat "$RUNNER_TEMP/notes.md"
+
       # Only the installers; the image job also uploads a .dockerbuild record.
       - uses: actions/download-artifact@v4
         with:
@@ -359,5 +378,5 @@ jobs:
             --repo "$GITHUB_REPOSITORY" \
             --target "$GITHUB_SHA" \
             --title "${{ needs.meta.outputs.name }}" \
-            --notes "Fork build of $GITHUB_SHA." \
+            --notes-file "$RUNNER_TEMP/notes.md" \
             --prerelease
