@@ -9,18 +9,27 @@ import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
 import {
   hasNativeSelectableMarkdownText,
   SelectableMarkdownText,
+  type MarkdownImageRenderer,
 } from "../../native/SelectableMarkdownText";
 import { useMarkdownPreviewStyles } from "../files/FileMarkdownPreview";
+import { ThreadMarkdownImageUnavailable } from "./ThreadMarkdownImage";
 
 const openLink = (href: string) => void tryOpenExternalUrl(href, "markdown-link");
 
+// Side answers are generated text with no thread asset context, so images are
+// shown as a placeholder instead of being fetched from whatever URL they name.
+const renderImage: MarkdownImageRenderer = (image) => (
+  <ThreadMarkdownImageUnavailable alt={image.alt} />
+);
+
 /** Same renderer as file previews: native selectable text, or the JS fallback. */
 function SideAnswerMarkdown({ markdown }: { readonly markdown: string }) {
-  const styles = useMarkdownPreviewStyles();
+  const styles = useMarkdownPreviewStyles(renderImage);
   return hasNativeSelectableMarkdownText() ? (
     <SelectableMarkdownText
       markdown={markdown}
       onLinkPress={openLink}
+      renderImage={renderImage}
       textStyle={styles.nativeTextStyle}
     />
   ) : (

@@ -57,3 +57,10 @@ it("sends only the latest 20 answered turns as follow-up context", () => {
   expect(context[0]).toEqual({ question: "q4", answer: "a4" });
   expect(context.at(-1)).toEqual({ question: "q23", answer: "a23" });
 });
+
+it("cuts very long answers in follow-up context to the server's per-answer limit", () => {
+  const [turn] = sideQuestionContextTurns([
+    { question: "q", answer: "a".repeat(200_005), status: "done" },
+  ]);
+  expect(turn?.answer).toHaveLength(200_000);
+});

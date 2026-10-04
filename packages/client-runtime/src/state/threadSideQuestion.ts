@@ -46,6 +46,7 @@ export function parseSideQuestionCommand(text: string): string | null {
 // draft the server would reject.
 const SIDE_QUESTION_MAX_CHARS = 20_000;
 const SIDE_QUESTION_MAX_PREVIOUS_TURNS = 20;
+const SIDE_QUESTION_MAX_CONTEXT_ANSWER_CHARS = 200_000;
 
 /** Why a parsed `/btw` question cannot be sent, or null when it can. */
 export function sideQuestionBlockReason(question: string): string | null {
@@ -63,7 +64,8 @@ export function supportsSideQuestions(driver: string | null | undefined): boolea
 
 /**
  * Answered turns sent as follow-up context. Long chains keep only the most
- * recent ones so the request stays within the server's limit.
+ * recent turns, and very long answers are cut, so the request stays within the
+ * server's limits.
  */
 export function sideQuestionContextTurns(
   turns: ReadonlyArray<SideQuestionTurn>,
@@ -71,7 +73,10 @@ export function sideQuestionContextTurns(
   return turns
     .filter((turn) => turn.status === "done")
     .slice(-SIDE_QUESTION_MAX_PREVIOUS_TURNS)
-    .map(({ question, answer }) => ({ question, answer }));
+    .map(({ question, answer }) => ({
+      question,
+      answer: answer.slice(0, SIDE_QUESTION_MAX_CONTEXT_ANSWER_CHARS),
+    }));
 }
 
 export function updateLastSideQuestionTurn(

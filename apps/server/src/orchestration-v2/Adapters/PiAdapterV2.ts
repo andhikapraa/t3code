@@ -69,6 +69,7 @@ import {
   type PiCompactCommand,
 } from "../../provider/PiCommands.ts";
 import { mergeProviderInstanceEnvironment } from "../../provider/ProviderInstanceEnvironment.ts";
+import { PI_THINKING_LEVELS as PI_THINKING_LADDER } from "../../provider/Layers/piThinkingCapabilities.ts";
 import * as IdAllocator from "../IdAllocator.ts";
 import * as ProviderAdapter from "../ProviderAdapter.ts";
 import {
@@ -249,15 +250,7 @@ function providerRef(
   return { driver: PI_PROVIDER, nativeId, strength };
 }
 
-export const PI_THINKING_LEVELS: ReadonlySet<string> = new Set([
-  "off",
-  "minimal",
-  "low",
-  "medium",
-  "high",
-  "xhigh",
-  "max",
-]);
+const PI_THINKING_LEVELS: ReadonlySet<string> = new Set(PI_THINKING_LADDER);
 
 // ── per-session state ─────────────────────────────────────────
 
