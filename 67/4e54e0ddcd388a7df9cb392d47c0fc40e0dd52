@@ -1,0 +1,31 @@
+apps/mobile/src/features/threads/ComposerSideQuestion.tsx
+  s_c776e78b994960::t_0f6889a75b6423 12,15,19-24,27,32
+apps/server/src/provider/Layers/piThinkingCapabilities.ts
+  s_c776e78b994960::t_c1ba1f8db96da1 10-18
+apps/server/src/provider/PiSideQuestion.ts
+  s_c776e78b994960::t_0f6889a75b6423 34,39,172
+docs/user/providers-pi.md
+  s_c776e78b994960::t_0f6889a75b6423 43-46
+apps/server/src/orchestration-v2/Adapters/PiAdapterV2.ts
+  s_c776e78b994960::t_0f6889a75b6423 72,253
+packages/client-runtime/src/state/threadSideQuestion.test.ts
+  s_c776e78b994960::t_c1ba1f8db96da1 60-66
+packages/client-runtime/src/state/threadSideQuestion.ts
+  s_c776e78b994960::t_0f6889a75b6423 49,67-68,76-79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "674e54e0ddcd388a7df9cb392d47c0fc40e0dd52",
+  "prompts": {},
+  "sessions": {
+    "s_c776e78b994960": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a102d4-c3d5-7416-9b1e-2c65d270d105",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
