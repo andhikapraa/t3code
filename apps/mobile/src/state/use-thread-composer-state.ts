@@ -29,6 +29,7 @@ import { nextPastedTextFileName, pastedTextDisposition } from "@t3tools/client-r
 import {
   parseCodexFeedbackCommand,
   parseSideQuestionCommand,
+  sideQuestionBlockReason,
   submitCodexFeedback,
   supportsSideQuestions,
   type CodexFeedbackSubmission,
@@ -624,19 +625,29 @@ export function useThreadComposerState() {
       const provider = serverConfig?.providers.find(
         (entry) => entry.instanceId === modelSelection.instanceId,
       );
-      // /btw runs beside the thread and is never queued as a message.
+      // /btw runs beside the thread and is never queued as a message. It is
+      // gated on the provider the thread runs on (what the server forks), not
+      // the draft's pending model pick.
+      const threadProvider = serverConfig?.providers.find(
+        (entry) => entry.instanceId === thread.providerInstanceId,
+      );
       const sideQuestionText =
         attachments.length === 0 &&
         (draft.context?.records.length ?? 0) === 0 &&
-        supportsSideQuestions(provider?.driver)
+        supportsSideQuestions(threadProvider?.driver)
           ? parseSideQuestionCommand(text)
           : null;
       if (sideQuestionText !== null) {
+        const blockReason = sideQuestionBlockReason(sideQuestionText);
+        if (blockReason !== null) {
+          Alert.alert("Side question", blockReason);
+          return null;
+        }
         if (thread.activeProviderThreadId === null) {
           Alert.alert("Start the thread first", "Send a message before asking a side question.");
           return null;
         }
-        if (sideQuestionText.length === 0 || sideQuestion.running) return null;
+        if (sideQuestion.running) return null;
         clearComposerDraftContent(threadKey);
         // An open card means the user is following up on it.
         void sideQuestion.ask(sideQuestionText);

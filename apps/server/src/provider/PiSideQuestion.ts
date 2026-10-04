@@ -31,6 +31,7 @@ import {
   buildPiRpcLaunch,
   resolvePiLaunchArgs,
 } from "../orchestration-v2/Adapters/piT3McpInjection.ts";
+import { PI_THINKING_LEVELS } from "../orchestration-v2/Adapters/PiAdapterV2.ts";
 import { ProviderDriverError } from "./Errors.ts";
 
 const PI_SIDE_QUESTION_TIMEOUT_MS = 5 * 60_000;
@@ -166,7 +167,8 @@ export const makePiSideQuestion =
           });
         }
         const thinking = getModelSelectionStringOptionValue(modelSelection, "thinking");
-        if (thinking !== undefined) {
+        // Like the live session, skip levels Pi does not know rather than fail.
+        if (thinking !== undefined && PI_THINKING_LEVELS.has(thinking)) {
           yield* connection.request({ type: "set_thinking_level", level: thinking });
         }
 

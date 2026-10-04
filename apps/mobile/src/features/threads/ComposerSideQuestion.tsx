@@ -1,9 +1,39 @@
 import type { SideQuestionTopic } from "@t3tools/client-runtime/state/threads";
 import { Pressable, ScrollView, View } from "react-native";
+import { Markdown } from "react-native-nitro-markdown";
 
 import { AppText as Text } from "../../components/AppText";
 import { SymbolView } from "../../components/AppSymbol";
 import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic";
+import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
+import {
+  hasNativeSelectableMarkdownText,
+  SelectableMarkdownText,
+} from "../../native/SelectableMarkdownText";
+import { useMarkdownPreviewStyles } from "../files/FileMarkdownPreview";
+
+const openLink = (href: string) => void tryOpenExternalUrl(href, "markdown-link");
+
+/** Same renderer as file previews: native selectable text, or the JS fallback. */
+function SideAnswerMarkdown({ markdown }: { readonly markdown: string }) {
+  const styles = useMarkdownPreviewStyles();
+  return hasNativeSelectableMarkdownText() ? (
+    <SelectableMarkdownText
+      markdown={markdown}
+      onLinkPress={openLink}
+      textStyle={styles.nativeTextStyle}
+    />
+  ) : (
+    <Markdown
+      options={{ gfm: true }}
+      renderers={styles.renderers}
+      styles={styles.styles}
+      theme={styles.theme}
+    >
+      {markdown}
+    </Markdown>
+  );
+}
 
 /** The `/btw` side conversation above the composer. It never enters the thread. */
 export function ComposerSideQuestion({
@@ -45,9 +75,7 @@ export function ComposerSideQuestion({
               <View key={index} className="gap-1">
                 <Text className="text-xs text-foreground-muted">{turn.question}</Text>
                 {turn.answer ? (
-                  <Text selectable className="text-sm text-foreground">
-                    {turn.answer}
-                  </Text>
+                  <SideAnswerMarkdown markdown={turn.answer} />
                 ) : turn.status === "running" ? (
                   <Text accessibilityLiveRegion="polite" className="text-xs text-foreground-muted">
                     Thinking…

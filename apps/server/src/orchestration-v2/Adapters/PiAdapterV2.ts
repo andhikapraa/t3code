@@ -249,7 +249,15 @@ function providerRef(
   return { driver: PI_PROVIDER, nativeId, strength };
 }
 
-const PI_THINKING_LEVELS = new Set(["off", "minimal", "low", "medium", "high", "xhigh", "max"]);
+export const PI_THINKING_LEVELS: ReadonlySet<string> = new Set([
+  "off",
+  "minimal",
+  "low",
+  "medium",
+  "high",
+  "xhigh",
+  "max",
+]);
 
 // ── per-session state ─────────────────────────────────────────
 
