@@ -162,7 +162,8 @@ describe("Cursor skills", () => {
     expect(hasCursorSkillMention("please $review this")).toBe(true);
     expect(
       rewriteCursorSkillMentions("use $review, keep $HOME and 5$review", new Set(["review"])),
-    ).toBe("use $review, keep $HOME and 5$review");
+    ).toBe("use /review , keep $HOME and 5$review");
+    expect(rewriteCursorSkillMentions("($review) now", new Set(["review"]))).toBe("(/review ) now");
     expect(rewriteCursorSkillMentions("please $review this", new Set(["review"]))).toBe(
       "please /review this",
     );

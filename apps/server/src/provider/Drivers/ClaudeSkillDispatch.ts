@@ -23,14 +23,7 @@
  *
  * @module provider/Drivers/ClaudeSkillDispatch
  */
-
-/**
- * Same token shape the composer and timeline chips recognise
- * (`packages/shared/src/composerInlineTokens.ts`), so a rendered chip and a
- * dispatched skill are always the same set.
- */
-const SKILL_MENTION_PATTERN =
-  /(^|\s)\p{Sc}(?![0-9][0-9_]*(?:[kKmMbBtT]|[eE][0-9]+)?(?:\s|$))(?=[a-zA-Z0-9:_-]*[a-zA-Z])([a-zA-Z0-9][a-zA-Z0-9:_-]*)(?=\s|$)/gu;
+import { SKILL_MENTION_PATTERN } from "@t3tools/shared/composerInlineTokens";
 
 export interface ClaudeSkillDispatch {
   /** Text before the dispatched mention, or `undefined` when it opens the prompt. */
@@ -74,7 +67,9 @@ export function planClaudeSkillDispatch(
 
   return {
     leadingText: leadingWithInlineSlashes.length > 0 ? leadingWithInlineSlashes : undefined,
-    commandText: `/${last.name}${trailing}`.trimEnd(),
+    // The CLI reads the command name up to whitespace, so separate punctuation
+    // that wrapped the mention (`$review, then`) from the name.
+    commandText: `/${last.name}${/^[^\s]/.test(trailing) ? " " : ""}${trailing}`.trimEnd(),
     skillName: last.name,
   };
 }

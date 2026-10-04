@@ -114,18 +114,47 @@ it("prepends the builtin commands without duplicating discovered ones", () => {
   ).toEqual([PI_COMPACT_SLASH_COMMAND, PI_BTW_SLASH_COMMAND, { name: "hello" }]);
 });
 
+const skills = (...names: string[]) =>
+  new Map(names.map((name) => [name, `/skills/${name}/SKILL.md`]));
+
 it("leaves unrelated dollar-prefixed text unchanged", () => {
-  expect(expandPiSkillReference("Explain $HOME", new Set(["global-review"]))).toBe("Explain $HOME");
+  expect(expandPiSkillReference("Explain $HOME", skills("global-review"))).toBe("Explain $HOME");
+  expect(expandPiSkillReference("pay $5.", skills("review"))).toBe("pay $5.");
+  expect(expandPiSkillReference("see a$review", skills("review"))).toBe("see a$review");
 });
 
-it("hoists every known $ skill and keeps the rest of the prompt", () => {
-  expect(expandPiSkillReference("use $alpha then $beta please", new Set(["alpha", "beta"]))).toBe(
-    "/skill:alpha /skill:beta use  then  please",
+it("prefixes a $ skill natively and keeps the prompt verbatim", () => {
+  expect(expandPiSkillReference("can we use $dokploy to do it?", skills("dokploy"))).toBe(
+    "/skill:dokploy can we use $dokploy to do it?",
+  );
+  expect(expandPiSkillReference("$review", skills("review"))).toBe("/skill:review $review");
+});
+
+it.each(["use $dokploy, then", "run $dokploy.", "($dokploy) please", 'say "$dokploy"?'])(
+  "recognizes a $ skill wrapped in punctuation: %s",
+  (text) => {
+    expect(expandPiSkillReference(text, skills("dokploy"))).toBe(`/skill:dokploy ${text}`);
+  },
+);
+
+it("keeps namespaced names intact and drops a trailing colon", () => {
+  expect(expandPiSkillReference("try $ns:tool.", skills("ns:tool"))).toBe(
+    "/skill:ns:tool try $ns:tool.",
+  );
+  expect(expandPiSkillReference("$review: the diff", skills("review"))).toBe(
+    "/skill:review $review: the diff",
+  );
+});
+
+it("points the model at the files of additional skills", () => {
+  expect(expandPiSkillReference("use $alpha then $beta and $alpha", skills("alpha", "beta"))).toBe(
+    "/skill:alpha use $alpha then $beta and $alpha\n\n" +
+      "Also load these skills by reading their files:\n- beta: /skills/beta/SKILL.md",
   );
 });
 
 it("preserves code indentation and line breaks when expanding a skill", () => {
-  expect(expandPiSkillReference("$review\n```ts\n  const x = 1;\n```", new Set(["review"]))).toBe(
-    "/skill:review ```ts\n  const x = 1;\n```",
+  expect(expandPiSkillReference("$review\n```ts\n  const x = 1;\n```", skills("review"))).toBe(
+    "/skill:review $review\n```ts\n  const x = 1;\n```",
   );
 });

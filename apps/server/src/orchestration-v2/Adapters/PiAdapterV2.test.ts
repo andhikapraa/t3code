@@ -943,7 +943,7 @@ describe("PiAdapterV2", () => {
         "Review this change please $repo-review",
       );
       const prompt = yield* fake.takeRequest("prompt");
-      assert.equal(prompt["message"], "/skill:repo-review Review this change please");
+      assert.equal(prompt["message"], "/skill:repo-review Review this change please $repo-review");
     }).pipe(Effect.scoped, Effect.provide(testLayer)),
   );
 
@@ -979,7 +979,46 @@ describe("PiAdapterV2", () => {
 
       yield* startTurn(runtime, providerThread, "default", [], "use $repo-review and $deploy");
       const prompt = yield* fake.takeRequest("prompt");
-      assert.equal(prompt["message"], "/skill:repo-review /skill:deploy use  and");
+      assert.equal(
+        prompt["message"],
+        "/skill:repo-review use $repo-review and $deploy\n\n" +
+          "Also load these skills by reading their files:\n" +
+          "- deploy: /workspace/.agents/skills/deploy/SKILL.md",
+      );
+    }).pipe(Effect.scoped, Effect.provide(testLayer)),
+  );
+
+  it.effect("retries a failed skill lookup on later $ prompts instead of caching it", () =>
+    Effect.gen(function* () {
+      const fake = yield* makeFakePi;
+      // Startup discovery and the first-use retry both fail.
+      fake.failNextCommands();
+      fake.failNextCommands();
+      fake.queueCommands({
+        commands: [
+          {
+            name: "skill:deploy",
+            source: "skill",
+            sourceInfo: { path: "/workspace/.agents/skills/deploy/SKILL.md" },
+          },
+        ],
+      });
+      const { runtime, takeEvent } = yield* openRuntime(fake);
+      const providerThread = yield* runtime.ensureThread({
+        threadId: THREAD_ID,
+        modelSelection: modelSelection("default"),
+        runtimePolicy,
+      });
+
+      yield* startTurn(runtime, providerThread, "default", [], "use $deploy");
+      assert.equal((yield* fake.takeRequest("prompt"))["message"], "use $deploy");
+      yield* fake.emit({ type: "agent_start" });
+      yield* fake.emit({ type: "agent_end", messages: [], willRetry: false });
+      yield* fake.emit({ type: "agent_settled" });
+      yield* takeEvent((event) => event.type === "turn.terminal");
+
+      yield* startTurn(runtime, providerThread, "default", [], "use $deploy", undefined, 2);
+      assert.equal((yield* fake.takeRequest("prompt"))["message"], "/skill:deploy use $deploy");
     }).pipe(Effect.scoped, Effect.provide(testLayer)),
   );
 

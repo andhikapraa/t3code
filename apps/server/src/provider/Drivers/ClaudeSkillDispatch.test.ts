@@ -27,6 +27,19 @@ describe("planClaudeSkillDispatch", () => {
     });
   });
 
+  it("dispatches a mention wrapped in prose punctuation", () => {
+    expect(planClaudeSkillDispatch("can we use $review, then ship?", SKILLS)).toEqual({
+      leadingText: "can we use",
+      commandText: "/review , then ship?",
+      skillName: "review",
+    });
+    expect(planClaudeSkillDispatch("($review) and $implement.", SKILLS)).toEqual({
+      leadingText: "(/review) and",
+      commandText: "/implement .",
+      skillName: "implement",
+    });
+  });
+
   it("dispatches a known skill whose name begins with a digit", () => {
     expect(planClaudeSkillDispatch("use $2spec for this", SKILLS)).toEqual({
       leadingText: "use",

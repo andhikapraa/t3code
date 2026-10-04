@@ -62,6 +62,26 @@ describe("collectComposerInlineTokens", () => {
     expect(collectComposerInlineTokens("Limit is $1e6 here")).toEqual([]);
   });
 
+  it.each([
+    ["use $review, then", 4],
+    ["run $review. ", 4],
+    ["($review) please", 1],
+    ['say "$review"? ', 5],
+    ["$review: the diff", 0],
+  ])("collects a skill wrapped in prose punctuation: %j", (text, start) => {
+    expect(collectComposerInlineTokens(text)).toEqual([
+      { type: "skill", value: "review", source: "$review", start, end: start + 7 },
+    ]);
+  });
+
+  it("keeps namespaced names and leaves punctuated amounts and mid-word sigils as text", () => {
+    expect(collectComposerInlineTokens("try $ns:tool. ").map((token) => token.value)).toEqual([
+      "ns:tool",
+    ]);
+    expect(collectComposerInlineTokens("pay $20, or ($5) or $20k. ")).toEqual([]);
+    expect(collectComposerInlineTokens("see a$review or $review.md ")).toEqual([]);
+  });
+
   it("does not convert incomplete trailing tokens", () => {
     expect(collectComposerInlineTokens("Use $ui")).toEqual([]);
     expect(collectComposerInlineTokens("Inspect @AGENTS.md")).toEqual([]);

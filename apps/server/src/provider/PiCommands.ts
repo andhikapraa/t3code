@@ -1,4 +1,5 @@
 import { type ServerProviderSkill, type ServerProviderSlashCommand } from "@t3tools/contracts";
+import { SKILL_MENTION_PATTERN } from "@t3tools/shared/composerInlineTokens";
 import * as Predicate from "effect/Predicate";
 
 // Pi RPC get_commands omits TUI builtins. Advertise /compact so T3 can map it to RPC compact.
@@ -104,38 +105,25 @@ export function parsePiDiscoveredCommands(data: unknown): PiDiscoveredCommands {
 }
 
 /**
- * Pi expands skills only through leading `/skill:name` commands. T3 stores
- * skill chips as `$name`, so hoist every known `$skill` to that native
- * command position while preserving the rest of the user's prompt.
+ * Pi expands only a single leading `/skill:name` command. T3 stores skill
+ * chips as `$name`, so prefix the first known skill natively and point the
+ * model at the files of any further skills. The user's text stays verbatim so
+ * the skill name keeps its place in the sentence. `skills` maps name to path.
  */
-export function expandPiSkillReference(text: string, skillNames: ReadonlySet<string>): string {
-  const references = /(^|\s)\$([^\s]+)(?=\s|$)/g;
-  const found: Array<{ name: string; start: number; end: number }> = [];
-  for (const match of text.matchAll(references)) {
+export function expandPiSkillReference(text: string, skills: ReadonlyMap<string, string>): string {
+  const names = new Set<string>();
+  for (const match of text.matchAll(SKILL_MENTION_PATTERN)) {
     const name = match[2];
-    if (name === undefined || !skillNames.has(name) || match.index === undefined) continue;
-    const tokenStart = match.index + (match[1]?.length ?? 0);
-    found.push({ name, start: tokenStart, end: tokenStart + name.length + 1 });
+    if (name !== undefined && skills.has(name)) names.add(name);
   }
-  if (found.length === 0) return text;
-
-  const orderedNames: string[] = [];
-  const seen = new Set<string>();
-  for (const token of found) {
-    if (seen.has(token.name)) continue;
-    seen.add(token.name);
-    orderedNames.push(token.name);
-  }
-
-  let body = text;
-  for (let index = found.length - 1; index >= 0; index -= 1) {
-    const token = found[index];
-    if (token === undefined) continue;
-    body = `${body.slice(0, token.start)}${body.slice(token.end)}`;
-  }
-  body = body.trim();
-  const prefix = orderedNames.map((name) => `/skill:${name}`).join(" ");
-  return body.length === 0 ? prefix : `${prefix} ${body}`;
+  const [first, ...rest] = names;
+  if (first === undefined) return text;
+  const extra = rest.map((name) => `- ${name}: ${skills.get(name)}`);
+  const body =
+    extra.length === 0
+      ? text.trim()
+      : `${text.trim()}\n\nAlso load these skills by reading their files:\n${extra.join("\n")}`;
+  return body.length === 0 ? `/skill:${first}` : `/skill:${first} ${body}`;
 }
 
 function recordField(input: unknown, key: string): unknown {

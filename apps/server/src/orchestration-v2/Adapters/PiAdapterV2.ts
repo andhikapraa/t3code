@@ -440,10 +440,13 @@ export function makePiAdapterV2(
         .request({ type: "get_commands" }, PI_SKILL_DISCOVERY_TIMEOUT_MS)
         .pipe(
           Effect.map(
-            (data) => new Set(parsePiDiscoveredCommands(data).skills.map((skill) => skill.name)),
+            (data) =>
+              new Map(
+                parsePiDiscoveredCommands(data).skills.map((skill) => [skill.name, skill.path]),
+              ),
           ),
         );
-      let skillNames: Set<string> | null = null;
+      let skills: Map<string, string> | null = null;
 
       const now = yield* DateTime.now;
       let sessionEntity: OrchestrationV2ProviderSession = {
@@ -1979,7 +1982,7 @@ export function makePiAdapterV2(
       // session opening on it; startup requests are persisted at session
       // scope and can be answered before a turn begins.
       yield* discoverSkillNames.pipe(
-        Effect.tap((discovered) => Effect.sync(() => (skillNames = discovered))),
+        Effect.tap((discovered) => Effect.sync(() => (skills = discovered))),
         Effect.ignore,
         Effect.forkIn(scope),
       );
@@ -2170,14 +2173,13 @@ export function makePiAdapterV2(
         attachments: ReadonlyArray<ChatAttachment>,
       ) {
         // Provider discovery and the live session are separate Pi processes.
-        // Retry a failed session-local lookup once at first use so a transient
-        // startup failure cannot leave a visible $ skill inert for this session.
-        if (skillNames === null && text.includes("$")) {
-          skillNames = yield* discoverSkillNames.pipe(
-            Effect.orElseSucceed(() => new Set<string>()),
-          );
+        // Retry a failed session-local lookup on each `$` prompt until one
+        // succeeds, so a transient failure cannot leave $ skills inert for the
+        // rest of the session. A failure is not cached.
+        if (skills === null && text.includes("$")) {
+          skills = yield* discoverSkillNames.pipe(Effect.orElseSucceed(() => null));
         }
-        const expandedText = skillNames === null ? text : expandPiSkillReference(text, skillNames);
+        const expandedText = skills === null ? text : expandPiSkillReference(text, skills);
         const images: Array<{ type: "image"; data: string; mimeType: string }> = [];
         const extraLines: Array<string> = [];
         for (const attachment of attachments) {
