@@ -1,0 +1,51 @@
+apps/server/src/scheduledTasks/ScheduledTaskService.ts
+  s_86667c07ea2d25::t_a78b4df2f30fd3 565
+  s_e8609244118112::t_bdefc1a37a13b2 68,156,243,276,411,420,564,577,590,780
+apps/server/src/persistence/Migrations/057_ScheduledTasksLastRunThread.ts
+  s_86667c07ea2d25::t_fea07f1a64c520 1-9
+apps/server/src/persistence/Migrations.ts
+  s_86667c07ea2d25::t_dd921d03b4ef1a 73,144
+packages/contracts/src/orchestratorMcp.ts
+  s_86667c07ea2d25::t_7b19a26167fb39 497-505,526,561
+apps/server/src/mcp/OrchestratorMcpToolkit.integration.test.ts
+  s_86667c07ea2d25::t_a43b808b53774e 1444-1476
+apps/server/src/mcp/toolkits/orchestrator/tools.ts
+  s_86667c07ea2d25::t_0b83b58ba7fb34 99,125
+packages/contracts/src/scheduledTask.ts
+  s_86667c07ea2d25::t_a0643cabe0a19f 113-114
+apps/server/src/scheduledTasks/ScheduledTaskService.test.ts
+  s_86667c07ea2d25::t_d8df77cb72d599 6,351-412
+  s_86667c07ea2d25::t_d51a09b7f26970 413
+apps/server/src/mcp/OrchestratorMcpService.ts
+  s_86667c07ea2d25::t_a5bee377b9bd6f 188-194,197,199-201,1224,1283-1285,1287,1289
+apps/server/src/provider/T3OrchestrationInstructions.ts
+  s_86667c07ea2d25::t_29da6696762083 12
+apps/server/src/persistence/Migrations/055_OrchestrationV2.test.ts
+  s_86667c07ea2d25::t_0c2f712b3c8023 16,31,54
+apps/server/src/persistence/reconcileV2PreviewMigration.test.ts
+  s_86667c07ea2d25::t_936dd569c51427 40,120
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d023132929877954d9473ccbe0eaacb1c3fbecc8",
+  "prompts": {},
+  "sessions": {
+    "s_86667c07ea2d25": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10814-2528-74ff-9e4c-1489e277459e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    },
+    "s_e8609244118112": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10821-40ff-73cb-baf3-5f43bee44e61",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
