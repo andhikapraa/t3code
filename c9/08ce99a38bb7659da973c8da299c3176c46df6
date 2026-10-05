@@ -1,0 +1,23 @@
+apps/mobile/src/features/settings/components/ScheduleWithAgentComposer.tsx
+  s_86667c07ea2d25::t_a353dd27eb6764 4-8,20,27-35,50-74,76-77,80,82,84,93,95,98-99,101,104-106,116,132-144,196-200,202,206,210
+packages/client-runtime/src/scheduledTaskSetup.ts
+  s_86667c07ea2d25::t_3947c844df44a0 14
+apps/web/src/components/scheduledTasks/ScheduledTasksPage.tsx
+  s_86667c07ea2d25::t_58aaa4bf499d28 15,19,83-93,96,105-130,133-135,137,144-145,147,149-150,152,155-156,173-174,190-197,276,283,286,291,298
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c908ce99a38bb7659da973c8da299c3176c46df6",
+  "prompts": {},
+  "sessions": {
+    "s_86667c07ea2d25": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10814-2528-74ff-9e4c-1489e277459e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
