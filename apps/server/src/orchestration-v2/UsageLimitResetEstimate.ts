@@ -29,6 +29,11 @@ const UPSTREAM_DRIVERS: ReadonlyArray<{
   { pattern: /(^|\/)(gpt-|o\d|codex)/i, driver: "codex" as ProviderDriverKind },
 ];
 
+/** The upstream account whose windows gate this gateway model, if any. */
+export function upstreamDriverForModel(model: string): ProviderDriverKind | undefined {
+  return UPSTREAM_DRIVERS.find(({ pattern }) => pattern.test(model))?.driver;
+}
+
 /**
  * When a gateway's limit shows no reset time, the matching upstream account's
  * exhausted window supplies one. A short burst limit leaves every window
@@ -40,7 +45,7 @@ export function estimateUsageLimitResetAt(input: {
   readonly failedAtMs: number;
   readonly fallbackMs: number;
 }): string {
-  const upstream = UPSTREAM_DRIVERS.find(({ pattern }) => pattern.test(input.model))?.driver;
+  const upstream = upstreamDriverForModel(input.model);
   let latest: number | null = null;
   for (const provider of input.providers) {
     if (upstream === undefined || provider.driver !== upstream) continue;

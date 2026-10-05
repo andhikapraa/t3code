@@ -17,6 +17,7 @@ import {
   RunAttemptId,
   RunId,
   RuntimeRequestId,
+  type ServerProvider,
   TurnItemId,
 } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
@@ -33,6 +34,8 @@ import * as EventStore from "./EventStore.ts";
 import * as IdAllocator from "./IdAllocator.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
 import * as ProviderEventIngestor from "./ProviderEventIngestor.ts";
+import * as ProviderInstanceRegistry from "../provider/Services/ProviderInstanceRegistry.ts";
+import * as ProviderRegistry from "../provider/Services/ProviderRegistry.ts";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
 import { makeProviderFailure } from "./ProviderFailure.ts";
 import {
@@ -1215,6 +1218,95 @@ layer("ProviderEventIngestorV2", (it) => {
       assert.ok(resetAt);
       const waitMs = Date.parse(resetAt) - DateTime.toEpochMillis(errorItem.completedAt ?? now);
       assert.equal(waitMs, 5 * 60_000);
+    }),
+  );
+
+  it.effect("re-reads the upstream limits before choosing a reset time", () =>
+    Effect.gen(function* () {
+      const now = yield* DateTime.now;
+      const eventSink = yield* EventSink.EventSinkV2;
+      const projectionStore = yield* ProjectionStore.ProjectionStoreV2;
+      const idAllocator = yield* IdAllocator.IdAllocatorV2;
+      const threadEvent = yield* threadCreatedEvent(now);
+      const providerSessionId = yield* idAllocator.allocate.providerSession({
+        providerInstanceId: modelSelection.instanceId,
+        threadId: threadEvent.threadId,
+      });
+      yield* eventSink.write({ events: [threadEvent] });
+
+      // The cached snapshot predates the limit; only a refresh shows the full window.
+      const resetsAt = DateTime.formatIso(DateTime.add(now, { hours: 2 }));
+      const codexProvider = (usedPercent: number) =>
+        ({
+          instanceId: modelSelection.instanceId,
+          driver: CODEX_DRIVER,
+          usageLimits: {
+            checkedAt: DateTime.formatIso(now),
+            windows: [
+              { id: "five_hour", kind: "session", label: "Session", usedPercent, resetsAt },
+            ],
+          },
+        }) as unknown as ServerProvider;
+      let providers: ReadonlyArray<ServerProvider> = [codexProvider(80)];
+      const refreshed: Array<string> = [];
+      const registry = {
+        getProviders: Effect.sync(() => providers),
+        refreshInstance: (instanceId: ProviderInstanceId) =>
+          Effect.sync(() => {
+            refreshed.push(instanceId);
+            providers = [codexProvider(100)];
+            return providers;
+          }),
+      } as unknown as ProviderRegistry.ProviderRegistry["Service"];
+
+      // The probe behind the snapshot keeps its own cache, which must be dropped first.
+      const invalidated: Array<string> = [];
+      const instances = {
+        getInstance: (instanceId: ProviderInstanceId) =>
+          Effect.succeed({
+            invalidateCaches: Effect.sync(() => {
+              invalidated.push(instanceId);
+            }),
+          }),
+      } as unknown as ProviderInstanceRegistry.ProviderInstanceRegistry["Service"];
+
+      const ingestor = yield* ProviderEventIngestor.ProviderEventIngestorV2.pipe(
+        Effect.provide(Layer.fresh(ProviderEventIngestor.layer)),
+        Effect.provideService(ProviderRegistry.ProviderRegistry, registry),
+        Effect.provideService(ProviderInstanceRegistry.ProviderInstanceRegistry, instances),
+      );
+      yield* ingestor.ingestNormalized({
+        providerSessionId,
+        providerInstanceId: modelSelection.instanceId,
+        threadId: threadEvent.threadId,
+        event: {
+          type: "turn.terminal",
+          driver: CODEX_DRIVER,
+          providerThreadId: idAllocator.derive.providerThread({
+            driver: CODEX_DRIVER,
+            nativeThreadId: "native-thread-limited-fresh",
+          }),
+          providerTurnId: idAllocator.derive.providerTurn({
+            driver: CODEX_DRIVER,
+            nativeTurnId: "native-turn-limited-fresh",
+          }),
+          runOrdinal: 1,
+          failureItemOrdinal: 102,
+          status: "failed",
+          failure: makeProviderFailure({ message: "429 cooling down", class: "usage_limit" }),
+          threadDisposition: "reusable",
+        },
+      });
+
+      assert.deepEqual(invalidated, [modelSelection.instanceId]);
+      assert.deepEqual(refreshed, [modelSelection.instanceId]);
+      const projection = yield* projectionStore.getThreadProjection(threadEvent.threadId);
+      const errorItem = projection.visibleTurnItems.find(
+        (candidate) => candidate.item.type === "error",
+      )?.item;
+      assert.equal(errorItem?.type, "error");
+      if (errorItem?.type !== "error") return;
+      assert.equal(errorItem.failure.resetAt, resetsAt);
     }),
   );
 

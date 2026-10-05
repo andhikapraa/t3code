@@ -22,12 +22,14 @@ import {
 } from "@t3tools/contracts";
 import * as Context from "effect/Context";
 import * as DateTime from "effect/DateTime";
+import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Schema from "effect/Schema";
 
 import { getModelSelectionStringOptionValue } from "@t3tools/shared/model";
 import * as AnalyticsService from "../telemetry/AnalyticsService.ts";
+import * as ProviderInstanceRegistry from "../provider/Services/ProviderInstanceRegistry.ts";
 import * as ProviderRegistry from "../provider/Services/ProviderRegistry.ts";
 import * as EventSink from "./EventSink.ts";
 import * as ProjectionStore from "./ProjectionStore.ts";
@@ -35,10 +37,16 @@ import * as IdAllocator from "./IdAllocator.ts";
 import { ProviderAdapterV2Event } from "./ProviderAdapter.ts";
 import { makeProviderFailureTurnItem } from "./ProviderFailure.ts";
 import * as ThreadCommandExecutor from "./ThreadCommandExecutor.ts";
-import { estimateUsageLimitResetAt, needsResetEstimate } from "./UsageLimitResetEstimate.ts";
+import {
+  estimateUsageLimitResetAt,
+  needsResetEstimate,
+  upstreamDriverForModel,
+} from "./UsageLimitResetEstimate.ts";
 
 /** How long a gateway rate limit without a known reset waits before resuming. */
 const FALLBACK_USAGE_LIMIT_WAIT_MS = 5 * 60_000;
+/** Bounds the upstream limit probe so a slow CLI never holds up recording the failure. */
+const UPSTREAM_REFRESH_TIMEOUT = Duration.seconds(20);
 
 export class ProviderEventNormalizeError extends Schema.TaggedError<ProviderEventNormalizeError>()(
   "ProviderEventNormalizeError",
@@ -273,6 +281,36 @@ export const layer: Layer.Layer<
     // Optional: provider snapshots supply upstream reset times. Without them a
     // gateway limit still gets the fixed fallback wait.
     const providerRegistry = yield* Effect.serviceOption(ProviderRegistry.ProviderRegistry);
+    const providerInstances = yield* Effect.serviceOption(
+      ProviderInstanceRegistry.ProviderInstanceRegistry,
+    );
+
+    /**
+     * Cached snapshots refresh every few minutes, so a window that just filled
+     * still reads below 100% there. Re-probe the upstream instances first,
+     * dropping their probe caches (Claude keeps its own for 5 minutes); on
+     * failure or timeout the cached snapshots still apply.
+     */
+    const freshUpstreamProviders = (
+      registry: ProviderRegistry.ProviderRegistry["Service"],
+      model: string,
+    ) =>
+      Effect.gen(function* () {
+        const cached = yield* registry.getProviders;
+        const upstream = upstreamDriverForModel(model);
+        const instances = cached.filter((provider) => provider.driver === upstream);
+        if (instances.length === 0) return cached;
+        yield* Effect.forEach(instances, (provider) =>
+          Effect.gen(function* () {
+            if (providerInstances._tag === "Some") {
+              const instance = yield* providerInstances.value.getInstance(provider.instanceId);
+              yield* instance?.invalidateCaches ?? Effect.void;
+            }
+            yield* registry.refreshInstance(provider.instanceId);
+          }),
+        ).pipe(Effect.timeout(UPSTREAM_REFRESH_TIMEOUT), Effect.ignore);
+        return yield* registry.getProviders;
+      });
 
     /** Gives a gateway usage limit the reset time its upstream account publishes. */
     const withResetEstimate = Effect.fn("ProviderEventIngestor.withResetEstimate")(function* (
@@ -286,7 +324,9 @@ export const layer: Layer.Layer<
         Effect.orElseSucceed(() => ""),
       );
       const providers =
-        providerRegistry._tag === "Some" ? yield* providerRegistry.value.getProviders : [];
+        providerRegistry._tag === "Some"
+          ? yield* freshUpstreamProviders(providerRegistry.value, model)
+          : [];
       return {
         ...failure,
         resetAt: estimateUsageLimitResetAt({
