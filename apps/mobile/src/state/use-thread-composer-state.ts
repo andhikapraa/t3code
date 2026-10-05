@@ -27,13 +27,18 @@ import { safeErrorLogAttributes } from "@t3tools/client-runtime/errors";
 import { clampFileAttachmentUploadBytes } from "@t3tools/client-runtime/state/attachments";
 import { nextPastedTextFileName, pastedTextDisposition } from "@t3tools/client-runtime/text-paste";
 import {
+  handoffBlockReason,
   parseCodexFeedbackCommand,
+  parseHandoffCommand,
   parseSideQuestionCommand,
   sideQuestionBlockReason,
   submitCodexFeedback,
+  supportsHandoff,
   supportsSideQuestions,
   type CodexFeedbackSubmission,
 } from "@t3tools/client-runtime/state/threads";
+import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
+import { useNavigation } from "@react-navigation/native";
 import { resolveThreadWorkingStartedAt } from "@t3tools/client-runtime/state/models";
 import { upgradeLegacyContextMessage } from "@t3tools/shared/composerContextLegacy";
 import { composerContextSendBlockReason, reidentifyComposerContext } from "../lib/composerContext";
@@ -199,6 +204,10 @@ export function useThreadComposerState() {
     selectedThreadShell?.environmentId ?? null,
     selectedThreadShell?.id ?? null,
   );
+  const navigation = useNavigation();
+  const handoffThread = useAtomCommand(threadEnvironment.handoff, { reportFailure: false });
+  const [handoffPending, setHandoffPending] = useState(false);
+  const handoffInFlightRef = useRef(false);
   const editQueuedRun = useAtomCommand(threadEnvironment.editQueuedRun, {
     label: "edit queued message",
     reportFailure: false,
@@ -653,6 +662,54 @@ export function useThreadComposerState() {
         void sideQuestion.ask(sideQuestionText);
         return null;
       }
+      // /handoff starts a new thread from a handoff of this one; this thread is left as is.
+      const handoffFocus =
+        attachments.length === 0 &&
+        (draft.context?.records.length ?? 0) === 0 &&
+        supportsHandoff(threadProvider?.driver)
+          ? parseHandoffCommand(text)
+          : null;
+      if (handoffFocus !== null) {
+        const blockReason = handoffBlockReason(handoffFocus);
+        if (blockReason !== null) {
+          Alert.alert("Handoff", blockReason);
+          return null;
+        }
+        if (thread.activeProviderThreadId === null) {
+          Alert.alert("Start the thread first", "Send a message before handing off.");
+          return null;
+        }
+        if (handoffInFlightRef.current) return null;
+        handoffInFlightRef.current = true;
+        setHandoffPending(true);
+        clearComposerDraftContent(threadKey);
+        void handoffThread({
+          environmentId: thread.environmentId,
+          input: {
+            threadId: thread.id,
+            ...(handoffFocus.length > 0 ? { focus: handoffFocus } : {}),
+          },
+        })
+          .then((result) => {
+            if (result._tag === "Success") {
+              navigation.navigate("Thread", {
+                environmentId: String(thread.environmentId),
+                threadId: String(result.value.threadId),
+              });
+              return;
+            }
+            const error = squashAtomCommandFailure(result);
+            Alert.alert(
+              "Handoff failed",
+              error instanceof Error ? error.message : "The handoff failed.",
+            );
+          })
+          .finally(() => {
+            handoffInFlightRef.current = false;
+            setHandoffPending(false);
+          });
+        return null;
+      }
       const feedbackCommand =
         attachments.length === 0 && provider?.driver === "codex"
           ? parseCodexFeedbackCommand(text)
@@ -760,6 +817,8 @@ export function useThreadComposerState() {
       selectedThreadShell,
       sideQuestion,
       uploadThreadFeedback,
+      handoffThread,
+      navigation,
     ],
   );
 
@@ -1076,6 +1135,7 @@ export function useThreadComposerState() {
     feedbackSubmissions,
     dismissFeedback,
     sideQuestion,
+    handoffPending,
     selectedThreadFeed,
     selectedThreadActivityRun,
     selectedThreadQueueCount,

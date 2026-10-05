@@ -96,6 +96,7 @@ import {
   type TerminalEvent,
   type TerminalMetadataStreamEvent,
   type PullRequestRef,
+  ThreadHandoffError,
   WS_METHODS,
   WsRpcGroup,
 } from "@t3tools/contracts";
@@ -155,6 +156,7 @@ import {
 import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
 import * as ThreadSearch from "./orchestration-v2/ThreadSearch.ts";
 import * as ThreadSideQuestion from "./orchestration-v2/ThreadSideQuestion.ts";
+import * as ThreadHandoff from "./orchestration-v2/ThreadHandoff.ts";
 import * as OrchestrationEventStore from "./persistence/Services/OrchestrationEventStore.ts";
 import { userFacingDispatchErrorMessage } from "./orchestration-v2/UserFacingErrors.ts";
 import {
@@ -1199,6 +1201,7 @@ const makeWsRpcLayer = (
       const managedFolders = yield* ManagedProjectFolders.ManagedProjectFolders;
       const threadSearch = yield* ThreadSearch.ThreadSearch;
       const threadSideQuestion = yield* ThreadSideQuestion.ThreadSideQuestion;
+      const threadHandoff = yield* ThreadHandoff.ThreadHandoff;
 
       const providerSessionsV2 = yield* ProviderSessionManager.ProviderSessionManagerV2;
       const analytics = yield* AnalyticsService.AnalyticsService;
@@ -3764,6 +3767,17 @@ const makeWsRpcLayer = (
           observeRpcStream(WS_METHODS.threadAskSideQuestion, threadSideQuestion.ask(input), {
             "rpc.aggregate": "orchestration",
           }),
+        [WS_METHODS.threadHandoff]: (input) =>
+          observeRpcEffect(
+            WS_METHODS.threadHandoff,
+            startup.enqueueCommand(threadHandoff.handoff(input)).pipe(
+              Effect.catchTags({
+                ServerRuntimeStartupError: (cause) =>
+                  new ThreadHandoffError({ message: "The server is not ready yet.", cause }),
+              }),
+            ),
+            { "rpc.aggregate": "orchestration" },
+          ),
       });
       return handlers;
     }),

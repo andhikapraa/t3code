@@ -36,6 +36,8 @@ const longRunningRpcAckMethods = new Set<string>([
   WS_METHODS.serverUpdateProvider,
   WS_METHODS.serverRefreshProviders,
   WS_METHODS.serverUpdateServer,
+  // Answers only after the model has written the whole handoff.
+  WS_METHODS.threadHandoff,
 ]);
 
 const slowRpcAckRequestsAtom = Atom.make<ReadonlyArray<SlowRpcAckRequest>>([]).pipe(

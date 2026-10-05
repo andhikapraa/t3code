@@ -105,6 +105,17 @@ export interface ProviderInstance {
     readonly question: string;
     readonly previousTurns: ReadonlyArray<{ readonly question: string; readonly answer: string }>;
   }) => Stream.Stream<string, ProviderDriverError>;
+  /**
+   * Write a handoff document (`/handoff`) from a throwaway copy of a provider
+   * thread, for the first message of a new thread. Must never write to the
+   * live thread. Absent when the driver cannot fork its native conversation.
+   */
+  readonly writeHandoff?: (input: {
+    readonly cwd: string;
+    readonly nativeThreadId: string;
+    readonly modelSelection: ModelSelection;
+    readonly focus: string | undefined;
+  }) => Effect.Effect<string, ProviderDriverError>;
   readonly auth?: ProviderAuthController;
   readonly acpSessionManagement?: {
     readonly listSessions: (input: {

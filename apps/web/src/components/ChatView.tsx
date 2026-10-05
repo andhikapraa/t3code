@@ -103,11 +103,14 @@ import {
 import { threadSupportsProviderHandoff } from "@t3tools/client-runtime/state/thread-workflows";
 import {
   codexFeedbackMessage,
+  handoffBlockReason,
   parseCodexFeedbackCommand,
+  parseHandoffCommand,
   parseSideQuestionCommand,
   shouldShowLoadEarlierControl,
   sideQuestionBlockReason,
   submitCodexFeedback,
+  supportsHandoff,
   supportsSideQuestions,
   type CodexFeedbackSubmission,
 } from "@t3tools/client-runtime/state/threads";
@@ -1575,6 +1578,8 @@ export default function ChatView(props: ChatViewProps) {
   const uploadThreadFeedback = useAtomCommand(threadEnvironment.uploadFeedback, {
     reportFailure: false,
   });
+  const handoffThread = useAtomCommand(threadEnvironment.handoff, { reportFailure: false });
+  const handoffInFlightRef = useRef(false);
   const createAttachmentAssetUrl = useAtomQueryRunner(assetEnvironment.createUrl, {
     reportFailure: false,
     refresh: true,
@@ -3489,6 +3494,13 @@ export default function ChatView(props: ChatViewProps) {
       : activeProviderStatus?.driver,
   );
   const sideQuestion = useSideQuestion(environmentId, isServerThread ? threadId : null);
+  // /handoff is gated like /btw: on the provider the server forks.
+  const handoffOffered = supportsHandoff(
+    isServerThread
+      ? providerStatuses.find((entry) => entry.instanceId === serverThread.providerInstanceId)
+          ?.driver
+      : activeProviderStatus?.driver,
+  );
   const {
     beginLocalDispatch,
     resetLocalDispatch,
@@ -8408,6 +8420,76 @@ export default function ChatView(props: ChatViewProps) {
       composerRef.current?.resetCursorState();
       // An open panel means the user is following up on it.
       void sideQuestion.ask(sideQuestionText);
+      return;
+    }
+    // /handoff starts a new thread and leaves this one as is, so it also skips the busy guards.
+    const handoffFocus =
+      handoffOffered && !directAnnotation && !composerHasNonPromptContent
+        ? parseHandoffCommand(promptRef.current)
+        : null;
+    if (handoffFocus !== null) {
+      const blockReason = handoffBlockReason(handoffFocus);
+      if (blockReason !== null) {
+        toastManager.add(
+          stackedThreadToast({ type: "warning", title: "Handoff", description: blockReason }),
+        );
+        return;
+      }
+      if (!isServerThread || activeThread?.activeProviderThreadId == null) {
+        toastManager.add(
+          stackedThreadToast({
+            type: "warning",
+            title: "Start the thread first",
+            description: "Send a message before handing off.",
+          }),
+        );
+        return;
+      }
+      if (handoffInFlightRef.current) return;
+      handoffInFlightRef.current = true;
+      promptRef.current = "";
+      setComposerDraftPrompt(composerDraftTarget, "");
+      composerRef.current?.resetCursorState();
+      const sourceEnvironmentId = activeThread.environmentId;
+      const progressToast = toastManager.add(
+        stackedThreadToast({
+          type: "loading",
+          title: "Writing handoff",
+          description: "A new thread opens when it is ready.",
+          timeout: 0,
+        }),
+      );
+      void handoffThread({
+        environmentId: sourceEnvironmentId,
+        input: {
+          threadId: activeThread.id,
+          ...(handoffFocus.length > 0 ? { focus: handoffFocus } : {}),
+        },
+      })
+        .then((result) => {
+          if (result._tag === "Success") {
+            toastManager.close(progressToast);
+            void navigate({
+              to: "/$environmentId/$threadId",
+              params: buildThreadRouteParams(
+                scopeThreadRef(sourceEnvironmentId, result.value.threadId),
+              ),
+            });
+            return;
+          }
+          const error = squashAtomCommandFailure(result);
+          toastManager.update(
+            progressToast,
+            stackedThreadToast({
+              type: "error",
+              title: "Handoff failed",
+              description: error instanceof Error ? error.message : "The handoff failed.",
+            }),
+          );
+        })
+        .finally(() => {
+          handoffInFlightRef.current = false;
+        });
       return;
     }
 

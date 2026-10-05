@@ -17,6 +17,14 @@ export const PI_BTW_SLASH_COMMAND: ServerProviderSlashCommand = {
   input: { hint: "Question" },
 };
 
+// Handled by the client as thread.handoff: a new thread starts from a handoff document.
+// Replaces a user extension's /handoff, which can only compact the current session.
+export const PI_HANDOFF_SLASH_COMMAND: ServerProviderSlashCommand = {
+  name: "handoff",
+  description: "Continue in a new thread that starts from a handoff of this one",
+  input: { hint: "Optional focus for the new thread" },
+};
+
 export interface PiCompactCommand {
   readonly customInstructions?: string;
 }
@@ -35,11 +43,9 @@ export function parsePiCompactCommand(text: string): PiCompactCommand | null {
 export function withPiBuiltinSlashCommands(
   commands: ReadonlyArray<ServerProviderSlashCommand>,
 ): ReadonlyArray<ServerProviderSlashCommand> {
-  return [
-    PI_COMPACT_SLASH_COMMAND,
-    PI_BTW_SLASH_COMMAND,
-    ...commands.filter((command) => command.name !== "compact" && command.name !== "btw"),
-  ];
+  const builtins = [PI_COMPACT_SLASH_COMMAND, PI_BTW_SLASH_COMMAND, PI_HANDOFF_SLASH_COMMAND];
+  const names = new Set(builtins.map((command) => command.name));
+  return [...builtins, ...commands.filter((command) => !names.has(command.name))];
 }
 
 export interface PiDiscoveredCommands {

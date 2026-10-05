@@ -45,6 +45,18 @@ Your Pi extensions still load, so code an extension runs on its own is not cover
 side question uses your provider quota and takes longer to start than a normal reply. A `/btw`
 command from a Pi extension is replaced by this one in T3 Code.
 
+## Handoff
+
+Send `/handoff` in an existing Pi thread to continue the work in a new thread. Pi writes a handoff
+of the conversation so far: goal, progress, decisions, key files, and next steps. T3 Code then opens
+a new thread in the same project and worktree and sends the handoff as its first message. The
+original thread is left as it is. Add text after the command to steer the new thread, for example
+`/handoff now write the tests`.
+
+The handoff is written with the thread's model and Pi's tools turned off, so it can take up to a
+minute and uses your provider quota. A `/handoff` command from a Pi extension is replaced by this one
+in T3 Code. To shrink the current thread instead, use `/compact`.
+
 ## Permission Modes
 
 T3 Code applies the composer permission mode through Pi's blocking tool hook:

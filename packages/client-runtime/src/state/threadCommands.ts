@@ -401,6 +401,12 @@ export function createThreadEnvironmentAtoms<R, E>(
       scheduler,
       concurrency,
     }),
+    handoff: createEnvironmentRpcCommand(runtime, {
+      label: "environment-data:commands:thread:handoff",
+      tag: WS_METHODS.threadHandoff,
+      scheduler,
+      concurrency,
+    }),
   };
   const optimistic = createOptimisticThreadLifecycle(snapshotAtom);
   return {

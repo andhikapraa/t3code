@@ -63,6 +63,7 @@ import {
   type GestureResponderEvent,
   type ViewInstance,
 } from "react-native";
+import { AppText } from "../../components/AppText";
 import {
   KeyboardController,
   KeyboardStickyView,
@@ -151,6 +152,8 @@ export interface ThreadDetailScreenProps {
     readonly cancel: () => void;
     readonly close: () => void;
   };
+  /** A `/handoff` is being written; its new thread opens when ready. */
+  readonly handoffPending?: boolean;
   readonly selectedThreadFeed: ReadonlyArray<ThreadFeedEntry>;
   readonly activityRun: ThreadFeedLatestRun | null;
   readonly activeWorkStartedAt: string | null;
@@ -1196,6 +1199,16 @@ export const ThreadDetailScreen = memo(function ThreadDetailScreen(props: Thread
                     onCancel={props.sideQuestion.cancel}
                     onClose={props.sideQuestion.close}
                   />
+                ) : null}
+                {props.handoffPending ? (
+                  <View className="px-4 pb-3">
+                    <AppText
+                      accessibilityLiveRegion="polite"
+                      className="text-xs text-foreground-muted"
+                    >
+                      Writing handoff… A new thread opens when it is ready.
+                    </AppText>
+                  </View>
                 ) : null}
                 {props.feedbackSubmissions.map((submission) => (
                   <ComposerFeedback

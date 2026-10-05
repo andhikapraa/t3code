@@ -158,6 +158,7 @@ export const RPC_REQUIRED_SCOPES = {
   [WS_METHODS.subscribeResourceTelemetry]: AuthOrchestrationReadScope,
   // Runs a model on the user's account, so it needs operate rather than read.
   [WS_METHODS.threadAskSideQuestion]: AuthOrchestrationOperateScope,
+  [WS_METHODS.threadHandoff]: AuthOrchestrationOperateScope,
   [WS_METHODS.vcsRefreshStatus]: AuthOrchestrationReadScope,
   [WS_METHODS.vcsPull]: AuthOrchestrationOperateScope,
   [WS_METHODS.gitRunStackedAction]: AuthOrchestrationOperateScope,

@@ -6,6 +6,7 @@ import {
   parsePiDiscoveredCommands,
   PI_BTW_SLASH_COMMAND,
   PI_COMPACT_SLASH_COMMAND,
+  PI_HANDOFF_SLASH_COMMAND,
   withPiBuiltinSlashCommands,
 } from "./PiCommands.ts";
 
@@ -102,16 +103,23 @@ it("prepends the builtin commands without duplicating discovered ones", () => {
   expect(withPiBuiltinSlashCommands([{ name: "hello", description: "Say hello." }])).toEqual([
     PI_COMPACT_SLASH_COMMAND,
     PI_BTW_SLASH_COMMAND,
+    PI_HANDOFF_SLASH_COMMAND,
     { name: "hello", description: "Say hello." },
   ]);
-  // A user's TUI-only /btw extension is replaced by T3's side question.
+  // User extensions' /btw and /handoff are replaced by T3's own versions.
   expect(
     withPiBuiltinSlashCommands([
       { name: "compact", description: "Extension compact." },
       { name: "btw", description: "Extension btw." },
+      { name: "handoff", description: "Extension handoff." },
       { name: "hello" },
     ]),
-  ).toEqual([PI_COMPACT_SLASH_COMMAND, PI_BTW_SLASH_COMMAND, { name: "hello" }]);
+  ).toEqual([
+    PI_COMPACT_SLASH_COMMAND,
+    PI_BTW_SLASH_COMMAND,
+    PI_HANDOFF_SLASH_COMMAND,
+    { name: "hello" },
+  ]);
 });
 
 const skills = (...names: string[]) =>

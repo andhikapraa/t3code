@@ -18,7 +18,7 @@ import * as BackgroundPolicy from "../../background/BackgroundPolicy.ts";
 import * as ServerConfig from "../../config.ts";
 import * as ServerSettings from "../../serverSettings.ts";
 import { makePiTextGeneration } from "../../textGeneration/PiTextGeneration.ts";
-import { makePiSideQuestion } from "../PiSideQuestion.ts";
+import { makePiHandoff, makePiSideQuestion } from "../PiSideQuestion.ts";
 import {
   PiAdapterV2Driver,
   type PiAdapterV2DriverEnv,
@@ -181,6 +181,14 @@ export const PiDriver: ProviderDriver<PiSettings, PiDriverEnv> = {
         ),
       );
 
+      const forkPromptDeps = {
+        piSettings: effectiveConfig,
+        environment: processEnv,
+        instanceId,
+        spawner,
+        fileSystem,
+      };
+
       return {
         instanceId,
         driverKind: DRIVER_KIND,
@@ -191,13 +199,8 @@ export const PiDriver: ProviderDriver<PiSettings, PiDriverEnv> = {
         snapshot,
         orchestrationAdapter,
         textGeneration,
-        askSideQuestion: makePiSideQuestion({
-          piSettings: effectiveConfig,
-          environment: processEnv,
-          instanceId,
-          spawner,
-          fileSystem,
-        }),
+        askSideQuestion: makePiSideQuestion(forkPromptDeps),
+        writeHandoff: makePiHandoff(forkPromptDeps),
       } satisfies ProviderInstance;
     }),
 };

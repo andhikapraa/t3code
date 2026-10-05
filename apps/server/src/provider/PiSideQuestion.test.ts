@@ -1,6 +1,10 @@
 import { expect, it } from "@effect/vitest";
 
-import { buildPiSideQuestionPrompt, classifyPiSideQuestionEvent } from "./PiSideQuestion.ts";
+import {
+  buildPiHandoffPrompt,
+  buildPiSideQuestionPrompt,
+  classifyPiSideQuestionEvent,
+} from "./PiSideQuestion.ts";
 
 it("streams only assistant text deltas", () => {
   expect(
@@ -48,4 +52,11 @@ it("carries earlier side turns into a follow-up prompt", () => {
   expect(prompt).toContain("Earlier side question 1: what?\nYour answer: this");
   expect(prompt.endsWith("Follow-up: and why?")).toBe(true);
   expect(buildPiSideQuestionPrompt("what?", []).endsWith("\n\nwhat?")).toBe(true);
+});
+
+it("adds the handoff focus only when one is given", () => {
+  const plain = buildPiHandoffPrompt(undefined);
+  expect(plain).toContain("Do not call tools.");
+  expect(plain).not.toContain("Additional focus");
+  expect(buildPiHandoffPrompt("write the tests")).toContain("Additional focus: write the tests");
 });

@@ -142,6 +142,7 @@ import {
   ThreadSideQuestionEvent,
   ThreadSideQuestionInput,
 } from "./sideQuestion.ts";
+import { ThreadHandoffError, ThreadHandoffInput, ThreadHandoffResult } from "./threadHandoff.ts";
 import {
   ProviderUploadFeedbackError,
   ProviderUploadFeedbackInput,
@@ -541,6 +542,9 @@ export const WS_METHODS = {
 
   // Side questions (`/btw`)
   threadAskSideQuestion: "thread.askSideQuestion",
+
+  // Handoffs (`/handoff`)
+  threadHandoff: "thread.handoff",
 } as const;
 
 const WsServerUpsertKeybindingRpc = Rpc.make(WS_METHODS.serverUpsertKeybinding, {
@@ -1537,6 +1541,12 @@ const WsThreadAskSideQuestionRpc = Rpc.make(WS_METHODS.threadAskSideQuestion, {
   stream: true,
 });
 
+const WsThreadHandoffRpc = Rpc.make(WS_METHODS.threadHandoff, {
+  payload: ThreadHandoffInput,
+  success: ThreadHandoffResult,
+  error: Schema.Union([ThreadHandoffError, EnvironmentAuthorizationError]),
+});
+
 const WsOrchestrationV2GetArchivedShellSnapshotRpc = Rpc.make(
   ORCHESTRATION_V2_WS_METHODS.getArchivedShellSnapshot,
   {
@@ -1872,6 +1882,7 @@ export const WsRpcGroup = RpcGroup.make(
   WsSubscribeBackgroundPolicyRpc,
   WsSubscribeResourceTelemetryRpc,
   WsThreadAskSideQuestionRpc,
+  WsThreadHandoffRpc,
   WsOrchestrationV2DispatchCommandRpc,
   WsOrchestrationV2GetWorkflowScriptRpc,
   WsOrchestrationV2GetTurnDiffRpc,

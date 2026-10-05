@@ -997,6 +997,7 @@ function ThreadRouteContent(
           feedbackSubmissions={composer.feedbackSubmissions}
           onDismissFeedback={composer.dismissFeedback}
           sideQuestion={composer.sideQuestion}
+          handoffPending={composer.handoffPending}
           selectedThreadFeed={composer.selectedThreadFeed}
           activityRun={composer.selectedThreadActivityRun}
           activeWorkStartedAt={
