@@ -1,0 +1,76 @@
+packages/contracts/src/threadHandoff.ts
+  s_0e4edff6a97fd4::t_15e8742781c9e9 1-29
+packages/client-runtime/src/state/threadCommands.ts
+  s_0e4edff6a97fd4::t_bd06762e4fb149 404-409
+packages/client-runtime/src/state/threads.ts
+  s_0e4edff6a97fd4::t_796a802acb1571 1008
+apps/server/src/provider/PiCommands.ts
+  s_0e4edff6a97fd4::t_462c5a866642d3 20-27,46-48
+apps/mobile/src/features/threads/ThreadRouteScreen.tsx
+  s_0e4edff6a97fd4::t_7e10cbabeea610 1000
+packages/client-runtime/src/state/threadHandoff.test.ts
+  s_0e4edff6a97fd4::t_e338113cad1a12 2-17
+  s_0e4edff6a97fd4::t_dcd28212f936a2 1
+docs/user/providers-pi.md
+  s_0e4edff6a97fd4::t_a78a246265da9f 48-59
+apps/web/src/rpc/requestLatencyState.ts
+  s_0e4edff6a97fd4::t_49adeec5f50658 39-40
+apps/server/src/orchestration-v2/ThreadHandoff.test.ts
+  s_0e4edff6a97fd4::t_85c4a9860226d6 1-21
+packages/contracts/src/index.ts
+  s_0e4edff6a97fd4::t_9c75d2c9801fb1 44
+packages/contracts/src/rpc.ts
+  s_0e4edff6a97fd4::t_b02d02dae7eb70 145,545-547,1544-1549,1885
+apps/server/src/provider/PiSideQuestion.ts
+  s_0e4edff6a97fd4::t_7e9f8494cd443a 2-3,37,66-121,123,164-178,180-219
+  s_0e4edff6a97fd4::t_2cf60e9824d168 220-240,242-250,252-256,259-261,263-291,293-296
+apps/web/src/components/ChatView.tsx
+  s_0e4edff6a97fd4::t_9157a56860a813 106,108,113,1581-1582,3497-3503,8425-8492
+  s_0e4edff6a97fd4::t_7a86a59efac613 8493-8494
+apps/server/src/orchestration-v2/ThreadHandoff.ts
+  s_0e4edff6a97fd4::t_88eb568308372d 1-2,4-16,18-36,47-88,90-97,100-118
+  s_0e4edff6a97fd4::t_da7f9522785587 3,37-46,98
+  s_0e4edff6a97fd4::t_5748de26902052 17,89,99
+apps/mobile/src/state/use-thread-composer-state.ts
+  s_0e4edff6a97fd4::t_805adb98315e21 1138
+  s_0e4edff6a97fd4::t_4b67bbe0589669 30,32,36,40-41,207-210,665-712,820-821
+apps/server/src/provider/ProviderDriver.ts
+  s_0e4edff6a97fd4::t_d82d40544ebf80 108-118
+apps/mobile/src/features/threads/ThreadDetailScreen.tsx
+  s_0e4edff6a97fd4::t_1a11253afb36cb 155-156,1203-1204,1206-1209,1211
+  s_0e4edff6a97fd4::t_80049590a4441f 66,1205,1210
+  s_0e4edff6a97fd4::t_1fa108fc9dacdd 1212
+packages/client-runtime/src/state/threadHandoff.ts
+  s_0e4edff6a97fd4::t_c749301afb431b 1-28
+apps/server/src/server.ts
+  s_0e4edff6a97fd4::t_778595039dd027 162,543
+apps/server/src/provider/PiCommands.test.ts
+  s_0e4edff6a97fd4::t_ec55ea56a4bb2c 9,106,109,114,117-122
+apps/server/src/provider/PiSideQuestion.test.ts
+  s_0e4edff6a97fd4::t_d196bcda13aefd 3-7,56-61
+  s_0e4edff6a97fd4::t_2b6bba881a23b8 62
+apps/server/src/auth/RpcAuthorization.ts
+  s_0e4edff6a97fd4::t_a8fc213e33a69b 161
+apps/server/src/provider/Drivers/PiDriver.ts
+  s_0e4edff6a97fd4::t_b5f6cf146877e9 21,202-203
+  s_0e4edff6a97fd4::t_8745c803a2c7a1 184-191
+apps/server/src/ws.ts
+  s_0e4edff6a97fd4::t_e0322256a67c53 99,3774-3777
+  s_0e4edff6a97fd4::t_e1d6e2bd7d7aac 159,1204,3770-3773,3778-3780
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "1cd7f12f94117512d39422370fb964c21281d8c4",
+  "prompts": {},
+  "sessions": {
+    "s_0e4edff6a97fd4": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10ad0-c6d4-72b6-8e80-cc6db500b41a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
