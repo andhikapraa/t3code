@@ -1,0 +1,25 @@
+apps/server/src/orchestration-v2/ProviderEventIngestor.test.ts
+  s_0e4edff6a97fd4::t_d6107d91aea727 20
+  s_0e4edff6a97fd4::t_2a9f3ed1574d5d 37,1223-1293,1298
+  s_0e4edff6a97fd4::t_23dade611a1d5c 1294-1297
+apps/server/src/orchestration-v2/UsageLimitResetEstimate.ts
+  s_0e4edff6a97fd4::t_83ba9e6f6ab1fa 32-36,48
+apps/server/src/orchestration-v2/ProviderEventIngestor.ts
+  s_0e4edff6a97fd4::t_8a24c6dd12be99 25,39-43,47-48,284-303,316-318
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7b0f5a7355b39f7c7a191fbc2c1c9e2458828d1a",
+  "prompts": {},
+  "sessions": {
+    "s_0e4edff6a97fd4": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10ad0-c6d4-72b6-8e80-cc6db500b41a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
