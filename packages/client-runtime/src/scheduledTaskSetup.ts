@@ -11,6 +11,7 @@ export function scheduledTaskSetupMessage(request: string): string {
     "- Ask me first if the cadence, time, or what to report is unclear.",
     "- Before scheduling, try the checks the task depends on (commands, URLs, CLIs, credentials) so the first scheduled run will not fail.",
     "- Write the task prompt so it stands alone: each run starts in a fresh thread with no memory of this conversation or of earlier runs. If it must compare against a previous run, have it keep state in a file, or read the previous run's thread with t3_thread_read.",
+    "- If this thread has no project (its folder is not a repository), every run gets a brand-new empty folder. Any state file must use an absolute path outside that folder, and the prompt must not rely on files created here.",
     '- Call schedule_task with bindToCurrentThread=false. Pass workspace="worktree" only if runs will edit files.',
     "- Then tell me the cadence and next run time.",
     "",

@@ -12,9 +12,11 @@ import {
 import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
 import { truncate } from "@t3tools/shared/String";
 import { scheduledTaskSetupMessage } from "@t3tools/client-runtime/scheduled-task-setup";
+import { isScratchProject } from "@t3tools/client-runtime/state/projects";
 import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
 
 import { isElectron } from "../../env";
+import { useScratchProject } from "../../hooks/useScratchProject";
 import { useEnvironmentSettings } from "../../hooks/useSettings";
 import { newMessageId, newThreadId } from "../../lib/utils";
 import { getCustomModelOptionsByInstance } from "../../modelSelection";
@@ -78,8 +80,20 @@ export function ScheduledTasksPage(target: {
  * Describe recurring work in plain language; an agent thread sets it up with
  * schedule_task, asking questions and testing the checks first.
  */
+/**
+ * Where the setup thread starts: a project, or an environment's Scratch
+ * project ("No project"), which the server creates on first use.
+ */
+interface ComposerTarget {
+  readonly key: string;
+  readonly environmentId: EnvironmentId;
+  readonly project: EnvironmentProject | null;
+  readonly label: string;
+}
+
 function ScheduleWithAgentComposer() {
   const { environments } = useEnvironments();
+  const { scratchWorkspaceRootFor } = useScratchProject();
   const connectedEnvironments = useMemo(
     () =>
       environments.filter(
@@ -88,42 +102,58 @@ function ScheduleWithAgentComposer() {
     [environments],
   );
   const allProjects = useProjects();
-  const [projectKey, setProjectKey] = useState("");
-  const projects = useMemo(
-    () =>
-      allProjects.filter((project) =>
-        connectedEnvironments.some((entry) => entry.environmentId === project.environmentId),
-      ),
-    [allProjects, connectedEnvironments],
-  );
-  const project =
-    projects.find((entry) => `${entry.environmentId}:${entry.id}` === projectKey) ?? projects[0];
-  if (!project) return null;
+  const [targetKey, setTargetKey] = useState("");
+  const targets = useMemo(() => {
+    const projectTargets: ComposerTarget[] = allProjects
+      .filter(
+        (project) =>
+          connectedEnvironments.some((entry) => entry.environmentId === project.environmentId) &&
+          !isScratchProject(project, scratchWorkspaceRootFor(project.environmentId)),
+      )
+      .map((project) => ({
+        key: `${project.environmentId}:${project.id}`,
+        environmentId: project.environmentId,
+        project,
+        label: project.title,
+      }));
+    const scratchTargets: ComposerTarget[] = connectedEnvironments
+      .filter((entry) => scratchWorkspaceRootFor(entry.environmentId) !== null)
+      .map((entry) => ({
+        key: `${entry.environmentId}:scratch`,
+        environmentId: entry.environmentId,
+        project: null,
+        label: "No project",
+      }));
+    return [...projectTargets, ...scratchTargets];
+  }, [allProjects, connectedEnvironments, scratchWorkspaceRootFor]);
+  const target = targets.find((entry) => entry.key === targetKey) ?? targets[0];
+  if (!target) return null;
   return (
     <ComposerForm
-      key={project.environmentId}
-      project={project}
-      projects={projects}
+      key={target.environmentId}
+      target={target}
+      targets={targets}
       connectedEnvironments={connectedEnvironments}
-      onProjectChange={setProjectKey}
+      onTargetChange={setTargetKey}
     />
   );
 }
 
 /** Keyed by environment, so model state never carries across machines. */
 function ComposerForm({
-  project,
-  projects,
+  target,
+  targets,
   connectedEnvironments,
-  onProjectChange,
+  onTargetChange,
 }: {
-  readonly project: EnvironmentProject;
-  readonly projects: readonly EnvironmentProject[];
+  readonly target: ComposerTarget;
+  readonly targets: readonly ComposerTarget[];
   readonly connectedEnvironments: readonly EnvironmentPresentation[];
-  readonly onProjectChange: (projectKey: string) => void;
+  readonly onTargetChange: (key: string) => void;
 }) {
   const navigate = useNavigate();
-  const environmentId = project.environmentId;
+  const { openScratchProject } = useScratchProject();
+  const environmentId = target.environmentId;
   const showEnvironment = connectedEnvironments.length > 1;
   const [pickedModel, setPickedModel] = useState<ModelSelection | null>(null);
   const [prompt, setPrompt] = useState("");
@@ -140,7 +170,8 @@ function ComposerForm({
       ),
     [providers, settings],
   );
-  const selection = pickedModel ?? scheduledTaskDefaultModel(settings, project, instanceEntries);
+  const selection =
+    pickedModel ?? scheduledTaskDefaultModel(settings, target.project, instanceEntries);
   const activeInstanceId =
     selection?.instanceId ?? instanceEntries[0]?.instanceId ?? ("" as ProviderInstanceId);
   const activeModel = selection?.model ?? "";
@@ -156,6 +187,14 @@ function ComposerForm({
     if (sendingRef.current || !request || !selection) return;
     sendingRef.current = true;
     setSending(true);
+    const project =
+      target.project ??
+      (await openScratchProject(environmentId, "Could not start the setup thread"));
+    if (!project) {
+      sendingRef.current = false;
+      setSending(false);
+      return;
+    }
     const threadId = newThreadId();
     const createdAt = new Date().toISOString();
     const title = truncate(request, 50);
@@ -234,35 +273,29 @@ function ComposerForm({
         }}
       />
       <div className="flex items-center gap-1">
-        <Select
-          value={`${project.environmentId}:${project.id}`}
-          onValueChange={(value) => value && onProjectChange(value)}
-        >
+        <Select value={target.key} onValueChange={(value) => value && onTargetChange(value)}>
           <SelectTrigger
             aria-label="Project"
             size="compact"
             variant="ghost"
             className="w-auto min-w-0"
           >
-            <SelectValue>{project.title}</SelectValue>
+            <SelectValue>{target.label}</SelectValue>
           </SelectTrigger>
           <SelectPopup align="start" alignItemWithTrigger={false}>
-            {projects.map((entry) => {
+            {targets.map((entry) => {
               const environment = connectedEnvironments.find(
                 (candidate) => candidate.environmentId === entry.environmentId,
               );
               return (
-                <SelectItem
-                  key={`${entry.environmentId}:${entry.id}`}
-                  value={`${entry.environmentId}:${entry.id}`}
-                >
+                <SelectItem key={entry.key} value={entry.key}>
                   {showEnvironment ? (
                     <EnvironmentMachineIcon
                       kind={resolveEnvironmentMachineKind(environment?.serverConfig ?? null)}
                       className="size-4"
                     />
                   ) : null}
-                  {entry.title}
+                  {entry.label}
                 </SelectItem>
               );
             })}

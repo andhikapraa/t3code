@@ -1,7 +1,11 @@
 import { DEFAULT_SERVER_SETTINGS, ThreadId, type EnvironmentId } from "@t3tools/contracts";
 import type { EnvironmentProject } from "@t3tools/client-runtime/state/models";
 import { scheduledTaskSetupMessage } from "@t3tools/client-runtime/scheduled-task-setup";
-import { squashAtomCommandFailure } from "@t3tools/client-runtime/state/runtime";
+import { isScratchProject } from "@t3tools/client-runtime/state/projects";
+import {
+  isAtomCommandInterrupted,
+  squashAtomCommandFailure,
+} from "@t3tools/client-runtime/state/runtime";
 import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
 import { useMemo, useRef, useState } from "react";
 import { Alert, Pressable, TextInput, View } from "react-native";
@@ -13,14 +17,22 @@ import { makeTurnCommandMetadata } from "../../../lib/commandMetadata";
 import { buildModelOptions } from "../../../lib/modelOptions";
 import { buildProjectThreadStartTurnInput } from "../../../lib/projectThreadStartTurn";
 import { useProjects } from "../../../state/entities";
+import { projectEnvironment } from "../../../state/projects";
 import { threadEnvironment } from "../../../state/threads";
 import { useAtomCommand } from "../../../state/use-atom-command";
 import type { SettingsTarget } from "../settings-environment-filter";
 import { scheduledTaskDefaultModel } from "../scheduledTaskDraft";
 import { SettingsSection } from "./SettingsSection";
 
-function projectKey(project: EnvironmentProject): string {
-  return `${project.environmentId}:${project.id}`;
+/**
+ * Where the setup thread starts: a project, or an environment's Scratch
+ * project ("No project"), which the server creates on first use.
+ */
+interface ComposerTarget {
+  readonly key: string;
+  readonly environment: SettingsTarget;
+  readonly project: EnvironmentProject | null;
+  readonly label: string;
 }
 
 /**
@@ -35,30 +47,41 @@ export function ScheduleWithAgentComposer({
   readonly onStarted: (environmentId: EnvironmentId, threadId: ThreadId) => void;
 }) {
   const allProjects = useProjects();
-  const projects = useMemo(
-    () =>
-      allProjects.filter((project) =>
-        targets.some((target) => target.environmentId === project.environmentId),
-      ),
-    [allProjects, targets],
-  );
-  const environmentLabels = useMemo(
-    () => new Map(targets.map((entry) => [entry.environmentId, entry.label])),
-    [targets],
-  );
+  const composerTargets = useMemo(() => {
+    const projectTargets: ComposerTarget[] = allProjects.flatMap((project) => {
+      const environment = targets.find((entry) => entry.environmentId === project.environmentId);
+      return environment &&
+        !isScratchProject(project, environment.serverConfig.scratchWorkspaceRoot)
+        ? [
+            {
+              key: `${project.environmentId}:${project.id}`,
+              environment,
+              project,
+              label: project.title,
+            },
+          ]
+        : [];
+    });
+    const scratchTargets: ComposerTarget[] = targets
+      .filter((entry) => entry.serverConfig.scratchWorkspaceRoot)
+      .map((environment) => ({
+        key: `${environment.environmentId}:scratch`,
+        environment,
+        project: null,
+        label: "No project",
+      }));
+    return [...projectTargets, ...scratchTargets];
+  }, [allProjects, targets]);
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
-  const project = projects.find((entry) => projectKey(entry) === selectedKey) ?? projects[0];
-  const target = targets.find((entry) => entry.environmentId === project?.environmentId);
-  if (!project || !target) return null;
+  const target = composerTargets.find((entry) => entry.key === selectedKey) ?? composerTargets[0];
+  if (!target) return null;
   return (
     <ComposerForm
-      key={project.environmentId}
-      project={project}
-      projects={projects}
+      key={target.environment.environmentId}
       target={target}
+      targets={composerTargets}
       showEnvironment={targets.length > 1}
-      environmentLabels={environmentLabels}
-      onProjectChange={setSelectedKey}
+      onTargetChange={setSelectedKey}
       onStarted={onStarted}
     />
   );
@@ -66,23 +89,21 @@ export function ScheduleWithAgentComposer({
 
 /** Keyed by environment, so a picked model never carries to another machine. */
 function ComposerForm({
-  project,
-  projects,
   target,
+  targets,
   showEnvironment,
-  environmentLabels,
-  onProjectChange,
+  onTargetChange,
   onStarted,
 }: {
-  readonly project: EnvironmentProject;
-  readonly projects: readonly EnvironmentProject[];
-  readonly target: SettingsTarget;
+  readonly target: ComposerTarget;
+  readonly targets: readonly ComposerTarget[];
   readonly showEnvironment: boolean;
-  readonly environmentLabels: ReadonlyMap<EnvironmentId, string>;
-  readonly onProjectChange: (key: string) => void;
+  readonly onTargetChange: (key: string) => void;
   readonly onStarted: (environmentId: EnvironmentId, threadId: ThreadId) => void;
 }) {
-  const config = target.serverConfig;
+  const environmentId = target.environment.environmentId;
+  const config = target.environment.serverConfig;
+  const openScratch = useAtomCommand(projectEnvironment.openScratch, { reportFailure: false });
   const modelOptions = useMemo(() => buildModelOptions(config, null), [config]);
   const [pickedModelKey, setPickedModelKey] = useState<string | null>(null);
   const [prompt, setPrompt] = useState("");
@@ -92,7 +113,7 @@ function ComposerForm({
 
   const selection =
     modelOptions.find((option) => option.key === pickedModelKey)?.selection ??
-    scheduledTaskDefaultModel(config, project);
+    scheduledTaskDefaultModel(config, target.project);
   const selectedModelLabel =
     modelOptions.find(
       (option) =>
@@ -108,6 +129,19 @@ function ComposerForm({
     if (sendingRef.current || !request || !selection) return;
     sendingRef.current = true;
     setSending(true);
+    let project = target.project;
+    if (!project) {
+      const opened = await openScratch({ environmentId, input: {} });
+      if (opened._tag === "Failure") {
+        sendingRef.current = false;
+        setSending(false);
+        if (!isAtomCommandInterrupted(opened)) {
+          Alert.alert("Could not start the setup thread", String(squashAtomCommandFailure(opened)));
+        }
+        return;
+      }
+      project = opened.value;
+    }
     const metadata = makeTurnCommandMetadata();
     const runtimeMode = resolveProjectSettings(
       config.settings ?? DEFAULT_SERVER_SETTINGS,
@@ -159,21 +193,21 @@ function ComposerForm({
         />
         <View className="flex-row items-center gap-2">
           <ControlPillMenu
-            actions={projects.map((entry) => ({
-              id: projectKey(entry),
-              title: entry.title,
-              ...(showEnvironment ? { subtitle: environmentLabels.get(entry.environmentId) } : {}),
-              state: projectKey(entry) === projectKey(project) ? "on" : undefined,
+            actions={targets.map((entry) => ({
+              id: entry.key,
+              title: entry.label,
+              ...(showEnvironment ? { subtitle: entry.environment.label } : {}),
+              state: entry.key === target.key ? "on" : undefined,
             }))}
-            onPressAction={({ nativeEvent }) => onProjectChange(nativeEvent.event)}
+            onPressAction={({ nativeEvent }) => onTargetChange(nativeEvent.event)}
           >
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={`Project, ${project.title}`}
+              accessibilityLabel={`Project, ${target.label}`}
               className="min-w-0 shrink flex-row items-center gap-1 rounded-full bg-subtle px-3 py-2 active:opacity-70"
             >
               <Text className="shrink text-sm text-foreground" numberOfLines={1}>
-                {project.title}
+                {target.label}
               </Text>
               <SymbolView
                 name="chevron.down"
