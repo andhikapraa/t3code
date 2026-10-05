@@ -63,6 +63,11 @@ environment's time zone, which may differ from your phone's.
 You can edit, pause, resume, run immediately, or delete a task from the list.
 Leaving an edited form asks before discarding unsaved changes.
 
+To have an agent set a task up for you, describe it under **Set up with an agent**
+at the top of the list, pick a project and model, and send. This works the same
+as on web and desktop; see [Schedule recurring work](./thread-sidebar.md#schedule-recurring-work).
+Choose **Open latest run** from a task's menu to open its newest result.
+
 ## Defaults and inheritance
 
 General contains the model and workspace for new threads. Integrations controls agent browser

@@ -223,3 +223,20 @@ Choose **Snooze → Custom…** from a thread's menu to pick a date and time in 
 local time zone, or a duration in minutes, hours, or days. Durations start when
 you confirm; one day means 24 hours. On web and desktop, you can also snooze
 several selected threads together. Choose **Wake thread** to bring a thread back early.
+
+## Schedule recurring work
+
+On web and desktop, click the calendar icon at the bottom of the sidebar, or
+choose **Open scheduled tasks** in the command palette, to see every scheduled
+task across your environments. Describe the work in the box at the top, such as
+"Every weekday at 9:00, check for new errors and summarize them", pick a project
+and model, and send. A new thread opens where an agent asks about anything
+unclear, tries the checks the task needs, and creates the schedule.
+
+Each run of a task set up this way starts in its own new thread, so its context
+stays small no matter how long the task runs. A run does not remember earlier
+runs; ask for that in the description if the task should compare against the
+previous result. Choose **Open latest run** from a task's menu to jump to its
+newest result. Use **New task** to fill in a schedule yourself instead. The same
+tasks are also listed in **Settings → Scheduled tasks**, which is where you find
+them on mobile.

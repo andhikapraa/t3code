@@ -3,6 +3,7 @@ import type {
   ProjectId,
   ScheduledTask,
   ScheduledTaskUpsertInput,
+  ThreadId,
 } from "@t3tools/contracts";
 import { resolveEnvironmentMachineKind } from "@t3tools/contracts";
 import type { MenuAction } from "@react-native-menu/menu";
@@ -21,7 +22,12 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { useFocusEffect, useNavigation, usePreventRemove } from "@react-navigation/native";
+import {
+  StackActions,
+  useFocusEffect,
+  useNavigation,
+  usePreventRemove,
+} from "@react-navigation/native";
 import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Alert, AppState, Platform, Pressable, TextInput as RNTextInput, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -47,6 +53,7 @@ import { withNativeGlassHeaderItem } from "../layout/native-glass-header-items";
 import { resolveNewTaskBranchLabel } from "../threads/new-task-context-presentation";
 import { useVoiceInputController } from "../voice-input/useVoiceInputController";
 import { ScheduledTaskPromptField } from "./components/ScheduledTaskPromptField";
+import { ScheduleWithAgentComposer } from "./components/ScheduleWithAgentComposer";
 import {
   AndroidSettingsEnvironmentFilter,
   SettingsEnvironmentFilterHeader,
@@ -276,6 +283,13 @@ export function SettingsScheduledTasksRouteScreen() {
     resetEditor();
     navigation.navigate("SettingsScheduledTaskNew");
   };
+  // Threads live in the root stack behind this sheet. Replace the sheet with
+  // the thread, like the new-task sheet does after submitting.
+  const openThread = (environmentId: EnvironmentId, threadId: ThreadId) => {
+    let root = navigation.getParent();
+    while (root && !root.getState().routeNames.includes("Thread")) root = root.getParent();
+    (root ?? navigation).dispatch(StackActions.replace("Thread", { environmentId, threadId }));
+  };
 
   return (
     <>
@@ -318,6 +332,7 @@ export function SettingsScheduledTasksRouteScreen() {
           contentContainerClassName="gap-5 px-5 pt-4"
           contentContainerStyle={{ paddingBottom: Math.max(insets.bottom, 18) + 18 }}
         >
+          <ScheduleWithAgentComposer targets={visibleEnvironments} onStarted={openThread} />
           {visibleEnvironments.length > 0 ? (
             visibleEnvironments.map((environment) => (
               <EnvironmentTasks
@@ -341,6 +356,7 @@ export function SettingsScheduledTasksRouteScreen() {
                   });
                   navigation.navigate("SettingsScheduledTaskEdit");
                 }}
+                onOpenThread={(threadId) => openThread(environment.environmentId, threadId)}
               />
             ))
           ) : (
@@ -944,16 +960,23 @@ function TaskForm({
   );
 }
 
+/** A bound task posts into its own thread; fresh-thread tasks point at their newest run. */
+function latestThreadId(task: ScheduledTask): ThreadId | null {
+  return task.threadId ?? task.lastRunThreadId ?? null;
+}
+
 function EnvironmentTasks({
   environment,
   now,
   projectIds,
   onEdit,
+  onOpenThread,
 }: {
   readonly environment: SettingsTarget;
   readonly now: number;
   readonly projectIds: readonly ProjectId[] | null;
   readonly onEdit: (task: ScheduledTask) => void;
+  readonly onOpenThread: (threadId: ThreadId) => void;
 }) {
   const environmentId = environment.environmentId;
   const tasks = useEnvironmentQuery(
@@ -1049,14 +1072,20 @@ function EnvironmentTasks({
             <ControlPillMenu
               actions={[
                 { id: "edit", title: "Edit" },
+                ...(latestThreadId(task)
+                  ? [{ id: "open", title: task.threadId ? "Open thread" : "Open latest run" }]
+                  : []),
                 { id: "toggle", title: task.enabled ? "Pause" : "Resume" },
                 { id: "run", title: "Run now" },
                 { id: "delete", title: "Delete", attributes: { destructive: true } },
               ]}
               onPressAction={({ nativeEvent }) => {
                 const action = nativeEvent.event;
+                const threadId = latestThreadId(task);
                 if (action === "edit") {
                   onEdit(task);
+                } else if (action === "open" && threadId) {
+                  onOpenThread(threadId);
                 } else if (action === "delete") {
                   Alert.alert("Delete task?", task.title, [
                     { text: "Cancel", style: "cancel" },

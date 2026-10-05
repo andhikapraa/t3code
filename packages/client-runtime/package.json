@@ -35,6 +35,10 @@
       "types": "./src/userMessage.ts",
       "default": "./src/userMessage.ts"
     },
+    "./scheduled-task-setup": {
+      "types": "./src/scheduledTaskSetup.ts",
+      "default": "./src/scheduledTaskSetup.ts"
+    },
     "./connection": {
       "types": "./src/connection/index.ts",
       "default": "./src/connection/index.ts"

@@ -1,6 +1,8 @@
 import { useAtomValue } from "@effect/atom-react";
+import { useNavigate } from "@tanstack/react-router";
 import {
   Clock3Icon,
+  MessageSquareIcon,
   MoreHorizontalIcon,
   PencilIcon,
   PlayIcon,
@@ -210,6 +212,23 @@ export function ScheduledTasksSettings(target: {
   readonly environmentId?: EnvironmentId;
   readonly taskId?: ScheduledTaskId | undefined;
 }) {
+  return (
+    <SettingsPageContainer>
+      <ScheduledTaskList {...target} />
+    </SettingsPageContainer>
+  );
+}
+
+/**
+ * Task list with its editor, grouped by environment. Reads the surrounding
+ * settings scope, so the settings page filters it and the standalone
+ * Scheduled tasks page shows everything.
+ */
+export function ScheduledTaskList(target: {
+  readonly environmentId?: EnvironmentId | undefined;
+  readonly taskId?: ScheduledTaskId | undefined;
+  readonly title?: string;
+}) {
   const { scope, environments, connectedEnvironments, environment } = useSettingsScope();
   const [editor, setEditor] = useState<{
     environmentId: EnvironmentId;
@@ -220,9 +239,9 @@ export function ScheduledTasksSettings(target: {
   }, []);
   const defaultEnvironment = environment ?? connectedEnvironments[0];
   return (
-    <SettingsPageContainer>
+    <>
       <SettingsSection
-        title="Scheduled tasks"
+        title={target.title ?? "Scheduled tasks"}
         variant="plain"
         headerAction={
           <Button
@@ -280,7 +299,7 @@ export function ScheduledTasksSettings(target: {
           onClose={() => setEditor(null)}
         />
       ) : null}
-    </SettingsPageContainer>
+    </>
   );
 }
 
@@ -377,6 +396,7 @@ function ScheduledTaskRow({
   readonly task: ScheduledTask;
   readonly onEdit: () => void;
 }) {
+  const navigate = useNavigate();
   const [busy, setBusy] = useState(false);
   const toggle = useAtomCommand(serverEnvironment.setScheduledTaskEnabled, {
     label: "scheduled task enabled",
@@ -407,6 +427,9 @@ function ScheduledTaskRow({
       );
     }
   };
+  // A bound task always posts into its own thread; fresh-thread tasks point at
+  // their newest successful run.
+  const latestThreadId = task.threadId ?? task.lastRunThreadId ?? null;
   return (
     <SettingsRow
       title={task.title}
@@ -453,6 +476,19 @@ function ScheduledTaskRow({
                 <PencilIcon />
                 Edit
               </MenuItem>
+              {latestThreadId ? (
+                <MenuItem
+                  onClick={() =>
+                    void navigate({
+                      to: "/$environmentId/$threadId",
+                      params: { environmentId, threadId: latestThreadId },
+                    })
+                  }
+                >
+                  <MessageSquareIcon />
+                  {task.threadId ? "Open thread" : "Open latest run"}
+                </MenuItem>
+              ) : null}
               <MenuItem onClick={() => void act("run")}>
                 <PlayIcon />
                 Run now
