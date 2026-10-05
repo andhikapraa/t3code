@@ -1,0 +1,26 @@
+Dockerfile
+  s_0e4edff6a97fd4::t_1901afca33f930 4
+  s_0e4edff6a97fd4::t_4dadc4f0897335 1-3
+  s_0e4edff6a97fd4::t_47db053cb078f1 5
+  s_0e4edff6a97fd4::t_f9acf9a30df99a 12-13,16-17,28-30,32-35
+.github/workflows/fork-release.yml
+  s_0e4edff6a97fd4::t_9847eae50fae3e 202-204,207,242-243
+docker/web-nginx.conf
+  s_0e4edff6a97fd4::t_e47c87b6592586 1-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "002207deb8e52d0b055170b92d02d427644d8790",
+  "prompts": {},
+  "sessions": {
+    "s_0e4edff6a97fd4": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10ad0-c6d4-72b6-8e80-cc6db500b41a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
