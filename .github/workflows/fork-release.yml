@@ -199,12 +199,12 @@ jobs:
             release/*-linux.yml
           if-no-files-found: error
 
-  # Headless server image for the Dokploy deployment at t3.prasetya.dev.
-  server-image:
-    name: Server image
+  # Hosted web client for the Dokploy deployment at t3.prasetya.dev.
+  web-image:
+    name: Web image
     needs: meta
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 30
     permissions:
       contents: read
       packages: write
@@ -239,8 +239,8 @@ jobs:
           secrets: |
             relay_client_otlp_token=${{ secrets.T3CODE_RELAY_CLIENT_OTLP_TRACES_TOKEN }}
           tags: |
-            ghcr.io/${{ github.repository }}:nightly
-            ghcr.io/${{ github.repository }}:${{ needs.meta.outputs.version }}
+            ghcr.io/${{ github.repository }}-web:nightly
+            ghcr.io/${{ github.repository }}-web:${{ needs.meta.outputs.version }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
