@@ -110,6 +110,8 @@ export const ScheduledTask = Schema.Struct({
   lastRunAt: Schema.NullOr(IsoDateTime),
   lastRunStatus: ScheduledTaskRunStatus,
   lastRunError: Schema.NullOr(Schema.String),
+  /** Thread the latest successful run posted into. Absent from servers that predate it. */
+  lastRunThreadId: Schema.optional(Schema.NullOr(ThreadId)),
   runCount: Schema.Int.check(Schema.isGreaterThanOrEqualTo(0)),
 });
 export type ScheduledTask = typeof ScheduledTask.Type;

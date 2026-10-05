@@ -1441,6 +1441,39 @@ describe("orchestrator MCP toolkit", () => {
             });
             expect(yield* Ref.get(scheduledStore)).toHaveLength(0);
 
+            // Fresh-thread tasks run in the project checkout unless runs need
+            // their own worktree, so read-only monitoring never fetches or
+            // creates a worktree per run.
+            const freshCall = yield* invoke("schedule_task", {
+              prompt: "report new errors",
+              schedule: { type: "fixed_time", timeOfDay: "09:00" },
+              bindToCurrentThread: false,
+            });
+            expect(freshCall.structuredContent).toMatchObject({ boundThreadId: null });
+            const freshTaskId = (freshCall.structuredContent as { scheduledTaskId: string })
+              .scheduledTaskId;
+            expect((yield* Ref.get(scheduledStore))[0]?.workspaceStrategy).toEqual({
+              type: "root",
+            });
+            yield* invoke("update_scheduled_task", {
+              scheduledTaskId: freshTaskId,
+              workspace: "worktree",
+            });
+            expect((yield* Ref.get(scheduledStore))[0]).toMatchObject({
+              threadId: null,
+              workspaceStrategy: { type: "worktree", baseRef: "main", startFromOrigin: true },
+            });
+            // Unrelated edits keep the chosen workspace.
+            yield* invoke("update_scheduled_task", {
+              scheduledTaskId: freshTaskId,
+              enabled: false,
+            });
+            expect((yield* Ref.get(scheduledStore))[0]?.workspaceStrategy).toMatchObject({
+              type: "worktree",
+            });
+            yield* invoke("delete_scheduled_task", { scheduledTaskId: freshTaskId });
+            expect(yield* Ref.get(scheduledStore)).toHaveLength(0);
+
             const delegatedCall = yield* invoke("delegate_task", {
               task: delegatedPrompt,
               target: {

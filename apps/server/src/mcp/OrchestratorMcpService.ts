@@ -185,12 +185,20 @@ function errorMessage(error: unknown): string {
  * post into the existing thread (the strategy is unused, keep root); unbound
  * runs launch a fresh worktree per run.
  */
+/**
+ * Bound tasks post into their thread, which keeps its own workspace, so the
+ * stored strategy is only a placeholder. Fresh-thread tasks default to the
+ * project checkout: most recurring work (monitoring, reports) only reads, and a
+ * new worktree plus fetch on every run is wasted work. Runs that edit files ask
+ * for "worktree" explicitly.
+ */
 function scheduledTaskWorkspaceStrategy(
   boundToThread: boolean,
+  workspace: "root" | "worktree" | undefined,
 ): ScheduledTask["workspaceStrategy"] {
-  return boundToThread
-    ? { type: "root" }
-    : { type: "worktree", baseRef: "main", startFromOrigin: true };
+  return !boundToThread && workspace === "worktree"
+    ? { type: "worktree", baseRef: "main", startFromOrigin: true }
+    : { type: "root" };
 }
 
 function scheduledTaskSummary(task: ScheduledTask): OrchestratorMcpScheduledTask {
@@ -1213,7 +1221,7 @@ const make = Effect.gen(function* () {
           schedule: input.schedule,
           projectId: parent.thread.projectId,
           threadId: bindToCurrentThread ? scope.threadId : null,
-          workspaceStrategy: scheduledTaskWorkspaceStrategy(bindToCurrentThread),
+          workspaceStrategy: scheduledTaskWorkspaceStrategy(bindToCurrentThread, input.workspace),
           modelSelection: parent.thread.modelSelection,
           runtimeMode: parent.thread.runtimeMode,
           interactionMode: parent.thread.interactionMode,
@@ -1272,13 +1280,13 @@ const make = Effect.gen(function* () {
             : input.bindToCurrentThread
               ? scope.threadId
               : null;
-        // Rebinding changes where runs execute, so the workspace strategy must
-        // follow: unbinding a root-strategy task would otherwise run loose
-        // prompts in the shared project checkout.
+        // Rebinding or an explicit workspace recomputes where runs execute;
+        // otherwise keep the stored strategy, which may be a client-chosen
+        // existing worktree or base branch.
         const workspaceStrategy =
-          input.bindToCurrentThread === undefined
+          input.bindToCurrentThread === undefined && input.workspace === undefined
             ? existing.workspaceStrategy
-            : scheduledTaskWorkspaceStrategy(input.bindToCurrentThread);
+            : scheduledTaskWorkspaceStrategy(threadId !== null, input.workspace);
         const upsertInput: ScheduledTaskUpsertInput = {
           id: existing.id,
           title: input.title ?? existing.title,

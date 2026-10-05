@@ -494,6 +494,15 @@ export const OrchestratorMcpCapabilitiesResult = Schema.Struct({
 });
 export type OrchestratorMcpCapabilitiesResult = typeof OrchestratorMcpCapabilitiesResult.Type;
 
+/**
+ * Where a fresh-thread-per-run task executes. Bound tasks always run in the
+ * bound thread's own workspace, so this only applies with bindToCurrentThread=false.
+ */
+const OrchestratorMcpScheduledTaskWorkspace = Schema.Literals(["root", "worktree"]).annotate({
+  description:
+    "Only with bindToCurrentThread=false. 'root' (default) runs each fresh thread in the project checkout, for read-only work such as monitoring. 'worktree' gives each run its own new worktree from origin/main; use it whenever runs edit files.",
+});
+
 export const OrchestratorMcpScheduleTaskInput = Schema.Struct({
   prompt: OrchestratorMcpPrompt.annotate({
     description: "Prompt executed on every scheduled run.",
@@ -514,6 +523,7 @@ export const OrchestratorMcpScheduleTaskInput = Schema.Struct({
         "True (default) posts each run into this thread; false creates a fresh top-level thread per run.",
     }),
   ),
+  workspace: Schema.optional(OrchestratorMcpScheduledTaskWorkspace),
   clientRequestId: Schema.optional(OrchestratorMcpClientRequestId),
 });
 export type OrchestratorMcpScheduleTaskInput = typeof OrchestratorMcpScheduleTaskInput.Type;
@@ -548,6 +558,7 @@ export const OrchestratorMcpUpdateScheduledTaskInput = Schema.Struct({
   schedule: Schema.optional(OrchestratorMcpSchedule),
   enabled: Schema.optional(Schema.Boolean),
   bindToCurrentThread: Schema.optional(Schema.Boolean),
+  workspace: Schema.optional(OrchestratorMcpScheduledTaskWorkspace),
 });
 export type OrchestratorMcpUpdateScheduledTaskInput =
   typeof OrchestratorMcpUpdateScheduledTaskInput.Type;

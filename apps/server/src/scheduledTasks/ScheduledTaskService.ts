@@ -65,6 +65,7 @@ interface ScheduledTaskRow {
   readonly last_run_at: string | null;
   readonly last_run_status: string;
   readonly last_run_error: string | null;
+  readonly last_run_thread_id: string | null;
   readonly run_count: number;
 }
 
@@ -152,6 +153,7 @@ const decodeRow = (row: ScheduledTaskRow) =>
       lastRunAt: row.last_run_at,
       lastRunStatus: row.last_run_status,
       lastRunError: row.last_run_error,
+      lastRunThreadId: row.last_run_thread_id,
       runCount: row.run_count,
     });
   }).pipe(
@@ -238,6 +240,7 @@ export const layer = Layer.effect(
         last_run_at,
         last_run_status,
         last_run_error,
+        last_run_thread_id,
         run_count
       FROM scheduled_tasks
       ORDER BY updated_at DESC, task_id ASC
@@ -270,6 +273,7 @@ export const layer = Layer.effect(
         last_run_at,
         last_run_status,
         last_run_error,
+        last_run_thread_id,
         run_count
       FROM scheduled_tasks
       WHERE task_id = ${id}
@@ -404,6 +408,7 @@ export const layer = Layer.effect(
       readonly nextRunAtIso: string | null;
       readonly status: "succeeded" | "failed";
       readonly error: string | null;
+      readonly threadId: ThreadId | null;
       readonly startedAtIso: string;
     }) =>
       sql`
@@ -412,6 +417,7 @@ export const layer = Layer.effect(
             next_run_at = ${input.nextRunAtIso},
             last_run_status = ${input.status},
             last_run_error = ${input.error},
+            last_run_thread_id = COALESCE(${input.threadId}, last_run_thread_id),
             run_count = run_count + 1
         WHERE task_id = ${input.id}
           AND last_run_status = 'running'
@@ -555,6 +561,8 @@ export const layer = Layer.effect(
         const runSucceeded = result._tag === "Success";
         const lastRunStatus = runSucceeded ? ("succeeded" as const) : ("failed" as const);
         const lastRunError = runSucceeded ? null : errorMessage(result.cause);
+        // A failed run keeps pointing at the last thread that has a result.
+        const runThreadId = runSucceeded ? result.value.projection.thread.id : null;
         // Re-read the task so the next run is computed from the schedule as it
         // is *now* (the user may have edited or deleted it while we ran).
         const current = yield* findTask(task.id);
@@ -566,6 +574,7 @@ export const layer = Layer.effect(
           nextRunAt: nextRunAt(scheduleSource, completedAt),
           lastRunStatus,
           lastRunError,
+          lastRunThreadId: runThreadId ?? scheduleSource.lastRunThreadId ?? null,
           runCount: scheduleSource.runCount + 1,
         };
         if (current !== null) {
@@ -578,6 +587,7 @@ export const layer = Layer.effect(
             nextRunAtIso: completed.nextRunAt,
             status: lastRunStatus,
             error: lastRunError,
+            threadId: runThreadId,
             startedAtIso,
           });
           yield* notifyChanged;
@@ -767,6 +777,7 @@ export const layer = Layer.effect(
           lastRunAt: existingTask?.lastRunAt ?? null,
           lastRunStatus: existingTask?.lastRunStatus ?? "never",
           lastRunError: existingTask?.lastRunError ?? null,
+          lastRunThreadId: existingTask?.lastRunThreadId ?? null,
           runCount: existingTask?.runCount ?? 0,
         };
         yield* saveTask(task, input.requireExisting === true);

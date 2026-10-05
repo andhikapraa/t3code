@@ -3,7 +3,7 @@ import * as NodeUtil from "node:util";
 
 import * as NodeCrypto from "@effect/platform-node/NodeCrypto";
 import { assert, it } from "@effect/vitest";
-import { ScheduledTaskError } from "@t3tools/contracts";
+import { ProjectId, ProviderInstanceId, ScheduledTaskError, ThreadId } from "@t3tools/contracts";
 import * as DateTime from "effect/DateTime";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -347,4 +347,67 @@ it.effect(
         }),
       );
     }).pipe(Effect.provide(SqlitePersistenceMemory)),
+);
+
+it.effect("remembers the thread of the latest successful run across failures and edits", () =>
+  Effect.gen(function* () {
+    const launches = yield* Ref.make(0);
+    yield* Effect.gen(function* () {
+      const tasks = yield* ScheduledTaskService.ScheduledTaskService;
+      const input = {
+        title: "Monitor",
+        prompt: "Report new errors",
+        enabled: true,
+        schedule: { type: "interval", everyMs: 60_000 },
+        projectId: ProjectId.make("project:test"),
+        workspaceStrategy: { type: "root" },
+        modelSelection: { instanceId: ProviderInstanceId.make("codex"), model: "gpt-5" },
+        runtimeMode: "full-access",
+        interactionMode: "default",
+      } as const;
+      const { task } = yield* tasks.upsert(input);
+      assert.equal(task.lastRunThreadId, null);
+
+      const first = yield* tasks.runNow({ id: task.id });
+      assert.equal(first.task.lastRunThreadId, "thread:run-1");
+
+      // The second launch fails; the task keeps pointing at the last result.
+      const failed = yield* tasks.runNow({ id: task.id });
+      assert.equal(failed.task.lastRunStatus, "failed");
+      assert.equal(failed.task.lastRunThreadId, "thread:run-1");
+
+      // Saving the definition does not reset run state.
+      yield* tasks.upsert({ ...input, id: task.id, title: "Monitor errors" });
+      const listed = (yield* tasks.list()).tasks.find((entry) => entry.id === task.id);
+      assert.equal(listed?.lastRunThreadId, "thread:run-1");
+    }).pipe(
+      Effect.provide(
+        ScheduledTaskService.layer.pipe(
+          Layer.provide(
+            Layer.mergeAll(
+              Layer.mock(ThreadLaunchService.ThreadLaunchService)({
+                launch: () =>
+                  Ref.updateAndGet(launches, (n) => n + 1).pipe(
+                    Effect.flatMap((n) =>
+                      n === 1
+                        ? Effect.succeed({
+                            threadId: ThreadId.make("thread:run-1"),
+                            projection: {
+                              thread: { id: ThreadId.make("thread:run-1") },
+                            } as ThreadLaunchService.ThreadLaunchResult["projection"],
+                            resumed: false,
+                          })
+                        : Effect.die(new Error("launch failed")),
+                    ),
+                  ),
+              }),
+              Layer.mock(ThreadManagementService.ThreadManagementService)({}),
+              NodeCrypto.layer,
+              Scheduler.layer,
+            ),
+          ),
+        ),
+      ),
+    );
+  }).pipe(Effect.provide(SqlitePersistenceMemory)),
 );
