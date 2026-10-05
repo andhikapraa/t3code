@@ -36,6 +36,7 @@ export const makeAcpRegistryAuthenticationState = Effect.fn("makeAcpRegistryAuth
     const binding = hash({
       agentId: input.settings.agentId,
       commandPath: input.settings.commandPath,
+      launchArgs: input.settings.launchArgs,
       distribution: input.settings.distribution,
       authMethodId: input.settings.authMethodId,
       environment: [...input.environment].toSorted((a, b) => a.name.localeCompare(b.name)),

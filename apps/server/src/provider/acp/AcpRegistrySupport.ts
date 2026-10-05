@@ -38,6 +38,7 @@ import * as Stream from "effect/Stream";
 import { HttpClient, HttpClientRequest, HttpClientResponse } from "effect/unstable/http";
 import { ChildProcess, ChildProcessSpawner } from "effect/unstable/process";
 import * as NodeCrypto from "node:crypto";
+import { tokenizeCliArgs } from "@t3tools/shared/cliArgs";
 
 import { collectUint8StreamText } from "../../stream/collectUint8StreamText.ts";
 import type { AcpSpawnInput } from "./AcpSessionRuntime.ts";
@@ -584,6 +585,15 @@ function searchRank(agent: AcpRegistryAgent, query: string): number | undefined 
   if (terms.every((term) => authors.includes(term))) return 40;
   if (terms.every((term) => `${id} ${name} ${authors} ${description}`.includes(term))) return 50;
   return undefined;
+}
+
+/**
+ * A local agent outside the registry needs both an executable and its ACP
+ * launch arguments. Only then can it run without the registry index; an
+ * executable alone may be overriding a registry agent whose args come from it.
+ */
+function isFullySpecifiedLocalAgent(settings: AcpRegistrySettings): boolean {
+  return settings.commandPath.trim().length > 0 && settings.launchArgs.trim().length > 0;
 }
 
 export const makeAcpRegistryCatalog = Effect.fn("AcpRegistryCatalog.make")(function* (
@@ -1614,9 +1624,28 @@ export const makeAcpRegistryCatalog = Effect.fn("AcpRegistryCatalog.make")(funct
     Effect.gen(function* () {
       const agentId = settings.agentId.trim();
       if (agentId.length === 0) return { status: "unconfigured" } as const;
-      const registry = yield* loadCachedRegistry();
-      const agent = registry.agents.find((candidate) => candidate.id === agentId);
-      if (agent === undefined) return { status: "not_found", agentId } as const;
+      const commandOverride = settings.commandPath.trim();
+      const registry = yield* loadCachedRegistry().pipe(
+        // A fully specified local agent does not need the registry index. An
+        // executable alone may be a registry override, so that still fails.
+        Effect.catch((error) =>
+          isFullySpecifiedLocalAgent(settings) ? Effect.succeed(undefined) : Effect.fail(error),
+        ),
+      );
+      const agent = registry?.agents.find((candidate) => candidate.id === agentId);
+      if (agent === undefined) {
+        if (commandOverride.length === 0) return { status: "not_found", agentId } as const;
+        return resolveExecutable(commandOverride, platform, environment ?? hostEnvironment) !==
+          undefined
+          ? ({ status: "ready", agentId, version: null, distribution: "binary" } as const)
+          : ({
+              status: "missing_runner",
+              agentId,
+              version: "local",
+              distribution: "binary",
+              runner: commandOverride,
+            } as const);
+      }
       const documentationUrl = agent.website ?? agent.repository;
       const distribution = resolveAcpRegistryDistribution({
         agent,
@@ -1627,7 +1656,6 @@ export const makeAcpRegistryCatalog = Effect.fn("AcpRegistryCatalog.make")(funct
         return { status: "unsupported", agentId, version: agent.version } as const;
       }
 
-      const commandOverride = settings.commandPath.trim();
       if (commandOverride.length > 0) {
         const available =
           resolveExecutable(commandOverride, platform, environment ?? hostEnvironment) !==
@@ -1720,15 +1748,43 @@ export const makeAcpRegistryCatalog = Effect.fn("AcpRegistryCatalog.make")(funct
           detail: "ACP Registry provider requires a registry agent ID.",
         });
       }
-      const registry = yield* loadRegistry();
-      const agent = yield* findAgent(registry, agentId);
+      const effectiveEnvironment = environment ?? hostEnvironment;
+      const commandOverride = settings.commandPath.trim();
+      const launchArgs = tokenizeCliArgs(settings.launchArgs);
+      const registry = yield* loadRegistry().pipe(
+        Effect.catch((error) =>
+          isFullySpecifiedLocalAgent(settings) ? Effect.succeed(undefined) : Effect.fail(error),
+        ),
+      );
+      const registryAgent = registry?.agents.find((candidate) => candidate.id === agentId);
+      if (registryAgent === undefined && commandOverride.length > 0) {
+        // Local ACP agent outside the official registry, such as `hermes acp`.
+        const command = resolveExecutable(commandOverride, platform, effectiveEnvironment);
+        if (command === undefined) {
+          return yield* new AcpRegistryError({
+            reason: "runner_unavailable",
+            detail: `Local ACP agent ${agentId} requires '${commandOverride}', but it is not available on this provider instance's PATH.`,
+          });
+        }
+        return {
+          agent: {
+            id: agentId,
+            name: agentId,
+            version: "local",
+            description: "",
+            distribution: {},
+          },
+          distribution: "binary",
+          spawn: { command, args: launchArgs, cwd, env: effectiveEnvironment },
+        } satisfies ResolvedAcpRegistryAgent;
+      }
+      // `registry` is only undefined for the local branch above, which returned.
+      const agent = yield* findAgent(registry ?? (yield* loadRegistry()), agentId);
       const distribution = yield* compatibleDistribution(agent, settings.distribution);
 
       let command: string;
       let args: ReadonlyArray<string>;
       let commandBinDirectory: string | undefined;
-      const effectiveEnvironment = environment ?? hostEnvironment;
-      const commandOverride = settings.commandPath.trim();
       if (commandOverride.length > 0) {
         const resolvedOverride = resolveExecutable(commandOverride, platform, effectiveEnvironment);
         if (resolvedOverride === undefined) {
@@ -1775,7 +1831,7 @@ export const makeAcpRegistryCatalog = Effect.fn("AcpRegistryCatalog.make")(funct
         distribution: distribution.kind,
         spawn: {
           command,
-          args,
+          args: launchArgs.length > 0 ? launchArgs : args,
           cwd,
           env: spawnEnvironment,
         },

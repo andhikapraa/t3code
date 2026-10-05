@@ -1073,6 +1073,64 @@ describe("AcpRegistrySupport", () => {
     );
   });
 
+  it.effect("runs a local ACP agent outside the registry without loading the registry", () => {
+    let requests = 0;
+    return Effect.gen(function* () {
+      const fileSystem = yield* FileSystem.FileSystem;
+      const cacheDir = yield* fileSystem.makeTempDirectoryScoped({
+        prefix: "t3-acp-registry-local-agent-",
+      });
+      const commandPath = `${cacheDir}/hermes`;
+      yield* fileSystem.writeFileString(commandPath, "#!/bin/sh\n");
+      yield* fileSystem.chmod(commandPath, 0o755);
+      const resolver = yield* AcpRegistrySupport.makeAcpRegistryCatalog({
+        cacheDir,
+        toolsDir: `${cacheDir}/tools`,
+        registryUrl,
+      });
+      const local = settings({ agentId: "hermes", commandPath, launchArgs: "acp --quiet" });
+
+      expect(yield* resolver.inspect(local)).toEqual({
+        status: "ready",
+        agentId: "hermes",
+        version: null,
+        distribution: "binary",
+      });
+      const resolved = yield* resolver.resolve(local, "/workspace", { HOST_VALUE: "host" });
+      expect(resolved.spawn).toEqual({
+        command: commandPath,
+        args: ["acp", "--quiet"],
+        cwd: "/workspace",
+        env: { HOST_VALUE: "host" },
+      });
+      expect(
+        (yield* resolver.inspect(
+          settings({ agentId: "hermes", commandPath: `${cacheDir}/missing`, launchArgs: "acp" }),
+        )).status,
+      ).toBe("missing_runner");
+      // An executable alone may override a registry agent, so it must not
+      // launch with empty args when the registry is unavailable.
+      const overrideOnly = settings({ agentId: "codex-acp", commandPath });
+      expect((yield* resolver.inspect(overrideOnly).pipe(Effect.flip)).reason).toBe(
+        "registry_unavailable",
+      );
+      expect((yield* resolver.resolve(overrideOnly, "/workspace").pipe(Effect.flip)).reason).toBe(
+        "registry_unavailable",
+      );
+      expect(requests).toBeGreaterThan(0);
+    }).pipe(
+      Effect.scoped,
+      Effect.provide(
+        resolverLayer((request) => {
+          requests += 1;
+          return Effect.succeed(
+            HttpClientResponse.fromWeb(request, new Response("offline", { status: 503 })),
+          );
+        }),
+      ),
+    );
+  });
+
   it.effect("fails a cold inspection immediately when no local registry is available", () => {
     let requests = 0;
     return Effect.gen(function* () {

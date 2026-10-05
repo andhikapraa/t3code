@@ -122,5 +122,14 @@ for those actions.
 
 - **Executable override** runs an existing local executable instead of the managed distribution,
   keeping the registry-declared arguments and environment.
+- **Launch arguments** replace the registry-declared arguments.
 - **Authentication method** picks a specific method when the agent advertises more than one.
+
+## Local agents outside the Registry
+
+Any ACP agent installed on the server works without a Registry entry. In **Add provider**, choose
+**Enter manually**, then set an agent ID that is not in the Registry, the **Executable override**,
+and the **Launch arguments** that start ACP mode. For Hermes Agent, use ID `hermes`, executable
+`hermes`, and arguments `acp`. Hermes keeps its own configuration, credentials, and memory.
+
 - **Custom models** adds model IDs the agent does not report.

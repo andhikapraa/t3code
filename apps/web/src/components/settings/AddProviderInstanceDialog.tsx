@@ -436,7 +436,8 @@ export function AddProviderInstanceDialog({
                         <div>
                           <h3 className="text-sm font-medium text-foreground">Enter manually</h3>
                           <p className="mt-0.5 text-xs text-muted-foreground">
-                            Enter an official registry ID and any local executable or auth override.
+                            Enter a registry ID, or any ID plus an executable and launch arguments
+                            for a local ACP agent.
                           </p>
                         </div>
                         <Button

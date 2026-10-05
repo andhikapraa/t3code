@@ -37,7 +37,13 @@ import * as VcsDriverRegistry from "../vcs/VcsDriverRegistry.ts";
 import * as VcsProcess from "../vcs/VcsProcess.ts";
 import * as Orchestrator from "./Orchestrator.ts";
 import { worktreeRepairDependenciesTestLayer } from "./ProviderTurnStartService.testkit.ts";
-import { OrchestrationV2LayerLive } from "./runtimeLayer.ts";
+import { OrchestrationV2LayerLive, ProjectServiceLayerLive } from "./runtimeLayer.ts";
+import * as ProjectService from "../project/ProjectService.ts";
+import * as EffectWorker from "./EffectWorker.ts";
+import * as ProjectEnrichmentService from "../project/ProjectEnrichmentService.ts";
+import * as WorkspacePaths from "../workspace/WorkspacePaths.ts";
+import * as ProjectFaviconResolver from "../project/ProjectFaviconResolver.ts";
+import * as RepositoryIdentityResolver from "../project/RepositoryIdentityResolver.ts";
 import * as McpSessionRegistryTestkit from "../mcp/McpSessionRegistry.testkit.ts";
 
 // The Antigravity switch is a durable, named conformance fixture for Google's
@@ -58,6 +64,9 @@ const liveAgentId = runAntigravityFixture
   ? "antigravity-acp"
   : process.env.T3_ACP_REGISTRY_LIVE_AGENT_ID?.trim() || "devin";
 const liveCommandPath = process.env.T3_ACP_REGISTRY_LIVE_COMMAND?.trim();
+// Local agents outside the registry, for example:
+// T3_ACP_REGISTRY_LIVE_AGENT_ID=hermes T3_ACP_REGISTRY_LIVE_COMMAND=hermes T3_ACP_REGISTRY_LIVE_ARGS=acp
+const liveLaunchArgs = process.env.T3_ACP_REGISTRY_LIVE_ARGS?.trim();
 const liveInstanceId = ProviderInstanceId.make("acpRegistry_live");
 const liveModelSelection = {
   instanceId: liveInstanceId,
@@ -85,6 +94,7 @@ const serverSettingsLayer = ServerSettings.layerTest({
       config: {
         agentId: liveAgentId,
         ...(liveCommandPath ? { commandPath: liveCommandPath } : {}),
+        ...(liveLaunchArgs ? { launchArgs: liveLaunchArgs } : {}),
       },
     },
   },
@@ -131,7 +141,29 @@ const providerInstanceRegistryLayer = ProviderInstanceRegistryHydrationLive.pipe
   ),
 );
 
-const liveLayer = OrchestrationV2LayerLive.pipe(
+const liveLayer = Layer.mergeAll(
+  OrchestrationV2LayerLive.pipe(Layer.provide(ProjectServiceLayerLive)),
+  ProjectServiceLayerLive,
+).pipe(
+  Layer.provide(
+    Layer.merge(
+      ProjectEnrichmentService.layer.pipe(
+        Layer.provide(
+          Layer.merge(
+            Layer.succeed(RepositoryIdentityResolver.RepositoryIdentityResolver, {
+              resolve: () => Effect.succeed(null),
+            }),
+            Layer.succeed(ProjectFaviconResolver.ProjectFaviconResolver, {
+              resolvePath: () => Effect.succeed(null),
+            }),
+          ),
+        ),
+      ),
+      Layer.mock(WorkspacePaths.WorkspacePaths)({
+        normalizeWorkspaceRoot: (workspaceRoot) => Effect.succeed(workspaceRoot),
+      }),
+    ),
+  ),
   Layer.provide(McpSessionRegistryTestkit.layer),
   Layer.provide(SqlitePersistenceMemory),
   Layer.provide(checkpointStoreLayer),
@@ -164,6 +196,113 @@ const waitForIdle = Effect.fn("AcpRegistryOrchestratorV2Live.waitForIdle")(funct
   return yield* Effect.die(new Error(`Timed out waiting for ACP Registry thread ${threadId}.`));
 });
 
+// Opt-in tool round trip in Supervised mode. The workspace must exist where the
+// agent runs, for example a scratch git repo:
+// T3_ACP_REGISTRY_LIVE_TOOLS_WORKSPACE=/tmp/scratch (plus the agent variables above)
+const liveToolsWorkspace = process.env.T3_ACP_REGISTRY_LIVE_TOOLS_WORKSPACE?.trim();
+
+describe.runIf(liveToolsWorkspace !== undefined && liveToolsWorkspace.length > 0)(
+  "ACP Registry V2 live tools",
+  () => {
+    it.live(
+      "asks for approval in Supervised mode and reports tool activity",
+      () =>
+        Effect.gen(function* () {
+          const orchestrator = yield* Orchestrator.OrchestratorV2;
+          const projectId = ProjectId.make("project:acp-registry-live-tools");
+          const threadId = ThreadId.make("thread:acp-registry-live-tools");
+          yield* EffectWorker.runDaemonWithOptions({ concurrency: 2 }).pipe(Effect.forkScoped);
+          yield* (yield* ProjectService.ProjectService).create({
+            commandId: CommandId.make("command:acp-registry-live-tools:project"),
+            projectId,
+            title: "ACP Registry live tools",
+            workspaceRoot: liveToolsWorkspace!,
+          });
+          yield* orchestrator.dispatch({
+            type: "thread.create",
+            createdBy: "user",
+            creationSource: "web",
+            commandId: CommandId.make("command:acp-registry-live-tools:create"),
+            threadId,
+            projectId,
+            title: `ACP Registry live tools: ${liveAgentId}`,
+            modelSelection: liveModelSelection,
+            runtimeMode: "approval-required",
+            interactionMode: "default",
+            branch: null,
+            worktreePath: null,
+          });
+          yield* orchestrator.dispatch({
+            type: "message.dispatch",
+            createdBy: "user",
+            creationSource: "web",
+            commandId: CommandId.make("command:acp-registry-live-tools:prompt"),
+            threadId,
+            messageId: MessageId.make("message:acp-registry-live-tools:prompt"),
+            text: [
+              "Use your tools for both steps, in this working directory:",
+              "1. Create the file hermes_t3_probe.txt containing exactly the line: T3_TOOLS_OK",
+              "2. Run the shell command `cat hermes_t3_probe.txt && echo T3_CMD_RAN`.",
+              "Then reply with exactly: DONE",
+            ].join("\n"),
+            attachments: [],
+            modelSelection: liveModelSelection,
+            dispatchMode: { type: "start_immediately" },
+          });
+
+          // Approve every request until the run settles, recording what was asked.
+          const askedKinds: Array<string> = [];
+          let projection = yield* orchestrator.getThreadProjection(threadId);
+          for (let attempt = 0; attempt < 900; attempt += 1) {
+            projection = yield* orchestrator.getThreadProjection(threadId);
+            const pending = projection.runtimeRequests.find((r) => r.status === "pending");
+            if (pending !== undefined) {
+              askedKinds.push(pending.kind);
+              yield* Console.log(`Approving ${pending.kind} request ${pending.id}.`);
+              yield* orchestrator.dispatch({
+                type: "runtime-request.respond",
+                commandId: CommandId.make(`command:acp-registry-live-tools:approve-${attempt}`),
+                threadId,
+                requestId: pending.id,
+                decision: "accept",
+              });
+            } else if (
+              projection.runs.length === 1 &&
+              !projection.runs.some((run) =>
+                ["queued", "starting", "running", "waiting"].includes(run.status),
+              )
+            ) {
+              break;
+            }
+            yield* Effect.sleep("500 millis");
+          }
+
+          const toolItems = projection.turnItems.filter(
+            (item) =>
+              item.type === "file_change" ||
+              item.type === "command_execution" ||
+              item.type === "dynamic_tool",
+          );
+          yield* Console.log(
+            `Asked: ${askedKinds.join(", ")}. Tool items: ${toolItems
+              .map((item) => item.type)
+              .join(
+                ", ",
+              )}. Reply: ${projection.messages.findLast((m) => m.role === "assistant")?.text}`,
+          );
+          assert.deepEqual(
+            projection.runs.map((run) => run.status),
+            ["completed"],
+          );
+          assert.isAtLeast(askedKinds.length, 1, "Supervised mode should surface an approval");
+          assert.isTrue(toolItems.some((item) => item.type === "file_change"));
+          assert.isTrue(toolItems.some((item) => item.type === "command_execution"));
+        }).pipe(Effect.provide(liveLayer), Effect.scoped),
+      480_000,
+    );
+  },
+);
+
 describe.runIf(runAntigravityFixture || process.env.T3_ACP_REGISTRY_LIVE_ORCHESTRATOR === "1")(
   "ACP Registry V2 live orchestrator",
   () => {
@@ -175,6 +314,16 @@ describe.runIf(runAntigravityFixture || process.env.T3_ACP_REGISTRY_LIVE_ORCHEST
           const projectId = ProjectId.make("project:acp-registry-live");
           const threadId = ThreadId.make("thread:acp-registry-live");
           const marker = "ACP_REGISTRY_LIVE_7H3Q";
+
+          // The production server starts this daemon at startup; provider turns run through it.
+          yield* EffectWorker.runDaemonWithOptions({ concurrency: 2 }).pipe(Effect.forkScoped);
+          // Runtime policy resolves per project, so the thread needs a real one.
+          yield* (yield* ProjectService.ProjectService).create({
+            commandId: CommandId.make("command:acp-registry-live:project"),
+            projectId,
+            title: "ACP Registry live",
+            workspaceRoot: process.cwd(),
+          });
 
           yield* orchestrator.dispatch({
             type: "thread.create",
@@ -242,7 +391,8 @@ describe.runIf(runAntigravityFixture || process.env.T3_ACP_REGISTRY_LIVE_ORCHEST
             ],
           );
           assert.include(finalAssistant ?? "", marker);
-          assert.deepEqual(finalProjection.providerSessions.length, 2);
+          // A warm session may serve both turns; resuming a cold one adds another.
+          assert.isAtLeast(finalProjection.providerSessions.length, 1);
           assert.isAtLeast(finalProjection.providerThreads.length, 1);
           assert.deepEqual(
             finalProjection.providerTurns.map((turn) => turn.status),

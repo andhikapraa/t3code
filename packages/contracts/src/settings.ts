@@ -879,7 +879,8 @@ export const AcpRegistrySettings = makeProviderSettingsSchema(
       Schema.withDecodingDefault(Effect.succeed("")),
       Schema.annotateKey({
         title: "Registry agent ID",
-        description: "Agent identifier from the official ACP Registry, for example 'devin'.",
+        description:
+          "Agent identifier from the official ACP Registry, for example 'devin'. With an executable override, an ID outside the registry runs that local ACP agent, for example 'hermes'.",
         providerSettingsForm: { placeholder: "devin", clearWhenEmpty: "persist" },
       }),
     ),
@@ -889,6 +890,15 @@ export const AcpRegistrySettings = makeProviderSettingsSchema(
         title: "Executable override",
         description:
           "Optional local executable to use instead of installing the registry distribution. Registry arguments and environment are still applied.",
+        providerSettingsForm: { placeholder: "Registry default", clearWhenEmpty: "omit" },
+      }),
+    ),
+    launchArgs: TrimmedString.pipe(
+      Schema.withDecodingDefault(Effect.succeed("")),
+      Schema.annotateKey({
+        title: "Launch arguments",
+        description:
+          "Arguments that start the agent in ACP mode, for example 'acp'. Replaces the registry arguments when set.",
         providerSettingsForm: { placeholder: "Registry default", clearWhenEmpty: "omit" },
       }),
     ),
@@ -911,7 +921,7 @@ export const AcpRegistrySettings = makeProviderSettingsSchema(
     ),
   },
   {
-    order: ["agentId", "commandPath", "authMethodId"],
+    order: ["agentId", "commandPath", "launchArgs", "authMethodId"],
   },
 );
 export type AcpRegistrySettings = typeof AcpRegistrySettings.Type;
