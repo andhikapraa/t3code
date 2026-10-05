@@ -4,6 +4,12 @@ T3 Code is an "agent harness control surface". It enables control of the agents 
 
 Works with your subscriptions on Claude Code, Codex, Cursor, Grok Build, OpenCode, and Google Antigravity. If they're set up on your computer, T3 Code can control them.
 
+## This fork
+
+Nightly builds of this fork are published as [prereleases](https://github.com/andhikapraa/t3code/releases). The desktop app updates itself from them. On Android, add the app to [Obtainium](https://obtainium.imranr.dev) to get each new release:
+
+<a href="https://apps.obtainium.imranr.dev/redirect?r=obtainium://app/%7B%22id%22%3A%22com.t3tools.t3code.dev%22%2C%22url%22%3A%22https%3A%2F%2Fgithub.com%2Fandhikapraa%2Ft3code%22%2C%22author%22%3A%22andhikapraa%22%2C%22name%22%3A%22T3%20Code%20(Nightly)%22%2C%22preferredApkIndex%22%3A0%2C%22additionalSettings%22%3A%22%7B%5C%22includePrereleases%5C%22%3Atrue%2C%5C%22fallbackToOlderReleases%5C%22%3Atrue%2C%5C%22filterReleaseTitlesByRegEx%5C%22%3A%5C%22Nightly%5C%22%2C%5C%22apkFilterRegEx%5C%22%3A%5C%22nightly.*-android%5C%5C%5C%5C.apk%24%5C%22%2C%5C%22versionDetection%5C%22%3Afalse%2C%5C%22releaseDateAsVersion%5C%22%3Atrue%2C%5C%22appName%5C%22%3A%5C%22T3%20Code%20(Nightly)%5C%22%7D%22%2C%22overrideSource%22%3Anull%7D"><img src="https://raw.githubusercontent.com/ImranR98/Obtainium/main/assets/graphics/badge_obtainium.png" alt="Get it on Obtainium" height="56"></a>
+
 ## "Wait, what are you selling me?"
 
 Nothing. We built T3 Code because we wanted the best possible development experience with agents. We were inspired by existing solutions like the Codex desktop app, Conductor, Claude Desktop and Cursor Glass, but none met our bar.
