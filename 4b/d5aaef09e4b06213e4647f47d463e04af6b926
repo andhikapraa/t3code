@@ -1,0 +1,36 @@
+apps/server/src/orchestration-v2/ProviderEventIngestor.test.ts
+  s_0e4edff6a97fd4::t_23dade611a1d5c 1308-1311
+  s_0e4edff6a97fd4::t_d6107d91aea727 20
+  s_0e4edff6a97fd4::t_a862fbdad23843 37,1262-1272,1276,1301
+  s_0e4edff6a97fd4::t_2a9f3ed1574d5d 38,1224-1261,1273-1275,1277-1300,1302-1307,1312
+apps/server/src/orchestration-v2/UsageLimitResetEstimate.ts
+  s_0e4edff6a97fd4::t_83ba9e6f6ab1fa 32-36,48
+apps/server/src/orchestration-v2/ProviderEventIngestor.ts
+  s_0e4edff6a97fd4::t_518281ee4e9f0d 32,284-286,290-291,304-310
+  s_4686c5ce7d8659::t_015f3c60faeb41 287
+  s_0e4edff6a97fd4::t_8a24c6dd12be99 25,40-44,48-49,288-289,292-303,311-313,327-329
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4bd5aaef09e4b06213e4647f47d463e04af6b926",
+  "prompts": {},
+  "sessions": {
+    "s_0e4edff6a97fd4": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a10ad0-c6d4-72b6-8e80-cc6db500b41a",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": null
+    },
+    "s_4686c5ce7d8659": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1074f-0bd1-74fc-aedc-313e27440f8e",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
