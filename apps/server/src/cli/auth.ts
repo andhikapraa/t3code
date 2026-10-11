@@ -8,7 +8,7 @@ import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Option from "effect/Option";
 import * as References from "effect/References";
-import { Argument, Command, Flag, GlobalFlag } from "effect/unstable/cli";
+import { Argument, Command, Flag, GlobalFlag } from "effect/cli";
 
 import * as EnvironmentAuth from "../auth/EnvironmentAuth.ts";
 
@@ -19,6 +19,7 @@ import {
   formatSessionList,
 } from "../cliAuthFormat.ts";
 import * as ServerConfig from "../config.ts";
+import { authScopesFlag } from "./authScopes.ts";
 import {
   authLocationFlags,
   type CliAuthLocationFlags,
@@ -42,7 +43,7 @@ const runWithEnvironmentAuth = <A, E>(
       return yield* run(environmentAuth);
     }).pipe(
       Effect.provide(
-        Layer.mergeAll(EnvironmentAuth.runtimeLayer).pipe(
+        Layer.mergeAll(EnvironmentAuth.layerRuntime).pipe(
           Layer.provide(ServerConfig.layer(config)),
           Layer.provide(Layer.succeed(References.MinimumLogLevel, minimumLogLevel)),
         ),
@@ -82,16 +83,18 @@ const tokenOnlyFlag = Flag.Boolean("token-only").pipe(
 );
 
 // Headless servers have no admin UI to mint admin links from, so the host
-// shell can grant Settings → Connections access directly.
+// shell can grant Settings → Connections access directly. Shorthand for
+// repeating --scope with every administrative scope.
 const adminFlag = Flag.Boolean("admin").pipe(
   Flag.withDescription(
-    "Grant administrative scopes, including pairing-link and session management.",
+    "Grant administrative scopes, including pairing-link and session management. Replaces --scope.",
   ),
   Flag.withDefault(false),
 );
 
 const pairingCreateCommand = Command.make("create", {
   ...authLocationFlags,
+  scopes: authScopesFlag(AuthStandardClientScopes),
   ttl: ttlFlag,
   label: labelFlag,
   baseUrl: baseUrlFlag,
@@ -105,7 +108,7 @@ const pairingCreateCommand = Command.make("create", {
       (environmentAuth) =>
         Effect.gen(function* () {
           const issued = yield* environmentAuth.createPairingLink({
-            scopes: flags.admin ? AuthAdministrativeScopes : AuthStandardClientScopes,
+            scopes: flags.admin ? AuthAdministrativeScopes : flags.scopes,
             subject: "one-time-token",
             ...(Option.isSome(flags.ttl) ? { ttl: flags.ttl.value } : {}),
             ...(Option.isSome(flags.label) ? { label: flags.label.value } : {}),
@@ -171,6 +174,7 @@ const pairingCommand = Command.make("pairing").pipe(
 
 const sessionIssueCommand = Command.make("issue", {
   ...authLocationFlags,
+  scopes: authScopesFlag(AuthAdministrativeScopes),
   ttl: ttlFlag,
   label: labelFlag,
   subject: subjectFlag,
@@ -184,7 +188,7 @@ const sessionIssueCommand = Command.make("issue", {
       (environmentAuth) =>
         Effect.gen(function* () {
           const issued = yield* environmentAuth.issueSession({
-            scopes: AuthAdministrativeScopes,
+            scopes: flags.scopes,
             ...(Option.isSome(flags.ttl) ? { ttl: flags.ttl.value } : {}),
             ...(Option.isSome(flags.label) ? { label: flags.label.value } : {}),
             ...(Option.isSome(flags.subject) ? { subject: flags.subject.value } : {}),

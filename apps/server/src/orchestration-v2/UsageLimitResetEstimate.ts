@@ -6,18 +6,6 @@ import type {
 import * as DateTime from "effect/DateTime";
 
 /**
- * Gateway providers such as Pi report subscription limits as plain 429 text
- * after their own short retries give up. Their wording varies by gateway, so
- * this matches the shared vocabulary rather than one gateway's error codes.
- */
-const USAGE_LIMIT_PATTERN =
-  /\b429\b|rate.?limit|too many requests|usage.?limit|cooling down|model_cooldown|quota/i;
-
-export function isUsageLimitMessage(message: string): boolean {
-  return USAGE_LIMIT_PATTERN.test(message);
-}
-
-/**
  * Upstream accounts whose published usage windows also gate a gateway model.
  * A Pi model routed to Claude spends the same subscription as Claude Code.
  */

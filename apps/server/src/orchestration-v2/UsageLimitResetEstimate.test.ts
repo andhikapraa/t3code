@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@effect/vitest";
 import type { ServerProvider } from "@t3tools/contracts";
 
-import { estimateUsageLimitResetAt, isUsageLimitMessage } from "./UsageLimitResetEstimate.ts";
+import { estimateUsageLimitResetAt } from "./UsageLimitResetEstimate.ts";
 
 const failedAtMs = Date.parse("2026-10-04T12:00:00.000Z");
 const fallbackMs = 5 * 60_000;
@@ -23,22 +23,6 @@ function provider(
     },
   } as unknown as ServerProvider;
 }
-
-describe("isUsageLimitMessage", () => {
-  it("recognizes gateway cooldowns and rate limits", () => {
-    expect(
-      isUsageLimitMessage(
-        'axon API error (429): {"message":"All credentials for model claude-opus-5-5 are cooling down","code":"model_cooldown"}',
-      ),
-    ).toBe(true);
-    expect(isUsageLimitMessage("Too Many Requests")).toBe(true);
-  });
-
-  it("leaves connection failures to ordinary resume", () => {
-    expect(isUsageLimitMessage("socket timed out")).toBe(false);
-    expect(isUsageLimitMessage("502 Bad Gateway")).toBe(false);
-  });
-});
 
 describe("estimateUsageLimitResetAt", () => {
   it("waits for the exhausted Claude window when a Pi Claude model is limited", () => {
