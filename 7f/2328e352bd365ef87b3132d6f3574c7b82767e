@@ -1,0 +1,1827 @@
+apps/mobile/src/features/home/home-list-options.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3,9,11,18-19,24,32,34-35,51-54,58,61,63-75,105-110,117
+apps/mobile/src/features/workspace/WorkspaceTabsContext.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-72
+apps/mobile/src/components/ListSection.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-46
+apps/mobile/src/lib/modelOptions.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3-11,15,54,90,134,188-196,201-210,213-222,238-244,270-271,312-318,320,373-377,402-404,417,423-424,427-430,443-447,460-465,496,498,500,538-843
+apps/mobile/src/features/layout/workspace-sidebar-toolbar.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 13
+apps/server/src/orchestration-v2/ThreadManagementService.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 8-12,15,22-23,29,34-36,38-39,41-42,279-478,488,494-495,524,530-531,552,564-565,596,614-615,665,687-688,708-925,937,953-954
+apps/web/src/components/ProviderUpdatePrimaryNotification.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 57-58
+apps/mobile/src/features/pull-requests/guide/GuideOutline.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-115
+apps/server/src/orchestration-v2/runtimeLayer.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 243-250
+apps/web/src/components/diffs/useReviewFilePatches.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 18-22,57,196
+apps/mobile/modules/t3-review-diff/android/src/main/java/expo/modules/t3reviewdiff/T3ReviewDiffModule.kt
+  s_4784e5409c7ffa::t_dd1a6628671838 44-49
+apps/web/src/components/pullRequest/guide/GuideExcerpt.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-362
+apps/server/src/provider/antigravityUsageLimits.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-283
+packages/contracts/src/index.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 36
+apps/mobile/src/Stack.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-3,33-41,54,175-180,573-574,658-667,720,729-787,990-993
+apps/mobile/src/features/pull-requests/pullRequestList.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-265
+packages/client-runtime/src/state/pullRequests.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 7,2086-2127
+  s_4784e5409c7ffa::t_35c7037cb7bba3 2128-2130
+apps/mobile/src/features/files/FileTreeBrowser.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 3,6,57,72,91,101,301
+apps/mobile/src/features/home/ThreadListFilters.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-99
+apps/server/scripts/record-pi-rpc-replay-fixture.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 247,253
+apps/server/src/terminal/Manager.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 101,1118-1120,1125-1130
+apps/web/src/providerInstances.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 18,20,157-161,167-169,188-195,199-200,206
+apps/mobile/src/features/workspace/AndroidWorkspaceSidebar.android.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-27
+apps/mobile/src/features/pull-requests/pullRequestSelection.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-80
+apps/mobile/src/features/pull-requests/pullRequestTabScroll.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-14
+apps/mobile/src/features/threads/ThreadFeed.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-4,8,34,39,97-99,119-120,137-138,159,161,167,198,325-363,425,446,464,476-478,481-490,680,731-737,834,847-848,1074,1236,1238-1253,1355,1537,1540-1588,1603,1616-1624,1646,1694,1817,1827-1842,1881,1884,1886-1890,1894-1895,1919,1943-1948,2008,2504-2555,2800,2803,2820-2839
+  s_4784e5409c7ffa::t_754508aeb86935 2840
+apps/server/scripts/acp-mock-agent.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 97,779
+apps/mobile/src/features/usage/UsageLimitsPooled.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 29-33,125-127,272-278
+apps/server/src/pullRequest/pullRequestReviewGuideNormalize.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-212
+apps/mobile/src/features/workspace/useSystemWorkspaceTabBar.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-13
+apps/server/src/assets/AssetAccess.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 12,34,125-182,965-1004
+  s_4784e5409c7ffa::t_f46caaa78e8a41 1005-1007
+apps/mobile/src/features/workspace/useAndroidWorkspaceNavigation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-42
+apps/web/src/components/chat/MessagesTimeline.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 16,91-95,131,134-135,753-895
+  s_4784e5409c7ffa::t_ef318c16137d9e 896
+apps/web/src/hooks/useHtmlRenderTheme.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-100
+packages/client-runtime/src/promptLinks.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-105
+packages/client-runtime/src/state/server.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1353-1356
+packages/contracts/src/environment.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 129-130,138-142
+apps/server/src/textGeneration/TextGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 20-21,37-38,75-77
+  s_4784e5409c7ffa::t_8c3b69b13f87d8 78
+packages/provider-core/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 188
+packages/provider-core/src/server/ProviderContinuationRequests.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 44-49
+apps/mobile/src/features/pull-requests/pullRequestDiffComments.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-103
+apps/mobile/src/features/settings/scheduledTaskDraft.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 5,343-348
+apps/server/src/device/deviceToolVersions.json
+  s_4784e5409c7ffa::t_dd1a6628671838 1-4
+apps/web/src/components/pullRequest/guide/GuideProse.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-40
+apps/web/src/components/settings/SecretInput.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-63
+apps/web/src/components/settings/KeybindingsSettings.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1508
+apps/web/src/components/settings/TelemetryExportSettings.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-243
+apps/web/src/components/Sidebar.logic.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 43,998-1016
+  s_4784e5409c7ffa::t_5043304ad1da7f 1017-1018
+packages/contracts/src/orchestrationV2.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 39,116,934-994
+  s_4784e5409c7ffa::t_1b621f0263dda6 995
+packages/contracts/src/pullRequestReviewGuide.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-115
+apps/mobile/src/features/files/SourceFileSurface.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 35,290,306,319,323,326,330
+packages/provider-cursor/src/server/skills.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 105-187
+packages/provider-muse/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 24,28
+packages/provider-testing/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 28
+packages/contracts/src/clientRpcPermissions.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 9,15-16,28-29,49
+packages/source-control-gitcafe/src/client/definition.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 8,29,35
+patches/@ff-labs__fff-node@0.11.0.patch
+  s_4784e5409c7ffa::t_dd1a6628671838 1-52
+apps/mobile/src/features/workspace/WorkspaceRootScreen.android.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-70
+packages/contracts/src/server.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 6,270-280
+  s_4784e5409c7ffa::t_4bb4b1ef418325 281-282
+packages/provider-muse/src/server/adapter.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 6,24,84-88,158,160,236-251,350-353,452-692,726,750-753,833,835,850-853,974-975,979
+apps/server/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 22,36-37
+apps/mobile/src/features/pull-requests/usePullRequestReviewDraft.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-105
+apps/mobile/src/features/threads/thread-settings-sheet-state.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 58-60
+apps/mobile/src/features/workspace/WorkspaceSidebarTabs.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-4
+apps/mobile/src/components/AppSymbol.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 42,53,58,61,68-70,90,124-127,137-140,174,177,192,199,228-231,261-264,275-286
+apps/mobile/src/lib/mobileTheme.test-support.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 12-15,20,23
+apps/mobile/src/state/use-composer-drafts.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 362-363,376,1201-1202
+apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 245-248,453
+apps/web/src/state/projects.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 9,14
+apps/mobile/src/features/threads/git/GitOverviewSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,75,146,149,256,259-261,265,271,283-285,390,481,485
+apps/web/src/components/pullRequest/guide/GuideFileDiff.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-50
+packages/client-runtime/src/device/duoStream.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 114
+packages/effect-acp/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 40
+apps/server/src/mcp/McpToolAccess.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 90,110,157,230-233
+  s_4784e5409c7ffa::t_bd5e8790700c63 234
+apps/server/src/mcp/toolkits/project/tools.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 22,148
+apps/server/src/orchestration-v2/testkit/fixtures/muse_subagent_approval/input.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-15
+apps/web/src/components/pullRequest/guide/GuideRail.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-108
+apps/web/src/components/pullRequest/PullRequestReviewAnnotation.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 7,9,58-78
+  s_4784e5409c7ffa::t_d41b6e80ac3cbb 79
+apps/web/src/state/shell.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 52-68,77,92-114
+apps/mobile/src/features/pull-requests/pullRequestDescription.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-35
+apps/web/src/environmentGrouping.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 16-17,57-195
+apps/web/src/components/settings/DiagnosticsSettings.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 41,815-828,1072,1348
+apps/web/src/terminal/ghostty/surface.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1493-1495
+apps/mobile/src/features/settings/components/SettingsLegalDocumentRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 3,6,176
+apps/server/src/pullRequest/PullRequestService.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 179-180,907-909,955-987,1982,2703,2705,2716-2723,3287-3316,3339-3340,3342
+apps/server/src/textGeneration/ClaudeTextGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 43-58,131,209-220,276
+apps/server/src/provider/Drivers/AntigravityDriver.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 20,57,79,101,391-399,403-404
+packages/client-runtime/src/state/orchestration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 47-50
+packages/provider-muse/src/server/itemPresentation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 2,10-23,86,119-132,137
+packages/source-control-github/src/server/GitHubApi.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 547-564,567,569-570
+scripts/lib/third-party-licenses.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 826-832,878-881
+apps/mobile/src/components/MediaImagePreview.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,47-55,57,59-61
+apps/server/src/mcp/OrchestratorMcpService.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 37,132,232,317,394,479,566,707,938,1028-1072,1102-1103,1129,1202-1204,1230,1283,1286,1330-1607,1655-1656,1675,1802-1804,1830,1983,2052,2142,2171-2202
+  s_4784e5409c7ffa::t_0469469d31f6f4 2203
+packages/shared/src/promptLinks.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-126
+docs/internals/server-updates.md
+  s_4784e5409c7ffa::t_dd1a6628671838 61-63,78-84
+packages/shared/src/threadPullRequests.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 311,315,317-320,322-329,332-334
+apps/web/src/components/chat/chatCanvasLayout.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 69-70,72-75
+apps/mobile/src/components/LoadingScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,3,11-12,20-23,30
+packages/client-runtime/src/state/projectGrouping.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 8,10,122-246
+apps/mobile/src/lib/mobileThemeVariables.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 27,46
+apps/mobile/src/features/threads/ThreadSettingsSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2-6,10,15,18,35,60-65,78,256,258,317-320,350,352-383,386-396,405-473,475-483,485-500,503,621-625,670-673,754-759,803-805,889,970-986,1617
+apps/mobile/src/features/pull-requests/pullRequestReviewDrafts.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-78
+apps/web/src/components/GitActionsControl.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 128,1914-1917,2027,2031,2045,2049
+packages/client-runtime/src/reviewGuideTour.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-178
+apps/web/src/hostedPairing.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 13-14
+apps/web/src/components/pullRequest/guide/GuideNotes.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-58
+apps/mobile/src/features/pull-requests/pullRequestDiffPages.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-47
+apps/mobile/src/state/use-thread-composer-state.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 50-53,639,641-644,646
+apps/server/src/assets/AssetAccess.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 34,49,133,186,229-246,647-649,881
+packages/client-runtime/src/t3ToolSummary.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 31-46,267-283
+packages/provider-cursor/src/server/adapter.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 2209
+packages/shared/src/t3McpToolPresentation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 24,62-63,114-123,154-157
+apps/mobile/src/components/MaterialButton.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 10,15
+apps/mobile/modules/t3-review-diff/android/src/main/java/expo/modules/t3reviewdiff/T3ReviewDiffView.kt
+  s_4784e5409c7ffa::t_dd1a6628671838 53,60-67,146-151,216-223,238,247,255,778,827,841-842,905,942-944,1229
+apps/mobile/src/components/ProjectCloneBanner.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 6,8,28,76
+apps/server/src/provider/ProviderInstanceRegistry.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 77-79,509,520-529
+apps/web/src/components/pullRequest/PullRequestSummaryTab.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 379,394,662
+apps/mobile/modules/t3-source-text/react-native.config.js
+  s_4784e5409c7ffa::t_dd1a6628671838 1-10
+apps/server/src/orchestration-v2/testkit/fixtures/subagent_v2_nested_approval/codex_output.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 75-88
+apps/server/src/serverSettings.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 12,102-183,877,901,1122-1123,1133-1134,1444-1593,1868,1880,1882,1892,1894,1904-1908,1919-1923,2005,2007,2017,2019,2032-2036,2141
+packages/client-runtime/src/state/projectGrouping.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 14-15,110-111,132,136,139,155,158,162,166-201,300-301,323,341-343,365-372
+apps/mobile/src/features/workspace/AndroidWorkspaceNavigation.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-9
+apps/server/src/orchestration-v2/ThreadMessageIntake.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 16-17,29,36,228-230,233-235,240
+packages/shared/src/mcpApp.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 218-267
+apps/web/src/components/pullRequest/PullRequestDetailPanel.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 53-59,117,119-130,133-134,138,140-161,360-437
+  s_4784e5409c7ffa::t_25ea8846cc4fbd 438
+apps/mobile/src/features/home/AndroidHomeFab.shared.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 8
+apps/mobile/src/features/threads/PendingApprovalCard.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 50,76
+.github/workflows/release-desktop.yml
+  s_4784e5409c7ffa::t_dd1a6628671838 132-164
+apps/web/src/components/ui/switch.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 38
+apps/mobile/src/features/threads/NewTaskDraftScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 115,216-229,524,1045,1255,1272-1276,1278-1281,1283,1579,1589,1895
+apps/mobile/src/features/threads/ThreadAgentsSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 22,24-25,36,59,119,121-123
+apps/server/src/orchestration-v2/ThreadLaunchService.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 121,123-127,193,1773-1836,1854-1856,1878-1880,1904-1906,1947-1949,1994-1996,2612-2707
+apps/web/src/components/settings/ProviderModelsSection.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 148-151,153,181,290,296,538-541
+apps/mobile/src/features/threads/new-task-context-presentation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 2,67,69-72
+apps/mobile/src/features/connection/EnvironmentConnectionNotice.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,8,69
+apps/mobile/src/features/home/HomeRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 10,33,42-43,55-65,123-127,129-138,151-156,167-175,210,217-234,236
+apps/web/src/components/sidebar/updateEverything.logic.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-212
+apps/server/src/persistence/reconcileV2PreviewMigration.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 44,129
+  s_4784e5409c7ffa::t_da783bf4496bdb 45,130
+packages/shared/src/usageLimits.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 400-410,610-612
+apps/mobile/modules/t3-review-diff/ios/T3ReviewDiffModule.swift
+  s_4784e5409c7ffa::t_dd1a6628671838 8-15,60-65,68-69,72-73
+apps/mobile/src/lib/enrichedLinkPresentation.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-112
+packages/provider-acp/src/server/clientTerminals.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 5,130-135
+apps/server/src/orchestration-v2/Adapters/claudeWorkflowProgress.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-318
+apps/mobile/modules/t3-source-text/ios/T3SourceTextRunShadowNode.cpp
+  s_4784e5409c7ffa::t_dd1a6628671838 1-6
+apps/mobile/src/features/devices/DevicePreviewRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 12,17,291,424
+apps/server/src/pullRequest/pullRequestReviewGuideNormalize.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-184
+apps/web/src/terminal/ghostty/core.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 177-196
+apps/web/src/components/settings/ProjectDefaultsSettings.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 11,67-71,112,115,167
+packages/shared/src/usageLimits.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 59-72,1412-1468
+  s_4784e5409c7ffa::t_81c4dbe7517559 1469
+apps/mobile/src/state/git.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-4
+apps/mobile/src/features/connection/CloudEnvironmentRows.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,17,155
+apps/server/src/orchestration-v2/unknownField.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-10
+apps/mobile/src/features/workspace/WorkspaceToolbar.ios.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-127
+apps/web/src/components/chat/ThreadRelationshipsControl.agents.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 21-22,35-53,72,74-75,79-480,482-485,487-488,505,538-543,833-837,841-842,908,972,980,1012,1016-1026,1062,1069,1077-1080,1115,1122,1131
+apps/mobile/src/features/settings/SettingsScheduledTasksRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2-5,604-607,782-799
+apps/desktop/src/app/DesktopClerk.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 15,192-198,200,208-213,223-228
+apps/mobile/src/features/pull-requests/usePullRequestDiff.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-105
+apps/mobile/src/state/use-thread-outbox-drain.permissions.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 24,84,178-184,194-301
+  s_4784e5409c7ffa::t_323628c27045e0 302
+apps/server/src/mcp/TaskCancelNativeSubagent.integration.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 25,31,34,138-144,154
+apps/server/src/orchestration-v2/Adapters/AcpAdapterV2.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 61,884-972,12319-12323,12440
+apps/server/src/orchestration-v2/ProviderRuntimeRecoveryService.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 564,700
+apps/server/src/orchestration-v2/ThreadManagementService.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 14-15,29-30,42,46,48-50,53,273-284,294,310-315,318-321,369-394,420-422,427-433,443-448,515,517,520-557,624-653,655-658,765,817,988-1071,1075-1077,1147-1149,1155,1175-1185,1190-1195
+apps/server/src/orchestration-v2/RunExecutionService.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 56-58,60-61,341,389-392,427-444,1096-1102,1140-1144
+apps/mobile/src/features/threads/fileChipMenu.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3-4
+apps/web/src/components/ThreadTerminalDrawer.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 161-205,297
+docs/user/default-browser.md
+  s_4784e5409c7ffa::t_dd1a6628671838 11-12
+apps/server/src/mcp/toolkits/project/handlers.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 22,51,123,221,311-317,319
+apps/mobile/modules/t3-source-text/ios/T3SourceTextRunComponentDescriptor.h
+  s_4784e5409c7ffa::t_dd1a6628671838 1-14
+apps/mobile/src/features/pull-requests/pullRequestAnimations.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-37
+apps/mobile/src/features/pull-requests/pullRequestActivityFilter.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-90
+apps/mobile/src/features/files/WorkspaceFileWebPreview.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2,5,50
+apps/mobile/src/features/pull-requests/pullRequestAgentTasks.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-71
+apps/mobile/src/features/pull-requests/PullRequestInlineCommentScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-150
+apps/mobile/src/features/threads/NewTaskContextPickerScreens.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,15,482,521
+apps/mobile/src/components/MediaVideoPlayer.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 5,7,100,164
+apps/server/src/workspace/WorkspaceEntries.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 195-230
+apps/web/src/components/CommandPalette.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 103-107,220-224,650-653,738-741,743,1343-1352,1412,1874-1921
+  s_4784e5409c7ffa::t_8513593f2d72b0 1922-1923
+apps/mobile/src/features/home/HomeHeader.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 22,29,60-63,67,74-95
+apps/mobile/src/features/workspace/useAndroidWorkspaceSelection.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-29
+apps/server/src/orchestration-v2/testkit/fixtures/subagent_v2_approval/codex_output.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 62-75
+apps/web/src/providerInstances.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 139-146,148,150-151,163-170,184-191,205-212,214,216-217,230-237,248-255,295,654-661,665-673,675,677-678,684-691
+packages/provider-core/src/server/textGenerationPrompts.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 15,143-286,289
+  s_4784e5409c7ffa::t_5016ddccc70d56 287-288,290
+apps/mobile/src/features/home/HomeHeader.types.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 10
+apps/server/src/orchestration-v2/SelectionRestart.integration.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 391,407-409,424-438,451-452,460-473,486-491,518-519
+packages/shared/src/githubMarkdownLinks.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-91
+apps/mobile/src/state/pull-requests.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-4,7-11
+apps/mobile/src/features/threads/git/GitConfirmSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 144
+apps/server/src/provider/Drivers/CodexDriver.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 238-239
+apps/web/src/components/chat/McpAppFrame.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 120
+packages/contracts/src/orchestrationV2.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 667-746,781-782,3248,3534-3562,3568,3589-3626,3755-3758
+apps/mobile/src/features/threads/ComposerSideQuestion.tsx
+  s_4784e5409c7ffa::t_4c38c574ddd505 23,25-26
+apps/web/src/components/ui/textarea.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 32
+apps/mobile/src/lib/markdownDocument.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-146
+apps/mobile/src/features/pull-requests/PullRequestListRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-200
+packages/contracts/src/server.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 360-380
+apps/mobile/modules/t3-native-controls/android/build.gradle
+  s_4784e5409c7ffa::t_dd1a6628671838 1-7,10,23,28-29
+apps/server/src/persistence/reconcileForkMigrations.test.ts
+  s_4784e5409c7ffa::t_e16fe25663e2a6 8-31,45-46,48-63
+apps/server/src/cli/project.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 28,41,98
+apps/server/src/pullRequest/PullRequestReviewGuideService.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-489
+docs/user/source-control.md
+  s_4784e5409c7ffa::t_dd1a6628671838 122-123,143-146,156-164,197-230,242-243
+apps/server/src/observability/OtlpEndpointCheck.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-249
+apps/server/src/orchestration-v2/Orchestrator.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 56,135,837,1324-1343,1346,8449-8452,8497-8510,11465
+apps/web/src/components/pullRequest/guide/GuideStop.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-310
+apps/mobile/src/features/home/homeThreadList.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 53
+apps/mobile/src/components/ScreenScrollView.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2-3
+apps/mobile/src/components/ComposerEditor.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 241-242
+apps/mobile/src/features/prompt-links/prompt-link-model.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-92
+packages/shared/src/git.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 69-70,74,80-81,91-94,96-108,111
+packages/source-control-forgejo/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 36
+packages/ssh/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 28
+apps/web/src/components/chat/ThreadRelationshipsControl.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,10,29-34,62,66,105-107,111,146,228-229,232-260,282-285,287,297-305,307,376-377,385,391-403,448,455-464,470,477-482,491-498,532,542-544,546,552-556,558,563-603,616,662,666,679,684
+apps/mobile/src/features/workspace/ListFilterMenu.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-82
+apps/server/src/storageCleanup.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 27,252-253,263-266,282-302,342-345,446-512
+apps/server/src/provider/CodexManagedRuntime.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 166-167
+apps/mobile/src/features/settings/SettingsKeyboardRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,5
+apps/server/src/mcp/toolkits/orchestrator/tools.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3,35,68,105-116,217-218,280
+apps/mobile/src/features/home/home-thread-navigation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 10-11,39,64-70,79
+apps/mobile/src/features/home/AndroidHomeFab.android.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 39
+apps/server/scripts/record-muse-msp-replay-fixture.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 239,245
+apps/server/src/project/ProjectService.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 33,157,491-506,517-518,522-524
+apps/web/src/routes/settings.providers.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 28-34
+docs/user/prompt-links.md
+  s_4784e5409c7ffa::t_dd1a6628671838 1-56
+docs/user/updating.md
+  s_4784e5409c7ffa::t_dd1a6628671838 8-26,32-33,40-42
+apps/server/src/mcp/threadAccess.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 26-39
+apps/server/src/project/ManagedProjectFolders.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 26,91
+apps/mobile/src/features/threads/markdownImageSize.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 9-36
+apps/web/src/routes/_chat.new.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-30
+packages/client-runtime/src/pullRequestMarkdown.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-146
+packages/contracts/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 24
+apps/mobile/src/features/files/FilePreviewFeedback.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,3,18
+apps/mobile/src/features/pull-requests/usePullRequestFilesViewed.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-118
+apps/mobile/src/lib/composerChipPresentation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-87
+apps/mobile/src/lib/mobileThemeVariables.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 51
+apps/web/src/components/Sidebar.logic.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 26,1113-1125
+  s_4784e5409c7ffa::t_08703eac5ae116 1126-1127
+apps/web/src/components/ChatView.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 86,619-620,3254-3258,3260,4393-4400,8797,8803,11066-11104,11169-11171,11177-11183,11461-11463,11701,11706,11911,11949,11985-11987
+apps/server/src/orchestration-v2/ProjectionStore.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3482-3485,5205-5208
+apps/server/src/storageCleanup.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 274-330,475,539-569,571-575,577-596
+apps/web/src/components/chat/ThreadLineageWorkflowRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-266
+apps/web/src/routes/_chat.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 8,228-230
+apps/mobile/modules/t3-source-text/ios/T3SourceTextRun.mm
+  s_4784e5409c7ffa::t_dd1a6628671838 1-54
+apps/mobile/src/features/threads/ThreadGitControls.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,118,173,176
+apps/web/src/components/chat/MessagesTimeline.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 155,189,301,485-486,601,662,1221,1226-1239,1241-1242,1294-1296,1310-1316,1593-1600,1615-1618,1694,1775,1783,1787-1794,1869,2330-2335,2625,2634-2638
+  s_4784e5409c7ffa::t_889bf07f6946dc 2639-2641
+apps/mobile/src/features/pull-requests/pullRequestStack.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-72
+apps/web/src/routes/usage.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,6-13
+apps/web/src/components/ChatMarkdown.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 176,3039,3048-3062
+apps/mobile/src/native/SelectableMarkdownText.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-3,5-7,14-15,18,20-31
+packages/client-runtime/src/promptLinks.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-114
+apps/web/src/components/chat/MessageCopyButton.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 16-17,24-26,46,59,63
+apps/mobile/src/features/diffs/nativeReviewDiffSurface.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 110-111,127-129,173,277-281
+apps/desktop/src/app/DesktopClerk.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 399,423-425,428,430-435
+apps/mobile/src/features/terminal/TerminalContextSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 9,13-14,59-63,65,68,84-88,91,94-100,104-109,111,115-118,121,123
+packages/provider-core/src/server/textGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 5,78-117,145-149
+packages/client-runtime/src/state/subagentRuntime.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-220
+apps/mobile/src/lib/markdownFileIcons.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-13
+apps/mobile/src/features/browser/previewPromptText.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-41
+apps/mobile/src/components/AndroidScreenHeader.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 33,75-79
+apps/mobile/src/features/threads/ThreadMarkdownVideo.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-45
+apps/server/src/auth/EnvironmentAuth.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 627-710
+apps/mobile/src/features/devices/DeviceStreamWebView.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 12,16,191
+apps/mobile/src/features/prompt-links/usePromptLinkResolver.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-313
+apps/mobile/src/features/home/home-thread-navigation.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 22-23
+apps/server/src/auth/RpcAuthorization.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 49,135
+apps/server/src/orchestration-v2/testkit/fixtures/muse_subagent_interrupt/output.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-47
+apps/server/src/provider/Drivers/AntigravityDriver.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 18,190,250-255,295,325,331
+apps/mobile/src/features/workspace/AndroidWorkspaceSidebar.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-9
+apps/web/src/components/chat/composerPromptHistory.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3
+apps/mobile/src/native/useEnrichedLinkVariants.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-105
+apps/web/src/components/diffs/StyledDiffCodeView.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 15-16,102-104,106,109,112-113,119-120,124-130
+docs/operations/development.md
+  s_4784e5409c7ffa::t_dd1a6628671838 109-115
+packages/client-runtime/src/state/commandPermissions.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 88-108
+packages/client-runtime/src/state/projectEntities.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 7,13,25-27,64,68-76,80-87,118-128,135
+apps/mobile/src/features/workspace/WorkspaceDock.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-71
+apps/mobile/modules/t3-source-text/UPSTREAM.md
+  s_4784e5409c7ffa::t_dd1a6628671838 1-11
+apps/mobile/src/native/v5-workspace-context.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 5-9,12
+apps/mobile/src/features/pull-requests/PullRequestDescription.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-182
+apps/web/src/components/settings/SourceControlWritingSettings.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 20-23
+packages/shared/src/serverSettings.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1,3-6,9,16-17,81-138,141-142,145-148,163-189,267-296,390-394,449-494,498-499,569-572,610-612,648-683
+apps/mobile/modules/t3-source-text/ios/T3SourceTextManager.mm
+  s_4784e5409c7ffa::t_dd1a6628671838 1-28
+packages/tailscale/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 12
+docs/user/telemetry.md
+  s_4784e5409c7ffa::t_dd1a6628671838 15-31
+apps/server/src/orchestration-v2/testkit/fixtures/muse_subagent_approval/muse_transcript.ndjson
+  s_4784e5409c7ffa::t_dd1a6628671838 1-69
+apps/server/src/orchestration-v2/ThreadStop.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 24,27,59-60
+apps/web/src/components/pullRequest/guide/PullRequestGuideRunCoordinator.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-140
+apps/web/src/components/pullRequest/PullRequestGuideTab.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-183
+packages/client-runtime/src/state/projectEntities.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-135
+apps/mobile/modules/t3-source-text/ios/T3SourceTextComponentDescriptor.h
+  s_4784e5409c7ffa::t_dd1a6628671838 1-14
+apps/server/src/provider/ProviderInstanceRegistryHydration.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-122
+apps/web/src/threadRoutes.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 9,17-23,135-153,183-193
+packages/source-control-gitlab/src/server/GitLabPullRequestProvider.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 215-280
+apps/mobile/src/features/threads/PendingUserInputCard.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 268
+apps/mobile/src/features/diagnostics/SettingsDiagnosticsRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,6,89
+apps/server/src/orchestration-v2/Adapters/OpenCode2AdapterV2.testkit.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 289-293
+apps/mobile/generated-uniwind-default-theme-variables.json
+  s_4784e5409c7ffa::t_dd1a6628671838 33-34,124-125
+docs/operations/observability.md
+  s_4784e5409c7ffa::t_dd1a6628671838 175-178
+apps/mobile/src/lib/markdownLinkIcons.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-12
+apps/web/src/components/desktop/DesktopWebLinkCoordinator.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 4,49-53,99-103
+apps/server/src/mcp/toolkits/pullRequests/handlers.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 15,29-30,47-48,161-199,202,312-361,440-527
+apps/server/src/persistence/Errors.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 132
+apps/web/src/components/pullRequest/pullRequestDetail.logic.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 22,1226-1271
+  s_4784e5409c7ffa::t_3cb1149abaf01a 1272-1273
+packages/provider-core/src/server/ProviderAdapter.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 598-601
+apps/mobile/src/components/FilePreview.ios.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 14-19,28,38-50,61
+apps/mobile/src/features/pull-requests/pullRequestMediaSource.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-26
+apps/mobile/src/features/pull-requests/PullRequestMergeControls.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-292
+apps/mobile/src/features/pull-requests/usePullRequestAction.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-59
+apps/mobile/src/features/threads/NewTaskRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,19,34,41-46,154,381,475-476
+apps/mobile/scripts/sync-pierre-file-icons.mjs
+  s_4784e5409c7ffa::t_dd1a6628671838 1-134
+apps/mobile/src/state/mediaActions.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 10
+apps/mobile/src/features/pull-requests/guide/guideDiffFocus.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-26
+apps/server/src/orchestration-v2/testkit/fixtures/muse_subagent_interrupt/muse_transcript.ndjson
+  s_4784e5409c7ffa::t_dd1a6628671838 1-33
+packages/provider-core/src/server/textGenerationPrompts.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 7,186-237
+  s_4784e5409c7ffa::t_9f323ca88fb91b 238-239
+apps/mobile/modules/t3-source-text/ios/T3SourceTextShadowNode.mm
+  s_4784e5409c7ffa::t_dd1a6628671838 1-171
+packages/provider-cursor/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 48
+patches/@pierre%2Fdiffs@1.5.2.patch
+  s_4784e5409c7ffa::t_dd1a6628671838 973-991
+apps/web/src/components/ServerUpdateAction.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 68-70,169-171
+apps/server/src/orchestration-v2/RunExecutionService.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 168,177-180,187,206-212,225,237-322,1324,1328,1368-1373,1376,1413-1425,1427,1450-1461,1467,1555,2741-2766,2772-2776,2850-2854,2921,2973-3005
+apps/mobile/src/features/pull-requests/pullRequestNavigation.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-26
+apps/server/src/mcp/toolkits/pullRequests/handlers.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 7,9-10,28,142-150,153-154,159,177-195,227,584-734
+  s_4784e5409c7ffa::t_a369458e01d791 735-736
+apps/mobile/src/lib/composerContext.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 11,211-256
+apps/server/src/sourceControl/sourceControlHostSecrets.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 10,13,34
+apps/mobile/src/features/prompt-links/useThreadPromptLink.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-46
+apps/mobile/src/features/home/MaterialThreadListToolbar.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2-3,40-45,68,70-79,83
+apps/mobile/src/features/pull-requests/PullRequestStackCard.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-86
+apps/web/src/components/usage/UsagePage.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 590-595,597-610
+apps/mobile/src/features/pull-requests/PullRequestAgentRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-40
+apps/server/src/orchestration-v2/testkit/fixtures/muse_workflow/output.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 42-51
+apps/mobile/src/features/pull-requests/PullRequestSheetContent.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-116
+packages/provider-grok/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 28
+packages/shared/src/markdownLinks.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 325-376,380-394
+apps/mobile/src/features/threads/McpAppFullscreenScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 123
+apps/mobile/src/native/createV5StackNavigator.ios.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 26,56-58,169-170,175-176,210,247-249,275,280-282
+apps/web/src/threadRoutes.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 2,24-29,36,39-40,42
+packages/provider-grok/src/server/textGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 132-135
+apps/mobile/src/persistence/mobile-preferences.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 8-16,28-54,56-57,86,95-97,139-140,164-165,168-179,280-285
+apps/web/src/components/settings/ScheduledTasksSettings.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 859-871,876-881,1170
+apps/mobile/src/connection/runtime.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3,23
+apps/mobile/src/features/pull-requests/PullRequestFiles.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-314
+apps/web/src/components/settings/scopedSettings.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 6,648-659
+  s_4784e5409c7ffa::t_536a5a2d3c40fb 660
+apps/mobile/src/lib/enrichedLinkPresentation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-69
+apps/web/src/contextMenuFallback.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 306-307,309,311
+apps/mobile/src/features/threads/McpAppWebView.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 41,102,117,126,128-131,165,186,198,301-306,481-485,518,531,549
+packages/provider-opencode/src/server/usage.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 18,94,96-97,99,102-118,145-146,191-217,219-231,251-275,277-305
+apps/mobile/src/components/ListRowLayout.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-68
+apps/mobile/src/features/pull-requests/pullRequestStatus.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-109
+apps/mobile/src/features/threads/git/GitCommitSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 4,106,139-140,177,180,256,259
+packages/shared/src/devProxy.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 16-18,24
+apps/mobile/src/features/settings/ScheduledTaskPickerScreens.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 28-32,53
+apps/mobile/src/features/prompt-links/prompt-link-model.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-76
+apps/server/src/orchestration-v2/ProviderContinuationService.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 4,6,16,186-204,535-718
+  s_4784e5409c7ffa::t_31fb8cef49d204 719
+apps/mobile/src/features/pull-requests/pullRequestActions.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-144
+apps/mobile/src/lib/markdownHtml.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-73
+apps/mobile/src/components/ListToggleRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-45
+apps/web/src/components/ui/alert-dialog.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-38
+packages/client-runtime/src/state/queryPersistence.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-49
+apps/web/src/components/sidebar/UpdateEverythingDialog.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-117
+apps/mobile/src/features/workspace/WorkspaceSidebarTabs.ios.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-38
+apps/mobile/src/components/CopyTextButton.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 13-14,40
+apps/mobile/src/features/threads/worktree-setup-sheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-2,10,12-14
+apps/mobile/src/lib/markdownMedia.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 75-129
+apps/mobile/src/components/FilePreviewGallery.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-16
+apps/server/src/orchestration-v2/ProviderEventIngestor.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1733-1816
+apps/mobile/src/state/thread-outbox.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1393,1407,1409-1410
+apps/mobile/modules/t3-native-controls/ios/T3MenuDismissTouchGate.swift
+  s_4784e5409c7ffa::t_dd1a6628671838 1-81
+apps/mobile/src/state/use-pull-to-refresh.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-41
+apps/web/src/hooks/useHtmlRenderTheme.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 11,44-53
+packages/provider-cursor/src/server/textGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 201-204
+apps/mobile/src/lib/composerChipPresentation.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-85
+packages/source-control-github/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 76
+apps/mobile/src/native/T3ComposerEditor.ios.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 18-20
+.github/workflows/mobile-android-apk.yml
+  s_4784e5409c7ffa::t_dd1a6628671838 1-59
+docs/operations/release.md
+  s_4784e5409c7ffa::t_dd1a6628671838 294-305
+apps/mobile/modules/t3-native-controls/ios/T3NativeFilePresentation.swift
+  s_4784e5409c7ffa::t_dd1a6628671838 28,42-45,48-49,65,68-69,73,104,107,131-134,136
+apps/server/src/orchestration-v2/testkit/fixtures/subagent_v2/muse_transcript.ndjson
+  s_4784e5409c7ffa::t_dd1a6628671838 1-57
+apps/mobile/src/components/FilePreviewModal.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-10,15-16,18-22,24-28,30-32,97-143,153-182,189,192-193
+apps/mobile/src/native/useMarkdownImageSource.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-73
+apps/server/src/persistence/PullRequestReviewGuides.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-84
+apps/server/src/orchestration-v2/testkit/fixtures/index.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 61-64,67,868-873,1241-1267
+apps/server/src/provider/antigravityUsageLimits.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-244
+apps/mobile/src/features/threads/ThreadHeader.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 8,21,99
+packages/provider-cursor/src/server/skills.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 206-208
+apps/server/src/mcp/McpToolAccess.race.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 20,25,189-196,207-214
+apps/mobile/src/features/pull-requests/usePullRequestConnected.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-8
+apps/mobile/modules/t3-source-text/src/T3SourceTextNativeComponent.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-45
+apps/mobile/src/state/projects.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 7,12
+apps/server/src/provider/Drivers/claudeUsage.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 101
+apps/web/src/lib/contextWindow.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 61-70
+packages/provider-opencode/src/server/usage.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 10,21-89,140-274,276
+apps/server/src/observability/OtlpEndpointCheck.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-98
+apps/mobile/src/features/pull-requests/pullRequestDescriptionContent.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-43
+apps/mobile/src/features/pull-requests/PullRequestRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-1192
+apps/web/src/components/device/DeviceStreamView.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 160
+apps/web/src/components/settings/settingsSearch.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 48-60,194-195,415-423
+apps/mobile/src/features/settings/SettingsMicrophoneRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,6
+apps/mobile/modules/t3-source-text/ios/T3SourceTextRun.h
+  s_4784e5409c7ffa::t_dd1a6628671838 1-20
+apps/server/src/pullRequest/PullRequestReviewGuideService.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-507
+apps/mobile/src/features/threads/ThreadMarkdownImage.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2-6,8-9,15,21,41,45,100,114-122,133,155,161-183,196-237,243,250,265-270,273-283
+packages/client-runtime/src/work-log/presentation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 612
+apps/mobile/src/components/SegmentedControl.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-9,21-43,50,60
+packages/contracts/src/orchestratorMcp.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 402,491-492
+apps/mobile/src/features/pull-requests/MaterialFloatingToolbar.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-5
+apps/web/src/components/GitActionsControl.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 83-85
+apps/web/src/components/promptLinks/copyPromptLink.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-88
+apps/web/src/components/promptLinks/linkedPrompt.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-56
+apps/mobile/src/features/devices/device-preview-button.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 35
+apps/web/src/components/sidebar/SidebarUpdatePill.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,16,30,35-36,70,75-76,80-81,83-91,120-193,195,201-202,221-227,235,239-249,252-256,279-284,288-290,315,346-372,383-385,403,503-510
+apps/mobile/src/connection/pull-request-cache-store.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-22
+apps/web/src/components/pullRequest/guide/useReviewGuideWriter.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-78
+apps/web/src/components/ThreadRouteView.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 22,76
+apps/mobile/src/lib/android-workspace-navigation.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-186
+packages/shared/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 6-9,254-257,492
+apps/mobile/src/features/pull-requests/usePullRequestListControls.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-48
+apps/mobile/deps/README.md
+  s_4784e5409c7ffa::t_dd1a6628671838 1-3
+packages/source-control-forgejo/src/server/ForgejoSourceControlProvider.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 212
+apps/server/src/orchestration-v2/workflowAgentAnswers.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-121
+apps/server/src/provider/ProjectSettingsOverrideSweep.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-46
+apps/web/src/components/chat/ComposerSurface.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 72
+packages/provider-cursor/src/server/adapter.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 58-68,89,199-200
+apps/server/src/persistence/Migrations/062_ScheduledTasksLastRunThread.ts
+  s_4784e5409c7ffa::t_c47bc4fe889027 8-9
+packages/source-control-gitlab/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 44
+.github/scripts/mirror-play-apk.cjs
+  s_4784e5409c7ffa::t_dd1a6628671838 1-189
+apps/web/src/components/settings/useScopedModelAvailability.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 4,38,41
+packages/client-runtime/src/device/stream.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 369,390-396,601,605-609,697,740-742,824-825,832-833,846,884,980,1024-1028
+apps/mobile/src/features/workspace/android-workspace-navigation-colors.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-110
+apps/web/src/components/settings/useScopedSettings.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 22,46
+apps/mobile/src/features/workspace/workspace-tabs-state.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-92
+knip.jsonc
+  s_4784e5409c7ffa::t_dd1a6628671838 91
+apps/server/src/mcp/toolkits/orchestrator/handlers.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1,5,40-58
+  s_4784e5409c7ffa::t_e8d543a075e340 59
+apps/server/src/textGeneration/CodexTextGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 153,276-277
+apps/mobile/src/features/review/ReviewSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2,4,286-289,858
+apps/mobile/src/lib/contextImageGallery.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-33
+apps/web/src/components/chat/AssistantSelectionToolbar.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 64-72,84
+apps/web/src/components/pullRequest/pullRequestPresentation.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 12,528-529
+packages/client-runtime/src/state/pullRequests.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3-11,25-27,187,197,207,222-232,245,253,267,276,296,334,536-546,548
+  s_4784e5409c7ffa::t_6cccf91a9a348b 547
+apps/web/src/components/ProviderUpdatesAction.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 18-23,25,46-80,92
+apps/server/src/orchestration-v2/ClaudeAutomaticDelivery.integration.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 32,42,163,318,327-329
+packages/source-control-azure-devops/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 44
+apps/mobile/src/features/threads/ThreadQueueControl.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 21,24,29,56,182,453,455-457
+apps/server/src/orchestration-v2/workflowAgentAnswers.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-97
+apps/server/src/auth/EnvironmentAuth.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 47,691-731,771,779,783-800,804-813,1317-1321,1323
+apps/server/src/textGeneration/CodexTextGeneration.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 356
+apps/mobile/src/features/pull-requests/PullRequestListFilters.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-276
+apps/mobile/src/persistence/mobile-database.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3,73-155
+  s_4784e5409c7ffa::t_f411c8f9dc677c 156
+packages/client-runtime/src/state/pullRequestStatsPersistence.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-43
+packages/provider-acp/src/server/AcpSessionRuntime.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 288-294
+packages/provider-opencode/src/server/textGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 18,324-327
+packages/provider-opencode/src/server/v2/textGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 204-207
+apps/mobile/modules/t3-review-diff/ios/T3ReviewDiffView.swift
+  s_4784e5409c7ffa::t_dd1a6628671838 703,710,842-855,2445
+apps/mobile/src/features/pull-requests/botBadgeImages.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-26
+packages/source-control-forgejo/src/server/ForgejoPullRequestProvider.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 271
+apps/mobile/src/features/pull-requests/guide/ReviewGuideExcerpt.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-135
+apps/server/src/orchestration-v2/ProviderContinuationService.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 129-199,205-210,232-252,254-258,261-265
+apps/web/src/components/chat/ThreadDetailsPanel.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 13,18,25-26,72,166
+packages/provider-core/src/server/managedProvider.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 109-111
+packages/provider-grok/src/server/usage.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 221
+apps/server/src/orchestration-v2/BackgroundWorkStop.integration.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 45,50,493-513,524-526,532-553,916-927,946-947
+  s_4784e5409c7ffa::t_27e5c9cad56acd 948-949
+packages/source-control-gitlab/src/server/GitLabPullRequestProvider.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 226-228
+packages/ssh/src/tunnel.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 243-244
+apps/mobile/src/features/settings/components/SettingsRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 3,5,10,19-30,33-38,40-41
+packages/client-runtime/src/state/runtime.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 29,89-96,98,126,1138-1221
+  s_4784e5409c7ffa::t_2882722c343bfa 1222
+apps/web/src/components/settings/TelemetryExportSettings.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-73
+apps/mobile/src/features/layout/createWorkspaceStackNavigator.ios.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 22,27-29,65,71-78,133-150,211,228-231,236-241,288-293,304,306,309-312,314-349,366,371-372,430-439
+apps/server/src/vcs/GitVcsDriver.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1052
+apps/mobile/src/features/settings/SettingsFollowUpRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,5
+packages/client-runtime/src/reviewGuideTour.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-224
+apps/mobile/src/lib/markdownMediaSource.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-22
+apps/mobile/src/features/threads/thread-list-v2-row-appearance.android.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 7-17,39,41,61
+oxlint-plugin-t3code/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 6
+apps/web/src/components/ThreadStatusIndicators.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 30-36,47,302,319-324,327-338,1051-1126
+apps/mobile/src/features/threads/worktree-setup-card.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 9,11,101-102,104-108,220,311
+apps/server/src/persistence/reconcileForkMigrations.ts
+  s_4784e5409c7ffa::t_47004df6613e2c 5-16,26-40
+apps/web/src/components/settings/SettingInheritance.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 48-52
+docs/operations/mobile-screens-fork.md
+  s_4784e5409c7ffa::t_dd1a6628671838 4,9-10,20
+apps/mobile/src/features/home/WorkspaceConnectionTitle.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 3,5,138
+apps/mobile/src/features/pull-requests/pullRequestTabScroll.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-8
+apps/mobile/src/features/prompt-links/prompt-link-actions.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-50
+apps/server/src/project/ProjectService.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 22,64,84
+apps/web/src/components/chat/timelineMinimapWheel.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-63
+apps/server/src/orchestration-v2/Adapters/ClaudeAgentSdkQueryRunner.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-80
+apps/mobile/src/state/use-thread-outbox-drain.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 30-32,46,532,666-668,822-826,828,906-910,912,1005-1009,1011,1052-1056,1058,1066-1094,1117-1120,1149
+  s_4784e5409c7ffa::t_a9b8fd6493f61c 29
+packages/source-control-github/src/server/GitHubApi.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 26,31-39,59-64,130-154
+  s_4784e5409c7ffa::t_de7c1c151011d8 155-157
+apps/mobile/src/features/files/FileMarkdownPreview.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2,5,9,13,16-21,34,99-100,118,123-129,131-155,157,160-166,173-174,180-214,219,231-240
+apps/mobile/src/components/ComposerAttachmentStrip.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-2,191,203-214,340,351-362,364-365,368-375,377-398
+apps/mobile/src/features/settings/components/SettingsSwitchRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 3,5-11
+apps/server/src/git/GitManager.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 275-279,350,399,1640-1949,2416-2420,2431-2437,3837-3877,6008-6013
+apps/server/src/orchestration-v2/ThreadTitleRegenerationService.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 24,58-63,95
+apps/mobile/src/features/home/home-list-options.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-130
+apps/server/src/usage/usageTranscriptReader.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 210-228,290-297,336,359
+  s_4784e5409c7ffa::t_a498634fb8882d 209
+apps/mobile/src/features/archive/ArchivedThreadsScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 13,17,396
+apps/server/src/settingsSecrets.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-150
+apps/web/src/components/pullRequest/guide/guideRunStore.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-86
+apps/desktop/src/app/DesktopWebLinks.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 21-22
+apps/mobile/src/features/threads/GitActionProgressOverlay.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,4,7,25,28,45-47,53,166
+apps/mobile/src/features/pull-requests/PullRequestActivityFilters.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-91
+apps/server/src/provider/Drivers/CodexManagedProvider.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3-4,36-37,197-201,271-272
+apps/web/src/components/pullRequest/guide/GuideTour.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-174
+apps/mobile/src/features/pull-requests/pullRequestMediaSource.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-37
+apps/web/src/components/settings/scopedSettings.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 219
+apps/web/src/components/usage/UsageLimits.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 52-58
+apps/web/src/state/threads.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 22,162-165
+  s_4784e5409c7ffa::t_05fbf186c5e98f 166-167
+docs/user/keybindings.md
+  s_4784e5409c7ffa::t_dd1a6628671838 114-115
+apps/web/src/components/sidebar/SidebarChrome.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 59,64-72
+apps/mobile/src/features/workspace/workspace-tabs-state.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-77
+apps/mobile/src/features/pull-requests/usePullRequestAgentActions.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-55
+apps/mobile/src/native/EnrichedMarkdownText.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-360
+apps/web/src/state/npmRelease.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-41
+apps/server/src/git/GitManager.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 734-735,745,759,1341-1355,1372-1374,1624-1711,1736-1746,1758-1762,1782,1816-1817,1820,2802,2914,2925
+apps/web/src/state/threads.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 54
+packages/source-control-github/src/client/definition.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 9,49-50
+apps/mobile/src/lib/markdownMediaSource.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-41
+apps/mobile/src/features/pull-requests/pullRequestFileFilters.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-38
+apps/mobile/src/components/MaterialButton.android.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 4,81
+apps/mobile/src/features/browser/previewPromptText.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-15
+apps/mobile/src/features/pull-requests/PullRequestDiscussionScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-248
+apps/mobile/src/native/T3ComposerEditor.native.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 19-21
+apps/mobile/src/lib/threadActivityInspector.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3,164,210-213
+apps/server/src/orchestration-v2/testkit/fixtures/muse_workflow/muse_transcript.ndjson
+  s_4784e5409c7ffa::t_dd1a6628671838 1,4,6-63
+apps/server/src/persistence/Migrations.ts
+  s_4784e5409c7ffa::t_99d39fce8b8887 79,155
+  s_4784e5409c7ffa::t_dd1a6628671838 78,154
+apps/server/src/project/ProjectService.deletion.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 31,67,499-525
+  s_4784e5409c7ffa::t_623fb2fe137271 526
+apps/marketing/src/lib/site.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 11
+apps/mobile/src/features/pull-requests/pullRequestDescriptionContent.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-38
+apps/web/src/components/chat/timelineScrollAnchoring.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 168-172,174-177
+apps/mobile/src/features/browser/browser-preview-button.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 31
+apps/mobile/src/features/settings/SettingsClientStorageRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,7,103
+apps/web/src/hooks/useSettings.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 26,29,50-87,494-509
+  s_4784e5409c7ffa::t_e1f5038e5bfd0c 510
+apps/web/src/index.css
+  s_4784e5409c7ffa::t_dd1a6628671838 604,617
+apps/mobile/src/features/workspace/AndroidWorkspaceNavigation.android.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-94
+apps/mobile/src/features/threads/thread-list-v2-row-appearance.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 7-15,37,41,62
+apps/mobile/src/lib/pullRequestNavigation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-15
+apps/server/src/resourceTelemetry/ResourceMonitorBinary.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 199-206
+apps/mobile/src/lib/markdownLinks.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-313
+apps/mobile/src/state/query.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 14,35
+apps/server/src/ws.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 230,236,1205,1235,1315,1875,2038-2044,2437,2508-2511,3168,3235-3242
+apps/mobile/modules/t3-source-text/src/util.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-79
+apps/mobile/src/features/pull-requests/PullRequestEntryRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-18
+apps/web/src/components/chat/ProviderModelPicker.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 4,31,296
+apps/mobile/src/lib/mobileTheme.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 11-14,102,159-173,183-225,241-245,258-314
+  s_4784e5409c7ffa::t_8c2e116528710f 315-317
+apps/server/src/http.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 19-24,39-101
+  s_4784e5409c7ffa::t_df27219561b04b 102
+apps/server/src/provider/AntigravityProvider.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 9,33,128-129,135-138,202-203,224-229,277,280-283,300,308-311,346,378-379,389,397
+apps/web/src/components/chat/composerPromptHistory.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-4
+apps/mobile/src/lib/modelOptions.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 5,9,27-28,59-119,145-153,157,165-167,180-199,204-205,210,221,224,235-236,241,243,268-270,274-276,283,295-303,316-317,335-342,378-379
+apps/server/src/orchestration-v2/ProjectionRecovery.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 505
+apps/web/src/components/ui/popover.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 92
+apps/mobile/src/features/pull-requests/usePullRequestStack.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-50
+apps/mobile/modules/t3-native-controls/android/src/main/res/drawable/t3_pull_requests.xml
+  s_4784e5409c7ffa::t_dd1a6628671838 1-3
+apps/web/src/components/chat/timelineScrollAnchoring.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 274-276,281
+apps/server/src/pullRequest/pullRequestReviewGuideInput.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-57
+apps/mobile/src/features/pull-requests/usePullRequestList.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-312
+apps/mobile/src/features/threads/new-task-flow-provider.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 27,176,491-492,540-546,548-553,585,590,596,603-604,611,1097,1128,1175-1177,1328,1419
+apps/web/src/components/pullRequest/guide/useGuideDiffFiles.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-87
+apps/mobile/src/features/workspace/WorkspaceNativeTabs.ios.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-136
+apps/server/src/observability/RpcInstrumentation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 20,80,110-111
+apps/mobile/src/features/pull-requests/guide/useReviewGuide.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-62
+apps/mobile/src/features/threads/HtmlRenderWebView.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 274
+apps/server/src/orchestration-v2/ProviderEventIngestor.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 611-624,627-638,641,894-897
+apps/server/src/provider/ProviderInstanceRegistryHydration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 28-29,32,79-99
+  s_4784e5409c7ffa::t_19c369af4742a8 100-101
+apps/mobile/modules/t3-source-text/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 1-35
+apps/web/src/components/settings/KeybindingsSettings.logic.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 287
+packages/client-runtime/src/device/stream.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 67,115-116,120,185,343,527-581,584-585,594-608,610-615,618,620,695
+apps/mobile/src/features/pull-requests/usePullRequestPermissions.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-48
+packages/client-runtime/src/state/runtime.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1,69,563-620,711,723
+apps/mobile/src/components/ListRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-36
+packages/contracts/src/rpc.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 170,218,298-299,512,548-549,908-913,1042-1053,1706-1711,1950,1980-1981,2086
+packages/provider-acp-registry/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 32
+packages/provider-core/src/server/managedProvider.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 186-210
+apps/server/src/textGeneration/TextGeneration.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 27
+apps/web/src/terminal/ghostty/core.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 16,85,420-432
+apps/mobile/src/lib/storage.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 279-304
+apps/server/src/device/DeviceHubProxy.stream.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-89
+apps/server/src/mcp/OrchestratorMcpService.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 88,117,218-219,541-547,551,553-580,888,910,1143-1155,1179-1188,1210-1213,1216-1234,1238-1240,1317,1901-1905,1922-1938,1973-1983,1988,1990-1994,1999-2001,2023-2028,2278,2289-2293,2671
+apps/mobile/src/features/pull-requests/pullRequestActions.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-121
+apps/server/src/orchestration-v2/ThreadLaunchService.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 170-173,183-189,351,775-779
+apps/server/src/orchestration-v2/ProviderRuntimeRecoveryService.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 857-947
+apps/web/src/components/chat/ChatComposer.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1020-1024,1033,1615-1616,1766,2143-2147,2149,5539
+apps/web/src/components/pullRequest/PullRequestSummaryTab.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 104
+apps/server/src/provider/Drivers/codexUsage.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 234
+apps/mobile/src/features/pull-requests/pullRequestStack.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-141
+apps/web/src/components/settings/SourceControlWritingSettings.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 10-13,30,34,69,71,94-97,111-130,137-138,141,149,154-178,356,392-418,439-604
+apps/web/src/hooks/useHandleNewThread.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 25-32,163-177
+apps/web/src/components/settings/ProviderSetupSection.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 209
+apps/web/src/sidebarProjectGrouping.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 2-7,53-93,116,128
+packages/provider-acp/src/server/adapter.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 6286-6289
+apps/mobile/src/native/StackHeader.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 6-7,150,165-168,180
+apps/web/src/components/settings/ProviderSettingsPanel.logic.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 6-8,10,112-147
+  s_4784e5409c7ffa::t_96a80bf4500bdb 148-149
+apps/server/src/device/DeviceToolchain.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 27,30,32
+apps/web/src/components/promptLinks/NewThreadLinkView.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-379
+apps/mobile/modules/t3-composer-editor/android/src/main/java/expo/modules/t3composereditor/T3ContextChip.kt
+  s_4784e5409c7ffa::t_dd1a6628671838 1-184
+apps/mobile/src/features/home/homeThreadList.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 14,52-124
+apps/mobile/src/features/pull-requests/pullRequestList.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-362
+apps/web/src/components/pullRequest/PullRequestTimelineTab.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 541,550,582
+apps/web/src/components/settings/SettingsSidebarNav.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 81,99-105,143-151,156-164
+packages/provider-core/src/server/usage.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 93-96,98
+packages/provider-muse/src/server/itemPresentation.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 76-120
+apps/web/src/components/promptLinks/ThreadLinkPrompt.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-50
+apps/mobile/src/native/NativeHeaderToolbar.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 13,19,50-58,60,163-167,180,188-192,228-230,233-234,236,243,251,254-257,259-268,270,279,284-285,293,297,302
+packages/provider-acp-registry/src/server/driver.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 86
+apps/mobile/src/features/pull-requests/pullRequestReviewDrafts.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-81
+apps/mobile/src/lib/composerImageGallery.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-17
+apps/web/src/hooks/useSettings.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 12-13,20,50-53,326-357,430-551,558,581-587,786
+packages/shared/src/threadPullRequests.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 448-472
+apps/web/src/components/ui/alert-dialog.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 73-76,107,117-123
+packages/provider-pi/src/server/usage.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 118
+packages/shared/src/git.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 14-15,299-350
+  s_4784e5409c7ffa::t_da31021186111b 351
+apps/mobile/src/features/cloud/T3ConnectProfilePage.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 10,12,163,174-177
+packages/shared/src/promptLinks.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-249
+apps/server/src/provider/CodexManagedRuntime.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 25-26
+apps/server/src/environment/ServerEnvironment.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 232,237
+packages/client-runtime/src/state/subagentRuntime.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 5,7-11,44,46-49,75-76,106-198,200,210-211,218,221-224,226,235,246-249,251,256-318
+packages/provider-opencode/src/server/v2/adapter.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 52,309-310,323-327,351-356,918-922,945-949,963,1703,1710,1867,1964,2149,2170-2178,2396,2407,2409-2413,2421,2441-2442,2531-2540,2548-2553,2558,2579-2582,2586,2589-2590,2592,2847-2856,2860-2868,2900,2904-2907,3495,3498-3553,3568-3572,3581-3590,3597-3599,3680,3682,3689-3690,4060,4168,4174
+apps/mobile/src/features/threads/ThreadNavigationSidebar.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2,179-180,210-219,253-254,256-257,555,858-865
+pnpm-workspace.yaml
+  s_4784e5409c7ffa::t_dd1a6628671838 23,25,43,85-86,193,296,301
+docs/internals/open-source-licenses.md
+  s_4784e5409c7ffa::t_dd1a6628671838 63-66
+apps/web/src/components/chat/chatCanvasLayout.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 79-93,109,317
+apps/web/src/components/pullRequest/pullRequestMarkdown.logic.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 7-10
+packages/shared/src/projectSettings.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 9,16-17,178-179,184-188,195-205,209-242
+  s_4784e5409c7ffa::t_690c1911804b5b 243-244
+packages/source-control-bitbucket/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 40
+apps/mobile/src/features/pull-requests/PullRequestMarkdown.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-148
+scripts/lib/third-party-licenses.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 4,22-27,87-207
+apps/mobile/src/components/MaterialListRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 15-16,25-26,53-57
+apps/mobile/src/lib/composerContext.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 6,17,20,124,133,138-140,143,146-150,242-246,248,252-254
+apps/mobile/src/features/pull-requests/pullRequestDiffComments.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-117
+apps/mobile/src/features/pull-requests/PullRequestOverviewLoading.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-110
+apps/mobile/src/features/pull-requests/PullRequestStatusRows.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-330
+apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 18-20,1517,4982,4984,4987,4989-4990,5089,5091,5094,5096-5097,5149,5151,5154,5156-5157,5210,5212,5215,5217-5218,5295,5297,5300,5302-5303,5354,5356,5359,5361-5362,5414,5416,5419,5421-5422,5472,5474,5477,5479-5480
+  s_4784e5409c7ffa::t_1ef5ff536df85e 17
+apps/web/src/hooks/useHandleNewThread.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 121-124,173
+apps/mobile/src/features/pull-requests/guide/GuideNotice.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-85
+apps/mobile/modules/t3-source-text/ios/T3SourceText.mm
+  s_4784e5409c7ffa::t_dd1a6628671838 1-302
+apps/web/src/components/chat/V2ItemInspector.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 14,265-266
+apps/web/src/components/settings/SecretInput.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-39
+docs/orchestration-v2/orchestrator-mcp-server.md
+  s_4784e5409c7ffa::t_dd1a6628671838 240-246
+packages/client-runtime/src/pullRequestMarkdown.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-166
+packages/client-runtime/src/state/queryPersistence.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-71
+packages/contracts/src/t3ProjectFile.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 129-132
+apps/server/src/mcp/McpToolAccess.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 161-166
+  s_4784e5409c7ffa::t_ab224299a75843 159-160
+apps/web/src/components/chat/ProviderModelPicker.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 43,165
+apps/web/src/components/sidebar/useUpdateEverything.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-94
+apps/mobile/src/features/pull-requests/PullRequestReviewersScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-329
+apps/mobile/src/features/threads/floating-working-control.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 24,49-50,278,367,405
+apps/mobile/src/features/workspace/WorkspaceToolbar.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-179
+apps/mobile/src/components/MaterialRadioIndicator.android.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 25-26,37
+apps/mobile/src/features/pull-requests/guide/PullRequestGuideScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-339
+apps/mobile/src/features/pull-requests/PullRequestSectionHeading.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-6
+apps/server/src/orchestration-v2/Adapters/claudeWorkflowProgress.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-192
+apps/server/src/orchestration-v2/RestartContinuation.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 4,13,40,96,129,141,143,161,182-189,672-678,704-710,850-970
+apps/mobile/src/features/projects/AddProjectDestinationRoute.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 10-11
+apps/mobile/modules/t3-source-text/T3SourceText.podspec
+  s_4784e5409c7ffa::t_dd1a6628671838 1-25
+apps/mobile/src/persistence/layer.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3,15
+apps/web/src/components/pullRequest/pullRequestDetail.logic.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1179,1182-1242
+  s_4784e5409c7ffa::t_a9fdf50841416e 1180-1181
+apps/mobile/src/features/pull-requests/pullRequestStatus.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-203
+apps/server/src/pullRequest/pullRequestReviewGuideInput.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-47
+apps/mobile/src/features/threads/useThreadHeaderOptions.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 34-35
+apps/mobile/src/features/connection/ConnectionsNewRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 215
+apps/mobile/src/lib/android-workspace-navigation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-34
+AGENTS.md
+  s_4784e5409c7ffa::t_dd1a6628671838 9
+apps/web/src/components/settings/KeybindingsSettings.logic.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 373
+apps/server/src/provider/ProjectSettingsOverrideSweep.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-61
+apps/mobile/src/features/threads/ThreadRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,6,89,91-94,113-139,141-149,155-156,170-188,193,216,325,981-985,987,1081
+apps/mobile/src/state/use-composer-drafts.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 243-258
+apps/server/src/orchestration-v2/Adapters/ClaudeAdapterV2.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1,3,5,49,1030,1190,1310,1536,1681,1776,2068,2322-2323,2338-2341,2345,2352-2353,2358-2361,2380,2383,2398,2431,2437,2458-2460,2498,2809-2877,3153-3154,3191-3192,3429-3496,4873,5133,6713,6775,9860,10050,10292,10491,10674,10813,11048-13383
+  s_4784e5409c7ffa::t_77934f415710be 13384
+apps/server/src/orchestration-v2/RestartContinuation.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 5,11,26-83,91-97,99,113,166-167,181-182,194-209,244-282
+apps/web/src/components/ui/collapsible-section-header.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 17,23,32-33
+apps/web/src/routeTree.gen.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 37,166-170,192,220,251,283,311,341,552-558,577,585
+docs/user/providers-antigravity.md
+  s_4784e5409c7ffa::t_dd1a6628671838 128-131
+apps/mobile/src/components/ComposerContextSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,8,13,22,27,87,91-96,159-163,186-195,197-200,202-237,239,241-245,247,249-251,255-265,267-268,270-273,275,278-286,288-292,294-295,297-314,316-393
+apps/mobile/src/components/FilePreviewModal.types.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 6,15,21-29
+apps/mobile/modules/t3-native-controls/android/src/main/java/expo/modules/t3nativecontrols/T3WorkspaceNavigationModule.kt
+  s_4784e5409c7ffa::t_dd1a6628671838 1-184
+apps/mobile/src/features/pull-requests/MaterialFloatingToolbar.android.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-26
+apps/server/src/terminal/Manager.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 29,1404-1447,1564-1579
+  s_4784e5409c7ffa::t_15701806a04744 1580
+apps/server/src/orchestration-v2/testkit/fixtures/muse_subagent_interrupt/input.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-14
+apps/server/src/persistence/Migrations/061_PullRequestReviewGuides.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-19
+apps/web/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 11,91
+apps/web/src/components/pullRequest/PullRequestComposer.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 35,47-51,67-72
+apps/mobile/src/features/workspace/WorkspaceRootScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-167
+docs/user/project-settings.md
+  s_4784e5409c7ffa::t_dd1a6628671838 30-37
+packages/shared/src/markdownLinks.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 225-243
+patches/@effect__platform-node-shared@4.0.2.patch
+  s_4784e5409c7ffa::t_dd1a6628671838 1-60
+packages/provider-muse/src/server/protocol.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 28-29,34-35
+apps/web/src/components/pullRequest/PullRequestMarkdown.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 93,97
+apps/mobile/src/native/SelectableMarkdownText.types.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-84
+apps/server/src/orchestration-v2/runtimeLayer.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 5491-5620
+apps/server/src/orchestration-v2/ProjectionStore.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 352-399,552-556,2576-2577,2609,2649-2723,2727-2728,2731-2760,3259-3429,3431
+  s_4784e5409c7ffa::t_a8ab8c8818484c 3430,3432
+packages/shared/src/keybindings.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 196
+apps/server/src/orchestration-v2/Adapters/OpenCode2AdapterV2.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 51-54,71-76,82,329-333,352-355,718-739,1766-1847,1888,1890-1953,1955-1974,1976-2002,2005,2007-2058,2060-2075,2077-2103,2105-2317,4503,4570-5119,5197
+apps/desktop/src/preview/PickPreload.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 557,567,617
+apps/web/src/components/settings/settingsSearch.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 19,96,579-586,872-897,1018
+apps/web/src/lib/contextWindow.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 174-175
+packages/provider-pi/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 24
+packages/source-control-core/src/client/definition.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 147
+.github/workflows/mobile-eas-production.yml
+  s_4784e5409c7ffa::t_dd1a6628671838 10-14,25-29,268-278,291-298,303-332,334-335,338
+apps/mobile/src/components/AppSymbol.ios.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-6,8,16-26,29-30,32,43
+apps/mobile/src/features/threads/git/GitBranchesSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 87
+apps/server/src/orchestration-v2/EffectWorker.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 259-313
+apps/server/src/textGeneration/AntigravityTextGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 309-312
+apps/mobile/src/features/pull-requests/pullRequestSelection.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-32
+apps/mobile/src/features/layout/AdaptiveWorkspaceLayout.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 27,49,60-66,223,239,249,252,259-260,278-279,282-289,503-551,555,561-564,567,572-574,576,578-580,592-598,601,608-613,645-652,688-691,703-706,708-722,744-763
+apps/mobile/src/features/pull-requests/guide/guideDiffFocus.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-23
+apps/web/src/components/AppSidebarLayout.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 86,141,143-146,266-270,274,339-340
+apps/mobile/src/features/pull-requests/MaterialPullRequestToolbar.android.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-116
+apps/mobile/src/features/cloud/ConnectOnboardingRouteScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 57-58,60-65,90-99,107,119-121
+apps/server/src/environment/ServerEnvironment.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 225
+apps/mobile/modules/t3-source-text/ios/T3SourceTextShadowNode.h
+  s_4784e5409c7ffa::t_dd1a6628671838 1-45
+apps/web/src/components/chat/ModelPickerContent.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 4,41-44,160,210,285
+packages/client-runtime/src/diffCount.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-6
+apps/mobile/src/features/pull-requests/usePullRequestAgentActions.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-60
+apps/mobile/src/components/ListChoiceRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-60
+apps/mobile/src/features/home/HomeScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,28,81-82,275-276,288-289,297-301,349-357,376-380,387,835,855,972,983-997,1054-1107
+apps/web/src/components/ui/sidebar.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 31,38-39,112-115,155-156,162-171,179-180,216,258,281
+packages/shared/src/projectSettings.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 13,150-187,265-321
+  s_4784e5409c7ffa::t_baf728be25e20c 322-323
+apps/mobile/src/features/threads/thread-work-log.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 88,1149-1166,1538
+packages/client-runtime/src/work-log/presentation.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 311,324-362
+  s_4784e5409c7ffa::t_28ea6e13fda9f7 363-364
+apps/server/src/mcp/toolkits/worktree/registration.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 19,48
+apps/mobile/src/features/settings/components/SettingsSection.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1
+apps/web/src/components/pullRequest/PullRequestCodeTab.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 85-89,182,194,196,212-213,683-695,1398-1400,1580
+  s_4784e5409c7ffa::t_aa768b8e0b8311 84
+apps/mobile/src/persistence/mobile-database.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 25,298-299,303,321-365
+apps/web/src/components/promptLinks/HostedPromptLinkLanding.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-179
+apps/mobile/src/features/pull-requests/PullRequestControls.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-311
+apps/web/src/routes/_chat.pull-requests.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 132-135,1745-1755,1886-1891,2150,2222-2227,2236,2254,2309,2560,2580-2581,2643-2648
+apps/web/src/components/settings/ProviderSettingsPanel.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 22,26,46-47,59,121,130-135,285-289,461,472,477,484,493,498,512,522,528,551,562,568-569,582-583,588-593,931-957,964,1080-1107
+packages/shared/src/composerContextReferences.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 95-108
+packages/shared/src/mcpApp.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1,6-7,47-105,213-270
+packages/source-control-bitbucket/src/client/definition.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 42-43,54-55
+apps/server/src/orchestration-v2/Adapters/ClaudeAdapterV2.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 7-15,70-72,81,88,92,101,384,532-539,836-844,1168-1176,1578-1583,2918-2923,2964-2969,2994-2995,3398-3420,4422,4473-4807,4820-4823,4830,4834-4835,4837-4843,4847-4852,4914-4928,4988,5005,5024,5027-5033,5035,5037,5039-5066,5068,5079-5082,5089-5096,5160-5161,5176-5182,5230-5231,5705-5731,5739-5740,5747,6022,6025-6044,6046-6087,6103-6160,6686-6692,6770-6786,6798-6800,6970-6976,7110-7117,7126-7132,7137-7156,7166-7171,7173,7181-7182,7236-7237,7305-7322,7335-7338,7487-7488,8351,8364-8377,8397,8478,8517-8528,8531,8540-8627,8709-8710,8712-8723,8829,8941-8970
+apps/mobile/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 43,46,70,123,129,134-135,138,144,152-155,161-162
+apps/mobile/src/state/use-thread-outbox-drain.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 91-92
+apps/server/src/orchestration-v2/FoundationPersistence.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 2782-2783
+apps/server/src/usage/usageTranscriptReader.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 11,221-243,250-279
+  s_4784e5409c7ffa::t_400cfc0597acb6 280
+apps/web/src/lib/windowControlsOverlay.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-5,10-12,16,54-69
+  s_4784e5409c7ffa::t_35ef8854cf4972 70
+packages/shared/src/serverSettings.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 16-18,29-54,472,507,542,548-621,656-711,985-1156
+apps/mobile/src/features/pull-requests/usePullRequestFileFilter.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-26
+apps/mobile/src/features/pull-requests/usePullRequestThreads.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-168
+apps/mobile/src/features/threads/ThreadSettingsRows.shared.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 15-16,57,60,82-84,100-116
+apps/mobile/src/features/threads/messageImageGallery.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-35
+apps/server/src/vcs/GitVcsDriver.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1117,1129,1154-1155
+packages/source-control-core/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 48
+apps/web/src/versionSkew.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 52-53,63,65
+packages/ssh/src/tunnel.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 235-240
+tsconfig.base.json
+  s_4784e5409c7ffa::t_dd1a6628671838 31-34
+apps/mobile/modules/t3-source-text/ios/T3SourceTextRunShadowNode.h
+  s_4784e5409c7ffa::t_dd1a6628671838 1-14
+apps/server/src/provider/CodexProvider.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 4,7,10,72-74,356-425,429-430,461,506,528-530,671,678
+apps/web/src/components/ui/menu.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 151
+apps/server/src/mcp/toolkits/core.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 11-13,17-18,45,78,585,624,675-769,771-773,775,778-796,804,806-811,814,822-823
+apps/mobile/generated-uniwind-themes.css
+  s_4784e5409c7ffa::t_dd1a6628671838 35-36,196-197,331,341-342,344,357-358,360,380,388,518-519,521,541,653,663-664,666-667,679-680,682,702,710,814,824-825,827-828,840-841,863,871,975,985-986,988,1001-1002,1024,1032,1136,1146-1147,1149-1150,1162-1163,1185,1193,1297,1307-1308,1310-1311,1323-1324,1346,1354,1458,1468-1469,1471-1472,1484-1485,1507,1515,1619,1629-1630,1632-1633,1645-1646,1668,1676,1780,1790-1791,1806-1807,1837
+packages/effect-codex-app-server/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 32
+apps/mobile/modules/t3-native-controls/expo-module.config.json
+  s_4784e5409c7ffa::t_dd1a6628671838 5-8,13
+apps/server/src/orchestration-v2/testkit/fixtures/muse_subagent_approval/output.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-56
+apps/mobile/src/features/browser/PreviewStreamWebView.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 29,260,376,378-380,383,421-422,464-466
+apps/server/src/orchestration-v2/workflowScriptQuery.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 5-7,36-47,64-69
+apps/mobile/src/features/settings/components/SettingsActionRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2,4,30-32
+apps/web/src/components/sidebar/DesktopUpdateStatusIcon.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2,13-16,121
+apps/mobile/src/features/pull-requests/botBadgeImages.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-53
+apps/mobile/src/lib/mobileTheme.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 194-199,206-210,227,250,254-262,274,290-291,303-304,306,326,339,352-355,359,392-393,399-403,417-426
+scripts/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 6
+packages/client-runtime/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 46-49,394-397,409-420,424,428
+packages/shared/src/githubMarkdownLinks.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-35
+apps/server/src/auth/http.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 312-313
+packages/provider-opencode/src/server/driver.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 173-176
+  s_4784e5409c7ffa::t_aae4e6bb1594bf 172
+apps/mobile/src/features/settings/components/SettingsChoiceRow.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1
+packages/provider-muse/src/server/textGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 20,345-347,353
+apps/web/src/components/settings/ProviderInstanceCard.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 7,12,47,61,274-296,423-447,498-584,616-619,621,628-629,659-661,683,691,693,701,703,790-793,1092-1106,1109,1316-1317,1332
+packages/source-control-gitcafe/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 40
+apps/mobile/src/components/FilePreview.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 77-83
+apps/server/src/mcp/OrchestratorMcpToolkit.integration.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 57,61-62,617-623,692,1429-1434,3859-3865,3883
+packages/provider-pi/src/server/textGeneration.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 122-125
+apps/server/src/httpCors.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 12-14
+apps/web/src/components/settings/SettingsPanels.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 2186,2222-2226,3266
+apps/mobile/src/features/threads/markdownImageSize.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 7,64-79
+  s_4784e5409c7ffa::t_0e4852d5177d61 80
+apps/server/src/persistence/Migrations/055_OrchestrationV2.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 35,63
+  s_4784e5409c7ffa::t_cf6c33bcef979d 16
+  s_4784e5409c7ffa::t_da783bf4496bdb 36,64
+apps/web/src/terminal/ghostty/surface.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 160,218,223,616-636
+  s_4784e5409c7ffa::t_369aed7efc7857 637-638
+apps/mobile/src/components/VideoPreviewModal.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 4,7,169
+apps/mobile/src/native/V5StackHeader.ios.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 6,100-102,119-120,132-133,199,204-205,207-209,226-242,246-250,279-282
+apps/server/src/auth/RpcAuthorization.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 11,39-42
+  s_4784e5409c7ffa::t_f7e17db401ca19 43-44
+apps/mobile/src/state/thread-outbox-model.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 46,79
+apps/mobile/modules/t3-source-text/ios/T3SourceText.h
+  s_4784e5409c7ffa::t_dd1a6628671838 1-13
+apps/mobile/src/features/pull-requests/pullRequestDiffPages.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-55
+packages/client-runtime/src/state/pullRequestRouting.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 47-48
+apps/mobile/modules/t3-native-controls/android/src/main/res/drawable/t3_chats.xml
+  s_4784e5409c7ffa::t_dd1a6628671838 1-3
+apps/server/src/mcp/toolkits/pullRequests/tools.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 5-6,20,29-33,173-190,205-206,350-413,420-421
+infra/relay/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 12
+apps/mobile/src/features/pull-requests/PullRequestTimeline.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-274
+apps/mobile/src/components/PierreEntryIcon.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 4-5
+apps/mobile/modules/t3-native-controls/ios/T3NativeControlsModule.swift
+  s_4784e5409c7ffa::t_dd1a6628671838 42-53,219-220,222,230-236
+apps/mobile/modules/t3-source-text/src/SourceText.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-54
+packages/contracts/src/settings.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 12,1067-1138,1156-1186
+packages/provider-core/src/server/textGenerationOperations.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 21,41-47,50-59,65-75,180-191,197
+packages/shared/src/composerContextReferences.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 9,90-98
+  s_4784e5409c7ffa::t_769a52090a5045 99-100
+packages/source-control-testing/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 12
+apps/mobile/src/features/workspace/AndroidWorkspaceTabsProvider.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-12
+apps/web/src/components/Sidebar.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,36,132-133,163,254,2194-2199,2240,2340,2345,2356-2365,2369-2389,2568,2632,2634-2642,2725-2726,2728,2730-2737,2739-2746,2780,2786-2793,2796,4615-4619,4743-4747,5242
+apps/mobile/src/features/pull-requests/PullRequestMedia.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-142
+apps/mobile/src/lib/markdownLinks.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3,17-21
+apps/mobile/src/native/useOpenPullRequest.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-60
+apps/mobile/src/features/pull-requests/pullRequestActivityFilter.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-66
+apps/mobile/src/lib/mediaActions.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 29
+apps/web/src/components/settings/ProviderSettingsPanel.logic.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-7,12,237-346
+  s_4784e5409c7ffa::t_f0949be71d7226 347-348
+apps/web/src/components/sidebar/updateEverything.logic.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-206
+apps/web/src/hooks/useSettings.favorites.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-252
+apps/mobile/src/components/AppActivityIndicator.android.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-49
+packages/provider-muse/src/server/adapter.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1133-1248
+apps/server/src/orchestration-v2/workflowFileRead.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-112
+packages/provider-opencode/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 48
+apps/mobile/src/components/AppActivityIndicator.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-3
+apps/mobile/src/features/pull-requests/pullRequestAgentTasks.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-70
+apps/mobile/src/lib/markdownImageSources.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-12
+apps/server/src/resourceTelemetry/ResourceMonitorBinary.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 118-139
+apps/mobile/src/features/review/useReviewDiffData.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 2,113-114,118-121
+apps/mobile/src/features/pull-requests/pullRequestFileFilters.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-109
+apps/server/src/pullRequest/PullRequestService.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3-4,2571-2709,6193-6226
+  s_4784e5409c7ffa::t_e7b300efd84cba 6227
+apps/web/src/components/chat/timelineMinimapWheel.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-29
+packages/contracts/src/settings.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 302-320,435-439,558-566,574-575,582-591,768,772,824,977-978,992-996,1001-1009,1024-1025,1036-1039,1058,1101-1106,1127-1128,1130,1164-1168,1285-1302,1410-1433,1475,1490-1507,1561-1565,1607-1609,1723-1724
+apps/mobile/modules/t3-source-text/LICENSE
+  s_4784e5409c7ffa::t_dd1a6628671838 1-20
+package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 59
+apps/mobile/src/features/pull-requests/guide/reviewGuideState.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-103
+apps/mobile/src/features/pull-requests/guide/reviewGuideState.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-76
+apps/mobile/src/features/threads/new-task-context-presentation.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 90-99
+apps/mobile/src/lib/filePreviewGallery.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-57
+apps/mobile/src/features/threads/mcpAppSizing.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-9
+apps/server/src/orchestration-v2/testkit/fixtures/subagent_v2/muse_output.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-58
+apps/server/src/orchestration-v2/ThreadMessageIntake.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 10-12,26,32,36,771-818
+  s_4784e5409c7ffa::t_1451cf7ca671c4 819-820
+apps/server/src/server.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 42-43,61,586-589,731-734,736-737
+apps/web/src/components/ui/tooltip.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 5-8,87-108,128,151
+apps/web/src/components/settings/GitHubTokenSettings.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 11,107,110
+apps/mobile/src/features/workspace/android-workspace-navigation-colors.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-28
+apps/mobile/src/lib/filePreviewGallery.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-47
+apps/mobile/src/lib/markdownMedia.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-10,12-13,24,26-27,33,36-89,91
+apps/server/src/mcp/toolkits/project/handlers.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 160-174
+apps/server/src/orchestration-v2/ThreadTitleRegenerationService.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 36-41
+apps/desktop/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 10
+apps/server/src/serverSettings.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 59,68-73,148-151,480-486,488,497,687-688,690,692-698,700,702,706-708,711,714-716,741-742,841,869,874-891,893-894,897-903,909,911,932,934-939,941-954,956-962,964-966,968-974,977,979-984,987,990,1006,1016,1023,1073,1077-1078,1100,1216
+apps/web/src/routes/__root.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 38,70,149-151,177-187,262
+apps/web/src/components/settings/AddUsageLimitSourceDialog.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 16,122
+apps/web/src/components/settings/ProviderSettingsForm.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 6-11,19,136,415-424,433-434,516-517,523,527-528,535,537-538
+packages/client-runtime/src/state/models.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 25-26
+apps/mobile/src/components/AppSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-80
+apps/mobile/src/components/CompactBrandTitle.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 27,37
+apps/mobile/src/features/threads/mcpAppSizing.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-22
+apps/mobile/src/lib/videoPreviewSource.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 20,50-65
+apps/mobile/src/native/NativeScrollViewMarker.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-31
+apps/server/src/cli/project.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 25,36,211
+apps/server/src/mcp/OrchestratorMcpService.activity.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 23,150,216,330,454
+apps/server/src/orchestration-v2/workflowScriptQuery.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 3,8-22
+apps/server/src/provider/AntigravityProvider.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 9,132-136,149,260,266-267,270,272-274,671-736,739
+  s_4784e5409c7ffa::t_7c5551ea505a03 737-738
+apps/mobile/src/features/projects/AddProjectScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1,59,88-92,274,674,684-690,697-708,945,1328,1350,1422-1428,1459
+apps/mobile/modules/t3-source-text/src/T3SourceTextRunNativeComponent.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-39
+apps/mobile/src/features/pull-requests/usePullRequestListActions.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-204
+apps/mobile/src/features/pull-requests/PullRequestReviewSheet.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-252
+apps/mobile/src/features/pull-requests/PullRequestsScreen.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-363
+apps/mobile/src/features/settings/scheduledTaskDraft.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 31-32,37-42
+apps/server/src/provider/CodexProvider.catalog.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1-111
+apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 5-9,20,45,63-64,138,187-189,192,243,422,470-471,503-504,520-538,566-580,584-588,590-591,593-603,1110-1120,1187-1196,1214-1229,1428-1456,1471,1557-1561,1563-1565,2228-2237,2884-2885,2900,2926,2943-2969,2981,2997,3009,3036
+.github/workflows/mobile-eas-preview.yml
+  s_4784e5409c7ffa::t_dd1a6628671838 103-104
+apps/server/src/mcp/McpHttpServer.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 30,81
+apps/web/src/components/settings/ProviderInstanceCard.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 121,161
+apps/web/src/components/settings/ProviderSettingsPanel.environment.test.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 111-112,143,350-353,356,360,362,372-373
+apps/mobile/modules/t3-source-text/index.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 1
+apps/mobile/src/features/threads/ThreadComposer.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 37-38,440-444,566-572,574,666-678,700,702,728,730
+apps/server/src/http.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 8,32,51-55,174,181-197
+packages/client-runtime/src/t3ToolSummary.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 97,171-177,402-427
+apps/mobile/src/features/threads/thread-settings-sheet-state.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 128-134
+  s_4784e5409c7ffa::t_44de22b47c94dc 135-136
+packages/contracts/src/assets.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 43-44
+apps/server/src/relay/AgentAwarenessRelay.test.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 211-213,218
+packages/provider-acp/package.json
+  s_4784e5409c7ffa::t_dd1a6628671838 48
+apps/mobile/src/features/voice-input/ComposerDictationControl.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 22,307
+apps/server/src/orchestration-v2/Adapters/ClaudeAdapterV2.testkit.ts
+  s_4784e5409c7ffa::t_dd1a6628671838 21,245,829-831
+  s_4784e5409c7ffa::t_ca4ce88130f844 832
+apps/mobile/src/features/threads/thread-context-divider.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 17,43
+apps/web/src/components/ui/toast.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 358
+apps/mobile/src/features/pull-requests/PullRequestPresentation.tsx
+  s_4784e5409c7ffa::t_dd1a6628671838 1-65
+apps/desktop/src/preview/AnnotationStyles.generated.ts
+  s_4784e5409c7ffa::t_f1954aef6a182d 3
+apps/mobile/src/lib/markdownFileIcons.generated.ts
+  s_4784e5409c7ffa::t_e9fd96f5626d4b 4-59
+pnpm-lock.yaml
+  s_4784e5409c7ffa::t_2ef52fc820c1ca 16-17,147,150,155,181,191-193,336,351,373-375,532-534,551-552,565-570,577-579,590-592,625,627-628,630-631,797,983-984,1086-1088,1369-1370,3129-3130,3134-3135,3139-3140,3144-3145,3149-3150,3154-3155,3159-3160,3164-3165,3832-3838,3842-3843,3847-3848,3853-3854,3859-3860,3865-3866,3871-3872,3876-3877,3881-3882,3885,4259-4260,5816-5820,6186-6221,7717-7718,10845-10855,10894-10896,11671-11675,13879,13890,13916,13919,13922,13925,13928,13931,13934,13937,13939-13945,14394,14767-14770,14773,14776,14779,14782,14785,14788,14791,14794,14798-14806,15160,15776,15791,15806-15820,15858-15865,16099,16107,16398-16400,16781-16798,18318,18323,22056-22062,22100,23105-23113
+scripts/build-desktop-artifact.test.ts
+  s_4784e5409c7ffa::t_997e5b495ff3c1 25,501-519,1550
+scripts/build-desktop-artifact.ts
+  s_4784e5409c7ffa::t_d8fb74994b1bac 114-116,3247
+scripts/release-smoke.ts
+  s_4784e5409c7ffa::t_10a7fc578693ab 20
+third-party-licenses.config.json
+  s_4784e5409c7ffa::t_1f46fd0d352610 140
+vite.config.ts
+  s_4784e5409c7ffa::t_77195157f995d7 396
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "7f2328e352bd365ef87b3132d6f3574c7b82767e",
+  "prompts": {},
+  "sessions": {
+    "s_4784e5409c7ffa": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a12f30-918c-7272-a616-2a52e3c4a3ea",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
