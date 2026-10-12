@@ -1,13 +1,11 @@
 import type { SideQuestionTopic } from "@t3tools/client-runtime/state/threads";
 import { Pressable, ScrollView, View } from "react-native";
-import { Markdown } from "react-native-nitro-markdown";
 
 import { AppText as Text } from "../../components/AppText";
 import { SymbolView } from "../../components/AppSymbol";
 import { copyTextWithHaptic } from "../../lib/copyTextWithHaptic";
 import { tryOpenExternalUrl } from "../../lib/openExternalUrl";
 import {
-  hasNativeSelectableMarkdownText,
   SelectableMarkdownText,
   type MarkdownImageRenderer,
 } from "../../native/SelectableMarkdownText";
@@ -22,25 +20,16 @@ const renderImage: MarkdownImageRenderer = (image) => (
   <ThreadMarkdownImageUnavailable alt={image.alt} />
 );
 
-/** Same renderer as file previews: native selectable text, or the JS fallback. */
+/** Same renderer and styles as file previews. */
 function SideAnswerMarkdown({ markdown }: { readonly markdown: string }) {
-  const styles = useMarkdownPreviewStyles(renderImage);
-  return hasNativeSelectableMarkdownText() ? (
+  const styles = useMarkdownPreviewStyles();
+  return (
     <SelectableMarkdownText
       markdown={markdown}
       onLinkPress={openLink}
       renderImage={renderImage}
       textStyle={styles.nativeTextStyle}
     />
-  ) : (
-    <Markdown
-      options={{ gfm: true }}
-      renderers={styles.renderers}
-      styles={styles.styles}
-      theme={styles.theme}
-    >
-      {markdown}
-    </Markdown>
   );
 }
 
