@@ -1,21 +1,21 @@
 import * as Effect from "effect/Effect";
+import * as Migrator from "effect/sql/Migrator";
 import * as SqlClient from "effect/sql/SqlClient";
 
-import ScheduledTaskWebhooks from "./Migrations/057_ScheduledTaskWebhooks.ts";
-import PullRequestReviewGuides from "./Migrations/061_PullRequestReviewGuides.ts";
+export const FORK_MIGRATION_NAME = "ScheduledTasksLastRunThread";
 
-// Fork builds recorded ScheduledTasksLastRunThread under ids upstream later
-// gave to its own migrations: first 57 (ScheduledTaskWebhooks), then 61
-// (PullRequestReviewGuides). The migrator skips every id at or below the
-// latest recorded one, so those databases would never get upstream's schema.
-// Apply upstream's migration under its own name instead; migration 62 then
-// finds last_run_thread_id already present.
-const forkCollisions = [
-  { id: 57, name: "ScheduledTaskWebhooks", migration: ScheduledTaskWebhooks },
-  { id: 61, name: "PullRequestReviewGuides", migration: PullRequestReviewGuides },
-] as const;
+type MigrationEntry<E> = readonly [number, string, Effect.Effect<unknown, E, SqlClient.SqlClient>];
 
-export const reconcileForkMigrations = Effect.fn("reconcileForkMigrations")(function* () {
+// The fork's one migration always takes the next free id, and every upstream
+// sync that adds a migration takes that id (57, 61, and 62 so far). The
+// migrator skips every id at or below the latest recorded one, so a fork
+// database would never get upstream's migration at that id. Run it under its
+// own name instead; the fork migration then reruns at its new id and finds
+// last_run_thread_id already present.
+export const reconcileForkMigrations = Effect.fn("reconcileForkMigrations")(function* <E>(
+  entries: ReadonlyArray<MigrationEntry<E>>,
+  throughId?: number,
+) {
   const sql = yield* SqlClient.SqlClient;
   return yield* sql.withTransaction(
     Effect.gen(function* () {
@@ -23,19 +23,30 @@ export const reconcileForkMigrations = Effect.fn("reconcileForkMigrations")(func
         SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'effect_sql_migrations'
       `;
       if (tables.length === 0) return [];
+      const forkRows = yield* sql<{ readonly migration_id: number }>`
+        SELECT migration_id FROM effect_sql_migrations WHERE name = ${FORK_MIGRATION_NAME}
+      `;
       const reconciled: Array<readonly [number, string]> = [];
-      for (const collision of forkCollisions) {
-        const forkRows = yield* sql`
-          SELECT migration_id FROM effect_sql_migrations
-          WHERE migration_id = ${collision.id} AND name = 'ScheduledTasksLastRunThread'
-        `;
-        if (forkRows.length === 0) continue;
-        yield* collision.migration;
+      for (const { migration_id: id } of forkRows) {
+        if (throughId !== undefined && id > throughId) continue;
+        const upstream = entries.find(([entryId]) => entryId === id);
+        if (upstream === undefined || upstream[1] === FORK_MIGRATION_NAME) continue;
+        const [, name, migration] = upstream;
+        yield* migration.pipe(
+          Effect.mapError(
+            (cause) =>
+              new Migrator.MigrationError({
+                kind: "Failed",
+                message: `Migration "${id}_${name}" failed while reconciling a fork migration id`,
+                cause,
+              }),
+          ),
+        );
         yield* sql`
-          UPDATE effect_sql_migrations SET name = ${collision.name}
-          WHERE migration_id = ${collision.id} AND name = 'ScheduledTasksLastRunThread'
+          UPDATE effect_sql_migrations SET name = ${name}
+          WHERE migration_id = ${id} AND name = ${FORK_MIGRATION_NAME}
         `;
-        reconciled.push([collision.id, collision.name] as const);
+        reconciled.push([id, name] as const);
       }
       return reconciled;
     }),

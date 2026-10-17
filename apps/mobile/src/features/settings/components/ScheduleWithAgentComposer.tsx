@@ -10,9 +10,9 @@ import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
 import { useMemo, useRef, useState } from "react";
 import { Alert, Pressable, TextInput, View } from "react-native";
 
-import { AppText as Text } from "../../../components/AppText";
-import { SymbolView } from "../../../components/AppSymbol";
-import { ControlPillMenu } from "../../../components/ControlPill";
+import { AppText as Text } from "../../../components/ui/AppText";
+import { SymbolView } from "../../../components/ui/AppSymbol";
+import { Menu } from "../../../components/ui/Menu";
 import { makeTurnCommandMetadata } from "../../../lib/commandMetadata";
 import { buildModelOptions } from "../../../lib/modelOptions";
 import { buildProjectThreadStartTurnInput } from "../../../lib/projectThreadStartTurn";
@@ -104,7 +104,11 @@ function ComposerForm({
   const environmentId = target.environment.environmentId;
   const config = target.environment.serverConfig;
   const openScratch = useAtomCommand(projectEnvironment.openScratch, { reportFailure: false });
-  const modelOptions = useMemo(() => buildModelOptions(config, null), [config]);
+  const projectId = target.project?.id ?? null;
+  const modelOptions = useMemo(
+    () => buildModelOptions(config, null, undefined, projectId),
+    [config, projectId],
+  );
   const [pickedModelKey, setPickedModelKey] = useState<string | null>(null);
   const [prompt, setPrompt] = useState("");
   const [sending, setSending] = useState(false);
@@ -192,7 +196,7 @@ function ComposerForm({
           className="max-h-40 min-h-20 font-sans text-base text-foreground"
         />
         <View className="flex-row items-center gap-2">
-          <ControlPillMenu
+          <Menu
             actions={targets.map((entry) => ({
               id: entry.key,
               title: entry.label,
@@ -216,8 +220,8 @@ function ComposerForm({
                 type="monochrome"
               />
             </Pressable>
-          </ControlPillMenu>
-          <ControlPillMenu
+          </Menu>
+          <Menu
             actions={modelOptions.map((option) => ({
               id: option.key,
               title: option.label,
@@ -245,7 +249,7 @@ function ComposerForm({
                 type="monochrome"
               />
             </Pressable>
-          </ControlPillMenu>
+          </Menu>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel="Set up with agent"

@@ -5,7 +5,7 @@ import * as Migrator from "effect/sql/Migrator";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import { migrationManifest, runMigrations } from "./Migrations.ts";
-import LastRunThread from "./Migrations/062_ScheduledTasksLastRunThread.ts";
+import LastRunThread from "./Migrations/063_ScheduledTasksLastRunThread.ts";
 
 const assertUpgradedSchema = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient;
@@ -24,42 +24,56 @@ const assertUpgradedSchema = Effect.gen(function* () {
       column,
     );
   }
-  const guides = yield* sql`
-    SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'pull_request_review_guides'
+  const schema = yield* sql<{ readonly name: string }>`
+    SELECT name FROM sqlite_master
+    WHERE name IN ('pull_request_review_guides', 'orchestration_v2_projection_turn_items_failed_error_idx')
   `;
-  assert.strictEqual(guides.length, 1);
+  assert.strictEqual(schema.length, 2);
 });
 
-it.effect("upgrades a fork database that recorded last_run_thread_id as migration 57", () =>
-  Effect.gen(function* () {
-    yield* runMigrations({ toMigrationInclusive: 56 });
-    yield* Migrator.make({})({
-      loader: Migrator.fromRecord({ "57_ScheduledTasksLastRunThread": LastRunThread }),
-    });
-
-    assert.deepStrictEqual(yield* runMigrations(), [
+// Each case is a fork build that recorded the fork migration at an id upstream later took.
+const cases = [
+  {
+    forkId: 57,
+    expected: [
       [57, "ScheduledTaskWebhooks"],
       [58, "WebhookRelayDeliveries"],
       [59, "McpAppModelContext"],
       [60, "ThreadSnapshotWindowIndexes"],
       [61, "PullRequestReviewGuides"],
-      [62, "ScheduledTasksLastRunThread"],
-    ]);
-    yield* assertUpgradedSchema;
-  }).pipe(Effect.provide(NodeSqliteClient.layer({ filename: ":memory:" }))),
-);
-
-it.effect("upgrades a fork database that recorded last_run_thread_id as migration 61", () =>
-  Effect.gen(function* () {
-    yield* runMigrations({ toMigrationInclusive: 60 });
-    yield* Migrator.make({})({
-      loader: Migrator.fromRecord({ "61_ScheduledTasksLastRunThread": LastRunThread }),
-    });
-
-    assert.deepStrictEqual(yield* runMigrations(), [
+      [62, "ThreadFailureLookupIndex"],
+      [63, "ScheduledTasksLastRunThread"],
+    ],
+  },
+  {
+    forkId: 61,
+    expected: [
       [61, "PullRequestReviewGuides"],
-      [62, "ScheduledTasksLastRunThread"],
-    ]);
-    yield* assertUpgradedSchema;
-  }).pipe(Effect.provide(NodeSqliteClient.layer({ filename: ":memory:" }))),
-);
+      [62, "ThreadFailureLookupIndex"],
+      [63, "ScheduledTasksLastRunThread"],
+    ],
+  },
+  {
+    forkId: 62,
+    expected: [
+      [62, "ThreadFailureLookupIndex"],
+      [63, "ScheduledTasksLastRunThread"],
+    ],
+  },
+] as const;
+
+for (const { forkId, expected } of cases) {
+  it.effect(
+    `upgrades a fork database that recorded last_run_thread_id as migration ${forkId}`,
+    () =>
+      Effect.gen(function* () {
+        yield* runMigrations({ toMigrationInclusive: forkId - 1 });
+        yield* Migrator.make({})({
+          loader: Migrator.fromRecord({ [`${forkId}_ScheduledTasksLastRunThread`]: LastRunThread }),
+        });
+
+        assert.deepStrictEqual(yield* runMigrations(), [...expected]);
+        yield* assertUpgradedSchema;
+      }).pipe(Effect.provide(NodeSqliteClient.layer({ filename: ":memory:" }))),
+  );
+}

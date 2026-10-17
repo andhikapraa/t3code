@@ -56,7 +56,6 @@ export function thinkingCapabilitiesForPiModel(
   });
 }
 
-/** Mirrors `@earendil-works/pi-ai` `clampThinkingLevel`. */
 function clampPiThinkingLevel(
   input: unknown,
   availableLevels: ReadonlyArray<PiThinkingLevel>,
@@ -77,12 +76,6 @@ function clampPiThinkingLevel(
   return availableLevels[0];
 }
 
-/**
- * Mirror of `@earendil-works/pi-ai` `getSupportedThinkingLevels`.
- *
- * A reasoning model always exposes off through high unless a map entry is
- * `null`. Extra High and Max appear only when the map has a non-null entry.
- */
 function supportedPiThinkingLevelsFromModel(model: unknown): ReadonlyArray<PiThinkingLevel> {
   if (recordField(model, "reasoning") !== true) return [];
   const thinkingLevelMap = thinkingLevelMapFromModel(model);

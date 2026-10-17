@@ -1,8 +1,4 @@
-import {
-  AuthAdministrativeScopes,
-  AuthSessionId,
-  AuthStandardClientScopes,
-} from "@t3tools/contracts";
+import { AuthSessionId, AuthStandardClientScopes } from "@t3tools/contracts";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
@@ -82,23 +78,12 @@ const tokenOnlyFlag = Flag.Boolean("token-only").pipe(
   Flag.withDefault(false),
 );
 
-// Headless servers have no admin UI to mint admin links from, so the host
-// shell can grant Settings → Connections access directly. Shorthand for
-// repeating --scope with every administrative scope.
-const adminFlag = Flag.Boolean("admin").pipe(
-  Flag.withDescription(
-    "Grant administrative scopes, including pairing-link and session management. Replaces --scope.",
-  ),
-  Flag.withDefault(false),
-);
-
 const pairingCreateCommand = Command.make("create", {
   ...authLocationFlags,
   scopes: authScopesFlag(AuthStandardClientScopes),
   ttl: ttlFlag,
   label: labelFlag,
   baseUrl: baseUrlFlag,
-  admin: adminFlag,
   json: jsonFlag,
 }).pipe(
   Command.withDescription("Issue a new client pairing token."),
@@ -108,7 +93,7 @@ const pairingCreateCommand = Command.make("create", {
       (environmentAuth) =>
         Effect.gen(function* () {
           const issued = yield* environmentAuth.createPairingLink({
-            scopes: flags.admin ? AuthAdministrativeScopes : flags.scopes,
+            scopes: flags.scopes,
             subject: "one-time-token",
             ...(Option.isSome(flags.ttl) ? { ttl: flags.ttl.value } : {}),
             ...(Option.isSome(flags.label) ? { label: flags.label.value } : {}),
@@ -174,7 +159,7 @@ const pairingCommand = Command.make("pairing").pipe(
 
 const sessionIssueCommand = Command.make("issue", {
   ...authLocationFlags,
-  scopes: authScopesFlag(AuthAdministrativeScopes),
+  scopes: authScopesFlag(AuthStandardClientScopes),
   ttl: ttlFlag,
   label: labelFlag,
   subject: subjectFlag,

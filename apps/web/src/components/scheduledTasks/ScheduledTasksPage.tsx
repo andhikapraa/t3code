@@ -166,9 +166,13 @@ function ComposerForm({
   const instanceEntries = useMemo(
     () =>
       sortProviderInstanceEntries(
-        applyProviderInstanceSettings(deriveProviderInstanceEntries(providers), settings),
+        applyProviderInstanceSettings(
+          deriveProviderInstanceEntries(providers),
+          settings,
+          target.project?.id ?? null,
+        ),
       ),
-    [providers, settings],
+    [providers, settings, target.project?.id],
   );
   const selection =
     pickedModel ?? scheduledTaskDefaultModel(settings, target.project, instanceEntries);
@@ -302,6 +306,7 @@ function ComposerForm({
           </SelectPopup>
         </Select>
         <ProviderModelPicker
+          environmentId={environmentId}
           disabled={sending}
           activeInstanceId={activeInstanceId}
           model={activeModel}
