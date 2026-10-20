@@ -1,10 +1,17 @@
+import { EnvironmentId, ThreadId } from "@t3tools/contracts";
+import { AtomRegistry } from "effect/reactivity";
 import { describe, expect, it } from "vite-plus/test";
 
 import {
+  askThreadSideQuestion,
+  closeSideQuestion,
   parseSideQuestionCommand,
   sideQuestionBlockReason,
   sideQuestionContextTurns,
+  sideQuestionThreadKey,
+  sideQuestionTopicAtom,
   updateLastSideQuestionTurn,
+  type createSideQuestionCommand,
 } from "./threadSideQuestion.ts";
 
 describe("parseSideQuestionCommand", () => {
@@ -63,4 +70,77 @@ it("cuts very long answers in follow-up context to the server's per-answer limit
     { question: "q", answer: "a".repeat(200_005), status: "done" },
   ]);
   expect(turn?.answer).toHaveLength(200_000);
+});
+
+describe("askThreadSideQuestion", () => {
+  const environmentId = EnvironmentId.make("environment-1");
+  const threadId = ThreadId.make("thread-1");
+  const threadKey = sideQuestionThreadKey(environmentId, threadId);
+
+  it("keeps the conversation and its streamed answer while no view watches it", async () => {
+    // Queue the registry's deferred cleanup so the test decides when it runs.
+    const scheduled: Array<() => void> = [];
+    const runScheduled = () => {
+      while (scheduled.length > 0) scheduled.shift()?.();
+    };
+    const registry = AtomRegistry.make({
+      scheduleTask: (task) => {
+        scheduled.push(task);
+        return () => {};
+      },
+    });
+    let finish = () => {};
+    const ask: ReturnType<typeof createSideQuestionCommand> = (_registry, input) => {
+      input.onDelta("partial ");
+      return new Promise((resolve) => {
+        finish = () => {
+          input.onDelta("answer");
+          resolve({ status: "done" });
+        };
+      });
+    };
+    // A view showing the thread, then leaving it before the answer finishes.
+    const unmount = registry.mount(sideQuestionTopicAtom(threadKey));
+    const pending = askThreadSideQuestion(registry, ask, {
+      environmentId,
+      threadId,
+      question: "why?",
+      newTopicId: () => "topic-1",
+    });
+    // Leaving the thread: nothing watches the conversation until the view returns.
+    unmount();
+    runScheduled();
+    finish();
+    await pending;
+    runScheduled();
+
+    expect(registry.get(sideQuestionTopicAtom(threadKey))).toEqual({
+      id: "topic-1",
+      turns: [{ question: "why?", answer: "partial answer", status: "done" }],
+    });
+    closeSideQuestion(registry, threadKey);
+    expect(registry.get(sideQuestionTopicAtom(threadKey))).toBeNull();
+  });
+
+  it("drops output from an answer that was closed mid-stream", async () => {
+    const registry = AtomRegistry.make();
+    let finish = () => {};
+    const ask: ReturnType<typeof createSideQuestionCommand> = (_registry, input) =>
+      new Promise((resolve) => {
+        finish = () => {
+          input.onDelta("late");
+          resolve({ status: "cancelled" });
+        };
+      });
+    const pending = askThreadSideQuestion(registry, ask, {
+      environmentId,
+      threadId,
+      question: "why?",
+      newTopicId: () => "topic-2",
+    });
+    closeSideQuestion(registry, threadKey);
+    finish();
+    await pending;
+    expect(registry.get(sideQuestionTopicAtom(threadKey))).toBeNull();
+  });
 });

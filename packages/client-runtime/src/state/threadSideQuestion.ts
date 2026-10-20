@@ -6,7 +6,7 @@ import {
 } from "@t3tools/contracts";
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
-import { Atom } from "effect/reactivity";
+import { Atom, type AtomRegistry } from "effect/reactivity";
 
 import type { EnvironmentRegistry } from "../connection/registry.ts";
 import { runStream } from "../rpc/client.ts";
@@ -19,7 +19,7 @@ import {
 
 /**
  * Side questions (`/btw`): ask about a thread without adding to it. Answers
- * live only in client memory, so they are gone after a reload.
+ * live only in client memory: they survive switching threads but not a reload.
  */
 
 export interface SideQuestionTurn {
@@ -98,6 +98,78 @@ export function isSideQuestionRunning(topic: SideQuestionTopic | null): boolean 
 const DELTA_FLUSH_MS = 50;
 
 /**
+ * Each thread's open side conversation, outside any component so it survives
+ * switching threads and its answer keeps streaming meanwhile. Clients key it
+ * with `sideQuestionThreadKey`.
+ */
+export const sideQuestionTopicAtom = Atom.family((_threadKey: string) =>
+  Atom.make<SideQuestionTopic | null>(null).pipe(Atom.keepAlive),
+);
+
+export function sideQuestionThreadKey(environmentId: EnvironmentId, threadId: ThreadId): string {
+  return `${environmentId}:${threadId}`;
+}
+
+// The in-flight answer per thread, so Stop and Close reach it from any view.
+const sideQuestionAborts = new Map<string, AbortController>();
+
+/** Stops a thread's in-flight side answer, if any. */
+export function cancelSideQuestion(threadKey: string): void {
+  sideQuestionAborts.get(threadKey)?.abort();
+}
+
+/** Stops and discards a thread's side conversation. */
+export function closeSideQuestion(registry: AtomRegistry.AtomRegistry, threadKey: string): void {
+  cancelSideQuestion(threadKey);
+  sideQuestionAborts.delete(threadKey);
+  registry.set(sideQuestionTopicAtom(threadKey), null);
+}
+
+/**
+ * Asks a new question, or a follow-up when the thread's side conversation is
+ * open. The answer streams into `sideQuestionTopicAtom` whether or not the
+ * thread is on screen.
+ */
+export async function askThreadSideQuestion(
+  registry: AtomRegistry.AtomRegistry,
+  ask: ReturnType<typeof createSideQuestionCommand>,
+  input: {
+    readonly environmentId: EnvironmentId;
+    readonly threadId: ThreadId;
+    readonly question: string;
+    readonly newTopicId: () => string;
+  },
+): Promise<void> {
+  const threadKey = sideQuestionThreadKey(input.environmentId, input.threadId);
+  const topicAtom = sideQuestionTopicAtom(threadKey);
+  const topic = registry.get(topicAtom);
+  if (isSideQuestionRunning(topic)) return;
+  const previousTurns = topic?.turns ?? [];
+  const abort = new AbortController();
+  sideQuestionAborts.set(threadKey, abort);
+  registry.set(topicAtom, {
+    id: topic?.id ?? input.newTopicId(),
+    turns: [...previousTurns, { question: input.question, answer: "", status: "running" }],
+  });
+  const update = (change: (turn: SideQuestionTurn) => SideQuestionTurn) => {
+    // Close (or a newer question after it) replaced this conversation; drop stale output.
+    if (sideQuestionAborts.get(threadKey) !== abort) return;
+    const current = registry.get(topicAtom);
+    if (current !== null) registry.set(topicAtom, updateLastSideQuestionTurn(current, change));
+  };
+  const outcome = await ask(registry, {
+    environmentId: input.environmentId,
+    threadId: input.threadId,
+    question: input.question,
+    previousTurns,
+    signal: abort.signal,
+    onDelta: (delta) => update((turn) => ({ ...turn, answer: turn.answer + delta })),
+  });
+  update((turn) => ({ ...turn, ...outcome }));
+  if (sideQuestionAborts.get(threadKey) === abort) sideQuestionAborts.delete(threadKey);
+}
+
+/**
  * Streams one answer into `onDelta`, batched. Resolves with how the turn ended.
  * Pass a signal to cancel; cancellation stops the server-side Pi process too.
  */
@@ -131,7 +203,7 @@ export function createSideQuestionCommand<R, E>(
   });
 
   return async (
-    registry: Parameters<typeof command.run>[0],
+    registry: AtomRegistry.AtomRegistry,
     input: {
       readonly environmentId: EnvironmentId;
       readonly threadId: ThreadId;
