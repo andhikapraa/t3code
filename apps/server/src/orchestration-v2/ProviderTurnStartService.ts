@@ -22,11 +22,15 @@ import * as Option from "effect/Option";
 import * as Path from "effect/Path";
 import * as Predicate from "effect/Predicate";
 import * as Schema from "effect/Schema";
+import * as HostProcess from "@t3tools/shared/HostProcess";
 
+import * as ServerConfig from "../config.ts";
 import { withWorkspaceLease } from "../workspace/workspaceLease.ts";
 import * as GitWorkflowService from "../git/GitWorkflowService.ts";
 import * as ProjectService from "../project/ProjectService.ts";
 import * as ProviderAuthService from "../provider/ProviderAuthService.ts";
+import * as ServerSettings from "../serverSettings.ts";
+import { makeIsManagedWorktreePath } from "../worktreesDirectory.ts";
 import * as EventSink from "./EventSink.ts";
 import * as ContextHandoffService from "./ContextHandoffService.ts";
 import {
@@ -88,6 +92,8 @@ export const layer: Layer.Layer<
   | IdAllocator.IdAllocatorV2
   | FileSystem.FileSystem
   | Path.Path
+  | ServerConfig.ServerConfig
+  | ServerSettings.ServerSettingsService
   | GitWorkflowService.GitWorkflowService
   | ProjectService.ProjectService
   | ProviderAuthService.ProviderAuthService
@@ -103,6 +109,8 @@ export const layer: Layer.Layer<
     const idAllocator = yield* IdAllocator.IdAllocatorV2;
     const fileSystem = yield* FileSystem.FileSystem;
     const path = yield* Path.Path;
+    const serverConfig = yield* ServerConfig.ServerConfig;
+    const serverSettings = yield* ServerSettings.ServerSettingsService;
     const gitWorkflow = yield* GitWorkflowService.GitWorkflowService;
     const projects = yield* ProjectService.ProjectService;
     const providerAuth = yield* ProviderAuthService.ProviderAuthService;
@@ -110,6 +118,7 @@ export const layer: Layer.Layer<
     const providerSessions = yield* ProviderSessionManager.ProviderSessionManagerV2;
     const runExecution = yield* RunExecutionService.RunExecutionServiceV2;
     const runtimePolicy = yield* RuntimePolicy.RuntimePolicyV2;
+    const isManagedWorktreePath = yield* makeIsManagedWorktreePath;
 
     // These callbacks outlive startup while a run drains background work. Build
     // them outside start's scope so they cannot retain its full thread history.
@@ -448,7 +457,7 @@ export const layer: Layer.Layer<
         const exists = yield* fileSystem
           .exists(worktreePath)
           .pipe(Effect.orElseSucceed(() => true));
-        if (!exists) {
+        if (!exists && (yield* isManagedWorktreePath(worktreePath))) {
           const project = yield* projects.getById(projection.thread.projectId).pipe(
             Effect.map(Option.getOrUndefined),
             Effect.orElseSucceed(() => undefined),
@@ -508,6 +517,7 @@ export const layer: Layer.Layer<
         thread: projection.thread,
         modelSelection: run.modelSelection,
       });
+      if (!(yield* isCurrentAttemptInStatus("starting"))) return;
       const existingSessionProjection = projection.providerSessions.find(
         (candidate) => candidate.id === providerSessionId,
       );
@@ -531,12 +541,12 @@ export const layer: Layer.Layer<
               }),
         }),
       );
-      const settleStartFailure = (failed: {
-        readonly signal: string;
-        readonly title: string;
-        readonly error: Error;
-      }) =>
-        Effect.gen(function* () {
+      const settleStartFailure = Effect.fn("ProviderTurnStartService.settleStartFailure")(
+        function* (failed: {
+          readonly signal: string;
+          readonly title: string;
+          readonly error: Error;
+        }) {
           const nestedCause = "cause" in failed.error ? failed.error.cause : undefined;
           yield* settleRunBeforeStart({
             signal: failed.signal,
@@ -559,7 +569,8 @@ export const layer: Layer.Layer<
               }),
             },
           });
-        });
+        },
+      );
       if (sessionResult._tag === "Failure") {
         if (input.willRetry === true) return yield* sessionResult.failure;
         yield* settleStartFailure({
@@ -570,20 +581,20 @@ export const layer: Layer.Layer<
         return;
       }
       const session = sessionResult.success;
-      const loadFromProvider = (
+      if (!(yield* isCurrentAttemptInStatus("starting"))) return;
+      const loadFromProvider = Effect.fn("ProviderTurnStartService.loadFromProvider")(function* (
         load: Effect.Effect<OrchestrationV2ProviderThread, ProviderAdapter.ProviderAdapterV2Error>,
-      ) =>
-        Effect.gen(function* () {
-          const loaded = yield* Effect.result(load);
-          if (loaded._tag === "Success") return loaded.success;
-          if (input.willRetry === true) return yield* loaded.failure;
-          yield* settleStartFailure({
-            signal: "provider-thread-load-failure",
-            title: "Provider turn failed to start",
-            error: loaded.failure,
-          });
-          return undefined;
+      ) {
+        const loaded = yield* Effect.result(load);
+        if (loaded._tag === "Success") return loaded.success;
+        if (input.willRetry === true) return yield* loaded.failure;
+        yield* settleStartFailure({
+          signal: "provider-thread-load-failure",
+          title: "Provider turn failed to start",
+          error: loaded.failure,
         });
+        return undefined;
+      });
       let effectiveHandoffs = handoffs;
       const loadedProviderThread = yield* Effect.gen(function* () {
         if (nativeForkTransfer !== undefined) {
@@ -1062,11 +1073,8 @@ export const layer: Layer.Layer<
                 !coveredItemIds.has(item.id) &&
                 historicalMessage(item) !== null,
             );
-      const startWithHandoffs = (
-        turnInput: Parameters<typeof session.startTurn>[0],
-        compact = false,
-      ) =>
-        Effect.gen(function* () {
+      const startWithHandoffs = Effect.fn("ProviderTurnStartService.startWithHandoffs")(
+        function* (turnInput: Parameters<typeof session.startTurn>[0], compact = false) {
           const retryHandoff =
             missedItems.length === 0
               ? []
@@ -1116,25 +1124,24 @@ export const layer: Layer.Layer<
                       ...history,
                     }),
                 }),
-            persist: (handoff) =>
-              Effect.gen(function* () {
-                const updatedAt = yield* DateTime.now;
-                yield* eventSink.write({
-                  events: [
-                    {
-                      id: yield* idAllocator.allocate.event({
-                        threadId: projection.thread.id,
-                      }),
-                      type: "context-handoff.updated",
+            persist: Effect.fn("ProviderTurnStartService.persist")(function* (handoff) {
+              const updatedAt = yield* DateTime.now;
+              yield* eventSink.write({
+                events: [
+                  {
+                    id: yield* idAllocator.allocate.event({
                       threadId: projection.thread.id,
-                      runId: run.id,
-                      providerInstanceId: run.providerInstanceId,
-                      occurredAt: updatedAt,
-                      payload: { ...handoff, updatedAt },
-                    },
-                  ],
-                });
-              }),
+                    }),
+                    type: "context-handoff.updated",
+                    threadId: projection.thread.id,
+                    runId: run.id,
+                    providerInstanceId: run.providerInstanceId,
+                    occurredAt: updatedAt,
+                    payload: { ...handoff, updatedAt },
+                  },
+                ],
+              });
+            }),
           });
           if (!(yield* isCurrentAttemptInStatus("running"))) return;
           const start = compact ? session.compactThread! : session.startTurn;
@@ -1173,19 +1180,19 @@ export const layer: Layer.Layer<
               }),
             ),
           );
-        }).pipe(
-          Effect.mapError((cause) =>
-            cause._tag === "ProviderAdapterTurnStartError"
-              ? cause
-              : new ProviderAdapter.ProviderAdapterTurnStartError({
-                  driver: session.driver,
-                  threadId: projection.thread.id,
-                  providerThreadId: providerThread.id,
-                  runId: run.id,
-                  cause,
-                }),
-          ),
-        );
+        },
+        Effect.mapError((cause) =>
+          cause._tag === "ProviderAdapterTurnStartError"
+            ? cause
+            : new ProviderAdapter.ProviderAdapterTurnStartError({
+                driver: session.driver,
+                threadId: projection.thread.id,
+                providerThreadId: providerThread.id,
+                runId: run.id,
+                cause,
+              }),
+        ),
+      );
       const deliverySession =
         effectiveHandoffs.length === 0 &&
         missedItems.length === 0 &&
@@ -1245,8 +1252,8 @@ export const layer: Layer.Layer<
     });
 
     return ProviderTurnStartServiceV2.of({
-      start: (input) =>
-        Effect.gen(function* () {
+      start: Effect.fn("ProviderTurnStartService.start")(
+        function* (input) {
           // Storage cleanup removes worktrees under the same lease. Only startup
           // holds it; the provider turn runs after it is released.
           const { thread } = yield* projectionStore.getThreadRecords(input.threadId, []);
@@ -1254,13 +1261,16 @@ export const layer: Layer.Layer<
             ? start(input)
             : withWorkspaceLease(path.resolve(thread.worktreePath), start(input));
           if (providerTurn !== undefined) yield* providerTurn;
-        }).pipe(
-          Effect.mapError((cause) =>
-            isProviderTurnStartError(cause)
-              ? cause
-              : new ProviderTurnStartError({ runId: input.runId, cause }),
+        },
+        (effect, input) =>
+          effect.pipe(
+            Effect.mapError((cause) =>
+              isProviderTurnStartError(cause)
+                ? cause
+                : new ProviderTurnStartError({ runId: input.runId, cause }),
+            ),
           ),
-        ),
+      ),
     });
   }),
 );

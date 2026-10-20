@@ -5,7 +5,7 @@ import * as Migrator from "effect/sql/Migrator";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import { migrationManifest, runMigrations } from "./Migrations.ts";
-import LastRunThread from "./Migrations/063_ScheduledTasksLastRunThread.ts";
+import LastRunThread from "./Migrations/065_ScheduledTasksLastRunThread.ts";
 
 const assertUpgradedSchema = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient;
@@ -42,7 +42,9 @@ const cases = [
       [60, "ThreadSnapshotWindowIndexes"],
       [61, "PullRequestReviewGuides"],
       [62, "ThreadFailureLookupIndex"],
-      [63, "ScheduledTasksLastRunThread"],
+      [63, "DropUnusedV1Projections"],
+      [64, "CanonicalizeThreadPullRequestLinks"],
+      [65, "ScheduledTasksLastRunThread"],
     ],
   },
   {
@@ -50,14 +52,26 @@ const cases = [
     expected: [
       [61, "PullRequestReviewGuides"],
       [62, "ThreadFailureLookupIndex"],
-      [63, "ScheduledTasksLastRunThread"],
+      [63, "DropUnusedV1Projections"],
+      [64, "CanonicalizeThreadPullRequestLinks"],
+      [65, "ScheduledTasksLastRunThread"],
     ],
   },
   {
     forkId: 62,
     expected: [
       [62, "ThreadFailureLookupIndex"],
-      [63, "ScheduledTasksLastRunThread"],
+      [63, "DropUnusedV1Projections"],
+      [64, "CanonicalizeThreadPullRequestLinks"],
+      [65, "ScheduledTasksLastRunThread"],
+    ],
+  },
+  {
+    forkId: 63,
+    expected: [
+      [63, "DropUnusedV1Projections"],
+      [64, "CanonicalizeThreadPullRequestLinks"],
+      [65, "ScheduledTasksLastRunThread"],
     ],
   },
 ] as const;

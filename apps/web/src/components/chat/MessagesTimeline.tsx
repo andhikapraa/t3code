@@ -1,7 +1,8 @@
+import type { Root, RootContent } from "mdast";
 import { ThreadFindTimelineContext } from "./ThreadFindProvider";
 import { shallow } from "zustand/vanilla/shallow";
 import { shouldPreserveAssistantLineBreaks } from "@t3tools/shared/markdownPipeline";
-import { MarkdownFindContext, useFindRevealRef } from "./markdownFindContext";
+import { MarkdownFindContext, findRevealRef } from "./markdownFindContext";
 import { useChatCanvas } from "./ChatCanvasContext";
 import { WorkLogBlock, WorkLogButton, WorkLogDetails, WorkLogList, WorkLogRow } from "./WorkLog";
 import { PullRequestGlyph } from "../pullRequest/pullRequestIcons";
@@ -28,7 +29,6 @@ import {
   type OrchestrationV2TurnItem,
   type RunAttemptId,
   type ScopedThreadRef,
-  type ServerProvider,
   type ServerProviderSkill,
   type RunId,
   ThreadId,
@@ -58,6 +58,7 @@ import {
   subagentGroupSummary,
   summarizeSubagentStatuses,
 } from "@t3tools/client-runtime/state/subagent-display";
+import type { WorkflowOpening } from "@t3tools/client-runtime/state/subagentRuntime";
 import { observeResize } from "~/lib/observeResize";
 
 const NOOP_USE_ARTIFACT_TEMPLATE = () => {};
@@ -81,6 +82,7 @@ import {
   type KeyboardEvent,
   type MouseEvent,
   type ReactNode,
+  type CSSProperties,
 } from "react";
 import {
   LegendList,
@@ -115,12 +117,10 @@ import {
 } from "../../lib/diffRendering";
 import { PREFERRED_HIGHLIGHTER } from "../../lib/syntaxHighlighting";
 import ChatMarkdown, { ChatMarkdownAssetImage } from "../ChatMarkdown";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
-import type { Root, RootContent } from "mdast";
 import { T3Wordmark } from "../T3Wordmark";
 import { ThreadContextChip } from "../ThreadContextChip";
 import {
+  ArrowRightIcon,
   BotIcon,
   BrainIcon,
   CheckIcon,
@@ -160,6 +160,7 @@ import type {
 import { Button, InlineButton } from "../ui/button";
 import { MorphIcon } from "~/components/MorphIcon";
 import { useAssetUrlRefresh, useAssetUrls, useAssetUrlState } from "../../assets/assetUrls";
+import { AttachmentImage } from "../media/AttachmentImage";
 import { MediaVideoPlayer } from "../media/MediaVideoPlayer";
 import { getVirtualizedScrollFadeClassName } from "../ui/scroll-area";
 import {
@@ -286,7 +287,7 @@ import { useV2ItemSupport } from "../../state/v2ItemSupport";
 import { Collapsible, CollapsibleTrigger, CollapsiblePanel } from "../ui/collapsible";
 import {
   isV2LifecycleItem,
-  SubagentAvatar,
+  EnvironmentSubagentAvatar,
   SubagentElapsed,
   SubagentNotificationLink,
   V2LifecycleRow,
@@ -294,8 +295,9 @@ import {
 } from "./V2LifecycleRow";
 import { SecretRequestCard } from "./SecretRequestCard";
 import { TimelineSystemDivider } from "./TimelineSystemDivider";
+import { WorkflowOpeningBlock } from "./WorkflowOpeningBlock";
 
-import { SkillChipIcon, SkillInlineText } from "./SkillInlineText";
+import { SkillChipIcon } from "./SkillInlineText";
 import * as DateTime from "effect/DateTime";
 import { formatWorkspaceRelativePath } from "../../filePathDisplay";
 import { forwardWheelToTimeline } from "./timelineMinimapWheel";
@@ -315,7 +317,6 @@ interface TimelineRowSharedState {
   resolvedTheme: "light" | "dark";
   workspaceRoot: string | undefined;
   skills: ReadonlyArray<Pick<ServerProviderSkill, "name" | "displayName">>;
-  providerStatuses: ReadonlyArray<ServerProvider>;
   runs: ReadonlyArray<HandoffTimelineRun>;
   activeThreadEnvironmentId: EnvironmentId;
   onRevertToTurnCount: (targetTurnCount: number, messageId: MessageId) => void;
@@ -328,6 +329,7 @@ interface TimelineRowSharedState {
   displayThreadKey?: string;
   onOpenTurnDiff: (runId: RunId, filePath?: string) => void;
   onOpenThread: (threadId: OrchestrationV2TurnItem["threadId"]) => void;
+  workflowOpening: WorkflowOpening | null;
   onForkFromRun: (input: {
     readonly sourceThreadId: ThreadId;
     readonly runId: RunId;
@@ -470,6 +472,8 @@ interface MessagesTimelineProps {
     readonly threadId: ThreadId;
     readonly title: string;
   } | null;
+  /** Set on a workflow coordinator's thread: its script message renders as this opening. */
+  workflowOpening?: WorkflowOpening | null;
   onForkFromRun: (input: {
     readonly sourceThreadId: ThreadId;
     readonly runId: RunId;
@@ -493,12 +497,12 @@ interface MessagesTimelineProps {
   timestampFormat: TimestampFormat;
   workspaceRoot: string | undefined;
   skills?: ReadonlyArray<Pick<ServerProviderSkill, "name" | "displayName">>;
-  providerStatuses: ReadonlyArray<ServerProvider>;
   runs: ReadonlyArray<HandoffTimelineRun>;
   anchorMessageId: MessageId | null;
   onAnchorReady: (messageId: MessageId, anchorIndex: number) => void;
   onAnchorSizeChanged: (messageId: MessageId, size: number) => void;
   contentInsetEndAdjustment: number;
+  composerOverlayHeight?: number;
   onIsAtEndChange: (isAtEnd: boolean) => void;
   /**
    * Off while the user is reading history; LegendList's own maintainScrollAtEnd
@@ -572,6 +576,7 @@ const ConversationTimeline = memo(function ConversationTimeline({
   onOpenTurnDiff,
   onOpenThread,
   parentThreadLink = null,
+  workflowOpening = null,
   onForkFromRun,
   onRollbackCheckpoint,
   supportsConversationRollback,
@@ -589,12 +594,12 @@ const ConversationTimeline = memo(function ConversationTimeline({
   timestampFormat,
   workspaceRoot,
   skills = EMPTY_TIMELINE_SKILLS,
-  providerStatuses,
   runs: runsProp,
   anchorMessageId,
   onAnchorReady,
   onAnchorSizeChanged,
   contentInsetEndAdjustment,
+  composerOverlayHeight = 0,
   onIsAtEndChange,
   onContentOverflowChange,
   liveFollowEnabled,
@@ -793,8 +798,7 @@ const ConversationTimeline = memo(function ConversationTimeline({
     });
   }, [latestRun, listIdentityKey]);
 
-  // Find the fold that hides the match: imported turns have no run id but still
-  // fold under a synthetic key, so the match's own run id cannot open them.
+  // Imported turns fold under synthetic keys rather than the entries' own run ids.
   const findFoldRunIds = findActive
     ? timelineTurnFoldRunIdsByEntryId({
         timelineEntries,
@@ -804,9 +808,8 @@ const ConversationTimeline = memo(function ConversationTimeline({
         runlessWorkActive,
       })
     : null;
-  const activeFindRunId = activeFindMatch
-    ? findFoldRunIds?.get(activeFindMatch.entryId)
-    : undefined;
+  const activeFindRunId =
+    findActive && activeFindMatch ? findFoldRunIds?.get(activeFindMatch.entryId) : undefined;
   const [expandedFindRunId, setExpandedFindRunId] = useState<RunId | undefined>();
   if (expandedFindRunId !== activeFindRunId) {
     setExpandedFindRunId(activeFindRunId);
@@ -857,6 +860,22 @@ const ConversationTimeline = memo(function ConversationTimeline({
   // must not change with them or every timeline row re-renders per event.
   const runs = useStableHandoffRuns(runsProp);
   const minimapItems = deriveTimelineMinimapItems(rows);
+  // Preserve initialScrollAtEnd's measured target until the list is reused
+  // for another thread; scrollToEnd would replace it with an estimated offset.
+  const listOpenedOnRef = useRef<{
+    readonly list: LegendListRef;
+    identity: string | null;
+  } | null>(null);
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    const opened = listOpenedOnRef.current;
+    if (!list) return;
+    if (opened?.list !== list) {
+      listOpenedOnRef.current = { list, identity: listIdentityKey };
+    } else if (opened.identity !== listIdentityKey) {
+      opened.identity = null;
+    }
+  });
   const restoreRowIndex =
     restoringThreadPosition && rememberedPosition?.atEnd === false
       ? rows.findIndex((row) => row.id === rememberedPosition.rowId)
@@ -914,7 +933,9 @@ const ConversationTimeline = memo(function ConversationTimeline({
               viewOffset: -position.offsetWithinRow,
             })
           : list.scrollToOffset({ offset: position.scrollOffset, animated: false })
-        : list.scrollToEnd({ animated: false });
+        : listOpenedOnRef.current?.identity === listIdentityKey
+          ? undefined
+          : list.scrollToEnd({ animated: false });
     void Promise.resolve(scrolling).then(() => {
       if (cancelled) return;
       if (position?.atEnd !== false || index < 0) {
@@ -996,6 +1017,17 @@ const ConversationTimeline = memo(function ConversationTimeline({
     viewport: timelineViewportElement,
     historyLoading: citationHistoryLoading,
     loadEarlier,
+    getTurnFoldRunId: (entryId) =>
+      (
+        findFoldRunIds ??
+        timelineTurnFoldRunIdsByEntryId({
+          timelineEntries,
+          latestRun,
+          runningRunId,
+          isWorking,
+          runlessWorkActive,
+        })
+      ).get(entryId),
     onExpandTurn: expandCitedRun,
     onManualNavigation,
   });
@@ -1056,6 +1088,12 @@ const ConversationTimeline = memo(function ConversationTimeline({
       {footer}
     </TimelineListFooter>
   );
+  const timelineMaskStyle =
+    composerOverlayHeight === 0
+      ? undefined
+      : ({
+          "--timeline-composer-overlay-height": `${composerOverlayHeight}px`,
+        } as CSSProperties);
 
   const measureContentOverflow = () =>
     timelineContentOverflowsViewport(listRef.current?.getState?.(), {
@@ -1219,7 +1257,6 @@ const ConversationTimeline = memo(function ConversationTimeline({
     resolvedTheme,
     workspaceRoot,
     skills,
-    providerStatuses,
     runs,
     activeThreadEnvironmentId,
     onRevertToTurnCount,
@@ -1234,6 +1271,7 @@ const ConversationTimeline = memo(function ConversationTimeline({
     openPullRequest,
     onOpenTurnDiff,
     onOpenThread,
+    workflowOpening,
     onForkFromRun,
     onRollbackCheckpoint,
     onToggleTurnFold,
@@ -1379,13 +1417,21 @@ const ConversationTimeline = memo(function ConversationTimeline({
     contentInsetEndAdjustment,
   });
 
+  // Each row carries its own provider. LegendList moves rows into their
+  // containers one commit after this component renders, so a provider around
+  // the list would re-render the outgoing thread's rows with the incoming
+  // thread's context just before they unmount. extraData hands a changed
+  // sharedState to the rows that stay.
   const renderItem = ({ item }: { item: MessagesTimelineRow }) => (
-    <div className="messages-timeline-row-frame">
-      <div className="chat-content-lane overflow-x-clip" data-timeline-root="true">
-        <TimelineRowContent row={item} />
+    <TimelineRowCtx value={sharedState}>
+      <div className="messages-timeline-row-frame">
+        <div className="chat-content-lane overflow-x-clip" data-timeline-root="true">
+          <TimelineRowContent row={item} />
+        </div>
       </div>
-    </div>
+    </TimelineRowCtx>
   );
+  const listExtraData = { identity: listIdentityKey, rowCount: rows.length, sharedState };
 
   const forwardMinimapWheel = (event: WheelEvent) => {
     const scrollNode = listRef.current?.getScrollableNode();
@@ -1416,24 +1462,30 @@ const ConversationTimeline = memo(function ConversationTimeline({
 
   return (
     <MarkdownFindContext value={findActive}>
-      <TimelineRowCtx value={sharedState}>
-        <TimelineRowActivityCtx value={activityState}>
-          <TooltipScrollDismissArea
-            ref={setTimelineViewportElement}
-            className="relative h-full min-h-0"
-            data-assistant-citation-viewport="true"
+      <TimelineRowActivityCtx value={activityState}>
+        <TooltipScrollDismissArea
+          ref={setTimelineViewportElement}
+          className="relative h-full min-h-0"
+          data-assistant-citation-viewport="true"
+        >
+          {onCiteAssistantText && citationThreadRef ? (
+            <AssistantSelectionToolbar
+              viewport={timelineViewportElement}
+              threadRef={citationThreadRef}
+              onCite={onCiteAssistantText}
+            />
+          ) : null}
+          <div
+            className={cn(
+              "h-full min-h-0",
+              composerOverlayHeight > 0 && "virtualized-scroll-fade timeline-scroll-bottom-fade",
+            )}
+            style={timelineMaskStyle}
           >
-            {onCiteAssistantText && citationThreadRef ? (
-              <AssistantSelectionToolbar
-                viewport={timelineViewportElement}
-                threadRef={citationThreadRef}
-                onCite={onCiteAssistantText}
-              />
-            ) : null}
             <LegendList<MessagesTimelineRow>
               ref={setTimelineList}
               data={rows}
-              extraData={`${listIdentityKey}:${rows.length}`}
+              extraData={listExtraData}
               keyExtractor={keyExtractor}
               getItemType={getItemType}
               renderItem={renderItem}
@@ -1476,25 +1528,25 @@ const ConversationTimeline = memo(function ConversationTimeline({
               ListHeaderComponent={listHeader}
               ListFooterComponent={timelineListFooter}
             />
-            <TimelineMinimap
-              items={minimapItems}
-              hasPersistentGutter={minimapHasPersistentGutter}
-              hitStripWidth={minimapHitStripWidth}
-              currentIndex={minimapCurrentIndex}
-              stripMap={minimapStripMap}
-              onWheel={forwardMinimapWheel}
-              onSelect={(item) => {
-                onManualNavigation();
-                void listRef.current?.scrollToIndex({
-                  index: item.rowIndex,
-                  animated: true,
-                  viewOffset: 24,
-                });
-              }}
-            />
-          </TooltipScrollDismissArea>
-        </TimelineRowActivityCtx>
-      </TimelineRowCtx>
+          </div>
+          <TimelineMinimap
+            items={minimapItems}
+            hasPersistentGutter={minimapHasPersistentGutter}
+            hitStripWidth={minimapHitStripWidth}
+            currentIndex={minimapCurrentIndex}
+            stripMap={minimapStripMap}
+            onWheel={forwardMinimapWheel}
+            onSelect={(item) => {
+              onManualNavigation();
+              void listRef.current?.scrollToIndex({
+                index: item.rowIndex,
+                animated: !window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+                viewOffset: 24,
+              });
+            }}
+          />
+        </TooltipScrollDismissArea>
+      </TimelineRowActivityCtx>
     </MarkdownFindContext>
   );
 });
@@ -1512,9 +1564,13 @@ function TimelineHistoryControl(props: MessagesTimelineHistoryControls) {
             disabled={props.loading}
             aria-label="Load earlier turns"
             onClick={() => props.onLoadEarlier()}
-            className="w-full py-1.5 text-xs text-muted-foreground/60 hover:text-foreground disabled:cursor-default"
+            className="flex w-full cursor-pointer items-center gap-3 py-1.5 text-muted-foreground text-xs hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring disabled:cursor-default"
           >
-            {props.loading ? "Loading earlier turns…" : "Load earlier turns"}
+            <span aria-hidden="true" className="h-px flex-1 bg-border/70" />
+            <span className="shrink-0">
+              {props.loading ? "Loading earlier turns…" : "Load earlier turns"}
+            </span>
+            <span aria-hidden="true" className="h-px flex-1 bg-border/70" />
           </button>
         ) : null}
         {props.error !== null ? (
@@ -1531,8 +1587,17 @@ function keyExtractor(item: MessagesTimelineRow) {
   return item.id;
 }
 
+// LegendList estimates unmeasured rows from the running average size of their
+// type. One type for every assistant reply lets a few very long replies, or
+// one that is streaming, lift the estimate for short replies to thousands of
+// pixels. Rows then mount one at a time, each measurement shrinks the list
+// and mounts the next row in the same commit, and scrolling into unmeasured
+// history exceeds React's nested update limit. Doubling-length buckets keep
+// each average within about 2x of the rows it estimates.
 function getItemType(item: MessagesTimelineRow) {
-  return item.kind === "message" ? `message:${item.message.role}` : item.kind;
+  if (item.kind !== "message") return item.kind;
+  const lengthBucket = Math.max(0, Math.floor(Math.log2(item.message.text.length / 1000)));
+  return `message:${item.message.role}:${lengthBucket}`;
 }
 
 interface TimelinePositionState {
@@ -1945,7 +2010,7 @@ const TimelineRowContent = memo(function TimelineRowContent({ row }: { row: Time
       {row.kind === "turn-fold" ? <TurnFoldTimelineRow row={row} /> : null}
       {row.kind === "attempt-fold" ? <AttemptFoldTimelineRow row={row} /> : null}
       {row.kind === "context-compaction" ? <ContextCompactionTimelineRow row={row} /> : null}
-      {row.kind === "message" && row.message.role === "user" ? <UserTimelineRow row={row} /> : null}
+      {row.kind === "message" && row.message.role === "user" ? <UserMessageRow row={row} /> : null}
       {row.kind === "message" && row.message.role === "assistant" ? (
         <AssistantTimelineRow row={row} />
       ) : null}
@@ -1987,6 +2052,20 @@ function ContextCompactionTimelineRow({
 }: {
   row: Extract<TimelineRow, { kind: "context-compaction" }>;
 }) {
+  const content = (
+    <span className="flex items-center gap-1.5">
+      <Minimize2Icon aria-hidden="true" className="size-3" />
+      {row.tokenCounts ? (
+        <>
+          Context compacted {row.tokenCounts.before}
+          <ArrowRightIcon aria-hidden="true" className="size-3" />
+          {row.tokenCounts.after} tokens
+        </>
+      ) : (
+        row.label
+      )}
+    </span>
+  );
   return (
     <div
       role="separator"
@@ -1998,18 +2077,8 @@ function ContextCompactionTimelineRow({
         ref={row.active ? observeVisibleAnimation : undefined}
         className="relative shrink-0 overflow-hidden"
       >
-        <span className="flex items-center gap-1.5">
-          <Minimize2Icon aria-hidden="true" className="size-3" />
-          {row.label}
-        </span>
-        {row.active ? (
-          <ActivityShimmerOverlay>
-            <span className="flex items-center gap-1.5">
-              <Minimize2Icon aria-hidden="true" className="size-3" />
-              {row.label}
-            </span>
-          </ActivityShimmerOverlay>
-        ) : null}
+        {content}
+        {row.active ? <ActivityShimmerOverlay>{content}</ActivityShimmerOverlay> : null}
       </span>
       <span className="h-px flex-1 bg-border/70" />
     </div>
@@ -2064,6 +2133,19 @@ const MESSAGE_HEADING_LEVEL = 3;
 
 function MessageAuthorHeading({ children }: { children: string }) {
   return <h3 className="sr-only select-none">{children}</h3>;
+}
+
+function UserMessageRow({ row }: { row: Extract<TimelineRow, { kind: "message" }> }) {
+  const ctx = use(TimelineRowCtx);
+  return ctx.workflowOpening?.messageId === row.message.id ? (
+    <WorkflowOpeningBlock
+      opening={ctx.workflowOpening}
+      environmentId={ctx.activeThreadEnvironmentId}
+      onOpenThread={(threadId) => ctx.onOpenThread(ThreadId.make(threadId))}
+    />
+  ) : (
+    <UserTimelineRow row={row} />
+  );
 }
 
 function UserTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "message" }> }) {
@@ -2237,7 +2319,8 @@ function UserTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "message" 
           )}
         </p>
       ) : null}
-      {row.message.inputIntent && row.message.inputIntent !== "turn_start" ? (
+      {row.message.inputIntent === "steer" ||
+      row.message.inputIntent === "promoted_queued_to_steer" ? (
         <UserMessageIntentMarker intent={row.message.inputIntent} />
       ) : null}
       <div className="relative max-w-[80%] rounded-2xl bg-message p-3 text-message-foreground">
@@ -2265,7 +2348,9 @@ function UserTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "message" 
                       ctx.onImageExpand(preview);
                     }}
                   >
-                    <img
+                    <AttachmentImage
+                      name={image.name}
+                      mimeType={image.mimeType}
                       src={image.previewUrl}
                       alt={image.name}
                       className="block size-full object-cover"
@@ -2406,24 +2491,8 @@ function UserTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "message" 
 function UserMessageIntentMarker({
   intent,
 }: {
-  readonly intent: NonNullable<ChatMessage["inputIntent"]>;
+  readonly intent: "steer" | "promoted_queued_to_steer";
 }) {
-  const presentation =
-    intent === "queued_turn"
-      ? {
-          label: "From queue",
-          icon: null,
-        }
-      : intent === "promoted_queued_to_steer"
-        ? {
-            label: "Steer",
-            icon: Redo2Icon,
-          }
-        : {
-            label: "Steer",
-            icon: Redo2Icon,
-          };
-  const IntentIcon = presentation.icon;
   return (
     <Tooltip>
       <TooltipTrigger
@@ -2434,21 +2503,19 @@ function UserMessageIntentMarker({
           />
         }
       >
-        {IntentIcon ? <IntentIcon aria-hidden="true" className="size-3" /> : null}
-        {presentation.label}
+        <Redo2Icon aria-hidden="true" className="size-3" />
+        Steer
       </TooltipTrigger>
       <TooltipPopup side="top">
-        {intent === "queued_turn"
-          ? "Queued while the agent was busy"
-          : intent === "promoted_queued_to_steer"
-            ? "Originally queued, then promoted to steer the active turn"
-            : "Steered the active turn"}
+        {intent === "promoted_queued_to_steer"
+          ? "Originally queued, then promoted to steer the active turn"
+          : "Steered the active turn"}
       </TooltipPopup>
     </Tooltip>
   );
 }
 
-export function resolvePreviewAnnotationImage(input: {
+function resolvePreviewAnnotationImage(input: {
   record: Extract<KnownComposerContextRecord, { kind: "preview-annotation" }>;
   recordsById: ReadonlyMap<string, ComposerContextRecord>;
   userImages: ReadonlyArray<ChatImageAttachment>;
@@ -2936,7 +3003,6 @@ function V2EventTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "event"
         resourceSummary={row.resourceSummary}
         createdAt={row.createdAt}
         timestampFormat={ctx.timestampFormat}
-        providerStatuses={ctx.providerStatuses}
         runs={ctx.runs}
         onOpenThread={ctx.onOpenThread}
       />
@@ -3185,12 +3251,11 @@ const V2SubagentGroup = memo(function V2SubagentGroup({
         >
           <span className="flex shrink-0 items-center -space-x-1.5" aria-hidden>
             {agents.slice(0, 3).map(({ item, status }) => (
-              <SubagentAvatar
+              <EnvironmentSubagentAvatar
                 key={item.id}
+                environmentId={ctx.activeThreadEnvironmentId}
+                providerInstanceId={item.providerInstanceId}
                 driver={item.driver}
-                provider={ctx.providerStatuses.find(
-                  (provider) => provider.instanceId === item.providerInstanceId,
-                )}
                 status={agents.length === 1 ? status : undefined}
               />
             ))}
@@ -3233,7 +3298,6 @@ const V2SubagentGroup = memo(function V2SubagentGroup({
                   item={item}
                   createdAt={row.createdAt}
                   timestampFormat={ctx.timestampFormat}
-                  providerStatuses={ctx.providerStatuses}
                   runs={ctx.runs}
                   onOpenThread={ctx.onOpenThread}
                 />
@@ -3792,7 +3856,17 @@ function LiveWorkEntryTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "
               />
             </span>
           }
-          label={<span className="line-clamp-4">{thoughtLine}</span>}
+          label={
+            <span className="line-clamp-4">
+              <ChatMarkdown
+                inline
+                text={thoughtLine}
+                cwd={ctx.markdownCwd}
+                parseRawHtml={false}
+                extraRemarkPlugins={[[remarkThoughtPreview, "Thought"]]}
+              />
+            </span>
+          }
           wrapLabel
         />
       ) : null}
@@ -3812,14 +3886,13 @@ function LiveWorkEntryTimelineRow({ row }: { row: Extract<TimelineRow, { kind: "
               </span>
             </span>
           ) : row.entry.itemType === "reasoning" ? (
-            <ReactMarkdown
-              remarkPlugins={[
-                remarkGfm,
-                [remarkThoughtPreview, row.active ? "Thinking" : "Thought"],
-              ]}
-            >
-              {row.entry.detail ?? label}
-            </ReactMarkdown>
+            <ChatMarkdown
+              inline
+              text={row.entry.detail ?? label}
+              cwd={ctx.markdownCwd}
+              parseRawHtml={false}
+              extraRemarkPlugins={[[remarkThoughtPreview, row.active ? "Thinking" : "Thought"]]}
+            />
           ) : threadLabel ? (
             <ThreadReadLabel
               label={threadLabel}
@@ -4509,7 +4582,7 @@ const CollapsibleUserMessageBody = memo(function CollapsibleUserMessageBody(prop
 }) {
   const [expanded, setExpanded] = useState(false);
   const revealForFind = () => setExpanded(true);
-  const findRevealRef = useFindRevealRef(revealForFind);
+  const revealRef = findRevealRef(revealForFind);
   const hasVisibleBody = props.text.trim().length > 0;
   const canCollapse = hasVisibleBody && shouldCollapseUserMessage(props.text);
   const isCollapsed = canCollapse && !expanded;
@@ -4519,7 +4592,7 @@ const CollapsibleUserMessageBody = memo(function CollapsibleUserMessageBody(prop
     <div>
       {hasVisibleBody ? (
         <div
-          ref={findRevealRef}
+          ref={revealRef}
           className={cn("relative", isCollapsed && "max-h-44 overflow-hidden")}
           data-user-message-body="true"
           data-thread-find-text="true"
@@ -4618,8 +4691,14 @@ function UserMessageReviewCommentCard({ comment }: { comment: ReviewCommentConte
         </div>
       </div>
       {comment.text.length > 0 && (
-        <div className="whitespace-pre-wrap wrap-break-word text-sm">
-          <SkillInlineText text={comment.text} skills={ctx.skills} />
+        <div className="wrap-break-word text-sm">
+          <ChatMarkdown
+            text={comment.text}
+            cwd={ctx.markdownCwd}
+            skills={ctx.skills}
+            parseRawHtml={false}
+            lineBreaks
+          />
         </div>
       )}
       {fenceLanguage !== "diff" && comment.diff.trim().length > 0 && (
@@ -5125,25 +5204,50 @@ function workEntryIconName(workEntry: TimelineWorkEntry): WorkEntryIconName {
 
 const stopRowToggle = (e: { stopPropagation: () => void }) => e.stopPropagation();
 
-function remarkThoughtPreview(fallback: string) {
+/** Compact reasoning keeps formulas while flattening other Markdown into label text. */
+export function remarkThoughtPreview(fallback: string) {
   return (tree: Root) => {
-    const plainText = (node: Root | RootContent): string => {
-      if (node.type === "html" || node.type === "definition") return "";
-      if ("alt" in node) return node.alt ?? "";
-      if ("value" in node) return node.value;
-      if ("children" in node) {
-        const separator = ["root", "blockquote", "list", "listItem", "table", "tableRow"].includes(
-          node.type,
-        )
-          ? " "
-          : "";
-        return node.children.map(plainText).join(separator);
-      }
-      return node.type === "break" ? " " : "";
+    const children: RootContent[] = [];
+    const append = (value: string) => {
+      const last = children.at(-1);
+      const text = value.replace(/\s+/g, " ");
+      if (last?.type === "text") last.value = (last.value + text).replace(/\s+/g, " ");
+      else children.push({ type: "text", value: text });
     };
-    tree.children = [
-      { type: "text", value: plainText(tree).replace(/\s+/g, " ").trim() || fallback },
-    ];
+    const visit = (node: Root | RootContent) => {
+      if (node.type === "html" || node.type === "definition") return;
+      if (node.type === "math" || node.type === "inlineMath") {
+        children.push({
+          type: "inlineMath",
+          value: node.value,
+          position: node.position,
+          data: {
+            hName: "code",
+            hProperties: { className: ["language-math", "math-inline"] },
+            hChildren: [{ type: "text", value: node.value }],
+          },
+        });
+      } else if ("alt" in node) append(node.alt ?? "");
+      else if ("value" in node) append(node.value);
+      else if ("children" in node) {
+        node.children.forEach((child, index) => {
+          if (
+            index &&
+            ["root", "blockquote", "list", "listItem", "table", "tableRow"].includes(node.type)
+          )
+            append(" ");
+          visit(child);
+        });
+      } else if (node.type === "break") append(" ");
+    };
+    visit(tree);
+    const first = children[0];
+    const last = children.at(-1);
+    if (first?.type === "text") first.value = first.value.trimStart();
+    if (last?.type === "text") last.value = last.value.trimEnd();
+    tree.children = children.some((child) => child.type !== "text" || child.value)
+      ? children
+      : [{ type: "text", value: fallback }];
   };
 }
 
@@ -5195,7 +5299,6 @@ const SimpleWorkEntryRow = memo(function SimpleWorkEntryRow(props: WorkEntryRowP
       outcome={item.outcome}
       createdAt={props.workEntry.createdAt}
       timestampFormat={ctx.timestampFormat}
-      providerStatuses={ctx.providerStatuses}
       onOpenThread={ctx.onOpenThread}
       fallback={<WorkEntryLogRow {...props} />}
     />
@@ -5409,7 +5512,7 @@ function WorkEntryLogRow(props: WorkEntryRowProps) {
         "aria-expanded": expanded,
         onClick: toggleExpanded,
         onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
-          if (e.key === "Enter" || e.key === " ") {
+          if (e.target === e.currentTarget && (e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             toggleExpanded();
           }
@@ -5443,17 +5546,18 @@ function WorkEntryLogRow(props: WorkEntryRowProps) {
               className={cn(answerPreview ? "min-w-0" : "min-w-0 flex-1", "truncate", headingClass)}
             >
               {isReasoning && !expanded ? (
-                <ReactMarkdown
-                  remarkPlugins={[
-                    remarkGfm,
+                <ChatMarkdown
+                  inline
+                  text={workEntry.detail ?? previewText}
+                  cwd={ctx.markdownCwd}
+                  parseRawHtml={false}
+                  extraRemarkPlugins={[
                     [
                       remarkThoughtPreview,
                       workEntry.toolLifecycleStatus === "inProgress" ? "Thinking" : "Thought",
                     ],
                   ]}
-                >
-                  {workEntry.detail ?? previewText}
-                </ReactMarkdown>
+                />
               ) : threadLabel ? (
                 <ThreadReadLabel
                   label={threadLabel}

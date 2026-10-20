@@ -8,7 +8,8 @@ import {
 } from "@t3tools/client-runtime/state/runtime";
 import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
 import { useMemo, useRef, useState } from "react";
-import { Alert, Pressable, TextInput, View } from "react-native";
+import { Pressable, TextInput, View } from "react-native";
+import * as Dialog from "../../../components/ui/Dialog";
 
 import { AppText as Text } from "../../../components/ui/AppText";
 import { SymbolView } from "../../../components/ui/AppSymbol";
@@ -16,7 +17,7 @@ import { Menu } from "../../../components/ui/Menu";
 import { makeTurnCommandMetadata } from "../../../lib/commandMetadata";
 import { buildModelOptions } from "../../../lib/modelOptions";
 import { buildProjectThreadStartTurnInput } from "../../../lib/projectThreadStartTurn";
-import { useProjects } from "../../../state/entities";
+import { useEnvironmentServerConfig, useProjects } from "../../../state/entities";
 import { projectEnvironment } from "../../../state/projects";
 import { threadEnvironment } from "../../../state/threads";
 import { useAtomCommand } from "../../../state/use-atom-command";
@@ -102,7 +103,7 @@ function ComposerForm({
   readonly onStarted: (environmentId: EnvironmentId, threadId: ThreadId) => void;
 }) {
   const environmentId = target.environment.environmentId;
-  const config = target.environment.serverConfig;
+  const config = useEnvironmentServerConfig(environmentId);
   const openScratch = useAtomCommand(projectEnvironment.openScratch, { reportFailure: false });
   const projectId = target.project?.id ?? null;
   const modelOptions = useMemo(
@@ -140,7 +141,10 @@ function ComposerForm({
         sendingRef.current = false;
         setSending(false);
         if (!isAtomCommandInterrupted(opened)) {
-          Alert.alert("Could not start the setup thread", String(squashAtomCommandFailure(opened)));
+          Dialog.alert(
+            "Could not start the setup thread",
+            String(squashAtomCommandFailure(opened)),
+          );
         }
         return;
       }
@@ -148,7 +152,7 @@ function ComposerForm({
     }
     const metadata = makeTurnCommandMetadata();
     const runtimeMode = resolveProjectSettings(
-      config.settings ?? DEFAULT_SERVER_SETTINGS,
+      config?.settings ?? DEFAULT_SERVER_SETTINGS,
       project.id,
       project,
     ).settings.defaultRuntimeMode;
@@ -173,7 +177,7 @@ function ComposerForm({
     sendingRef.current = false;
     setSending(false);
     if (result._tag === "Failure") {
-      Alert.alert("Could not start the setup thread", String(squashAtomCommandFailure(result)));
+      Dialog.alert("Could not start the setup thread", String(squashAtomCommandFailure(result)));
       return;
     }
     setPrompt("");
