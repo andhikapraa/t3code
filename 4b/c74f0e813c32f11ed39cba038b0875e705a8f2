@@ -1,0 +1,32 @@
+packages/client-runtime/src/state/threadSideQuestion.ts
+  s_4784e5409c7ffa::t_17b8ea58efd923 124
+  s_4784e5409c7ffa::t_200d3ab20e74d4 100,113-123,125-171
+  s_4784e5409c7ffa::t_7844b2d956dd41 101-112
+  s_4784e5409c7ffa::t_6aa267ac46bc6d 9,22,206
+packages/client-runtime/src/state/threadSideQuestion.test.ts
+  s_4784e5409c7ffa::t_1b8bc4fa79eda1 1-2,6-7,11-12,14,74-80,92-109,111,113-114,116-145
+  s_4784e5409c7ffa::t_e113579670472d 81-91,110,112,115
+  s_4784e5409c7ffa::t_cbb5541bf8cb9b 146
+docs/user/providers-pi.md
+  s_4784e5409c7ffa::t_0f5bf151d11089 58-60
+apps/mobile/src/state/side-questions.ts
+  s_4784e5409c7ffa::t_2edc412c19b8c9 1,3-5,8-9,12,20-21,25-28,30-35,39,42-48
+apps/web/src/state/sideQuestions.ts
+  s_4784e5409c7ffa::t_4cf15ad6fede14 1,3-5,8-9,12,20-21,25-28,30-35,39,42-48
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4bc74f0e813c32f11ed39cba038b0875e705a8f2",
+  "prompts": {},
+  "sessions": {
+    "s_4784e5409c7ffa": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a12f30-918c-7272-a616-2a52e3c4a3ea",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
