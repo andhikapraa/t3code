@@ -36,7 +36,7 @@ export interface SettlementPullRequest {
 }
 
 const DAY_MS = 24 * 60 * 60 * 1_000;
-export const QUEUED_TURN_START_GRACE_MS = 2 * 60 * 1_000;
+const QUEUED_TURN_START_GRACE_MS = 2 * 60 * 1_000;
 
 function toMillis(value: DateTime.Utc | null | undefined): number | null {
   return value == null ? null : DateTime.toEpochMillis(value);
@@ -189,12 +189,7 @@ export function isSnoozed(
   const wokeOnError =
     thread.status === "failed" &&
     (snoozedAtMs === null || (completedAtMs !== null && completedAtMs > snoozedAtMs));
-  const wokeOnCompletion =
-    thread.status === "completed" &&
-    snoozedAtMs !== null &&
-    completedAtMs !== null &&
-    completedAtMs > snoozedAtMs;
-  return !wokeOnError && !wokeOnCompletion;
+  return !wokeOnError;
 }
 
 export function resolveAutoSettlementAt(input: {

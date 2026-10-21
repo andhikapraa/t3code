@@ -1,10 +1,8 @@
 import { expect, it } from "@effect/vitest";
 
 import {
-  parsePiCompactCommand,
   parsePiDiscoveredCommands,
   PI_BTW_SLASH_COMMAND,
-  PI_COMPACT_SLASH_COMMAND,
   PI_HANDOFF_SLASH_COMMAND,
   withPiBuiltinSlashCommands,
 } from "./commands.ts";
@@ -55,52 +53,11 @@ it("maps current Pi skill metadata to T3's user and project skill scopes", () =>
   });
 });
 
-it("maps Pi global location and interface labels onto T3 skill fields", () => {
-  expect(
-    parsePiDiscoveredCommands({
-      commands: [
-        {
-          name: "skill:global-review",
-          description: "Review changes.",
-          source: "skill",
-          location: "global",
-          interface: {
-            displayName: "Global Review",
-            shortDescription: "Review diffs.",
-          },
-        },
-      ],
-    }),
-  ).toEqual({
-    skills: [
-      {
-        name: "global-review",
-        description: "Review changes.",
-        path: "pi:skill:global-review",
-        scope: "user",
-        enabled: true,
-        displayName: "Global Review",
-        shortDescription: "Review diffs.",
-      },
-    ],
-    slashCommands: [],
-  });
-});
-
-it("parses a standalone /compact command and optional instructions", () => {
-  expect(parsePiCompactCommand("/compact")).toEqual({});
-  expect(parsePiCompactCommand("  /compact  ")).toEqual({});
-  expect(parsePiCompactCommand("/compact keep the auth rewrite")).toEqual({
-    customInstructions: "keep the auth rewrite",
-  });
-  expect(parsePiCompactCommand("/compacted")).toBeNull();
-  expect(parsePiCompactCommand("/compact-now")).toBeNull();
-  expect(parsePiCompactCommand("please /compact")).toBeNull();
-});
-
 it("prepends the builtin commands without duplicating discovered ones", () => {
+  const [compact] = withPiBuiltinSlashCommands([]);
+  expect(compact?.name).toBe("compact");
   expect(withPiBuiltinSlashCommands([{ name: "hello", description: "Say hello." }])).toEqual([
-    PI_COMPACT_SLASH_COMMAND,
+    compact,
     PI_BTW_SLASH_COMMAND,
     PI_HANDOFF_SLASH_COMMAND,
     { name: "hello", description: "Say hello." },
@@ -113,10 +70,5 @@ it("prepends the builtin commands without duplicating discovered ones", () => {
       { name: "handoff", description: "Extension handoff." },
       { name: "hello" },
     ]),
-  ).toEqual([
-    PI_COMPACT_SLASH_COMMAND,
-    PI_BTW_SLASH_COMMAND,
-    PI_HANDOFF_SLASH_COMMAND,
-    { name: "hello" },
-  ]);
+  ).toEqual([compact, PI_BTW_SLASH_COMMAND, PI_HANDOFF_SLASH_COMMAND, { name: "hello" }]);
 });

@@ -44,10 +44,7 @@ export class OrchestrationEffectExecutionError extends Schema.TaggedError<Orches
  * "is not active" would drop the outbox item without ever starting the
  * replacement turn.
  */
-export function isNonRetryableProviderTurnControlFailure(
-  effectType: string,
-  errorText: string,
-): boolean {
+function isNonRetryableProviderTurnControlFailure(effectType: string, errorText: string): boolean {
   if (effectType !== "provider-turn.interrupt") {
     return false;
   }
@@ -462,6 +459,17 @@ export const layerExecutor: Layer.Layer<
                     }),
                 ),
               );
+          case "scheduled-tasks.cleanup":
+            return resourceCleanup.cleanupScheduledTasks(effect.threadId).pipe(
+              Effect.mapError(
+                (cause) =>
+                  new OrchestrationEffectExecutionError({
+                    effectId: effect.id,
+                    effectType: effect.request.type,
+                    cause,
+                  }),
+              ),
+            );
           case "terminal.cleanup":
             return resourceCleanup.cleanupTerminals(effect.threadId).pipe(
               Effect.mapError(

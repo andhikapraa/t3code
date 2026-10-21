@@ -5,7 +5,7 @@ import * as Migrator from "effect/sql/Migrator";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import { migrationManifest, runMigrations } from "./Migrations.ts";
-import LastRunThread from "./Migrations/065_ScheduledTasksLastRunThread.ts";
+import LastRunThread from "./Migrations/068_ScheduledTasksLastRunThread.ts";
 
 const assertUpgradedSchema = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient;
@@ -44,7 +44,10 @@ const cases = [
       [62, "ThreadFailureLookupIndex"],
       [63, "DropUnusedV1Projections"],
       [64, "CanonicalizeThreadPullRequestLinks"],
-      [65, "ScheduledTasksLastRunThread"],
+      [65, "CodexUsageNativeTurnIndex"],
+      [66, "RepairClientSettlementTimestamps"],
+      [67, "WebhookDedupe"],
+      [68, "ScheduledTasksLastRunThread"],
     ],
   },
   {
@@ -54,7 +57,10 @@ const cases = [
       [62, "ThreadFailureLookupIndex"],
       [63, "DropUnusedV1Projections"],
       [64, "CanonicalizeThreadPullRequestLinks"],
-      [65, "ScheduledTasksLastRunThread"],
+      [65, "CodexUsageNativeTurnIndex"],
+      [66, "RepairClientSettlementTimestamps"],
+      [67, "WebhookDedupe"],
+      [68, "ScheduledTasksLastRunThread"],
     ],
   },
   {
@@ -63,7 +69,10 @@ const cases = [
       [62, "ThreadFailureLookupIndex"],
       [63, "DropUnusedV1Projections"],
       [64, "CanonicalizeThreadPullRequestLinks"],
-      [65, "ScheduledTasksLastRunThread"],
+      [65, "CodexUsageNativeTurnIndex"],
+      [66, "RepairClientSettlementTimestamps"],
+      [67, "WebhookDedupe"],
+      [68, "ScheduledTasksLastRunThread"],
     ],
   },
   {
@@ -71,23 +80,33 @@ const cases = [
     expected: [
       [63, "DropUnusedV1Projections"],
       [64, "CanonicalizeThreadPullRequestLinks"],
-      [65, "ScheduledTasksLastRunThread"],
+      [65, "CodexUsageNativeTurnIndex"],
+      [66, "RepairClientSettlementTimestamps"],
+      [67, "WebhookDedupe"],
+      [68, "ScheduledTasksLastRunThread"],
+    ],
+  },
+  {
+    forkId: 65,
+    expected: [
+      [65, "CodexUsageNativeTurnIndex"],
+      [66, "RepairClientSettlementTimestamps"],
+      [67, "WebhookDedupe"],
+      [68, "ScheduledTasksLastRunThread"],
     ],
   },
 ] as const;
 
-for (const { forkId, expected } of cases) {
-  it.effect(
-    `upgrades a fork database that recorded last_run_thread_id as migration ${forkId}`,
-    () =>
-      Effect.gen(function* () {
-        yield* runMigrations({ toMigrationInclusive: forkId - 1 });
-        yield* Migrator.make({})({
-          loader: Migrator.fromRecord({ [`${forkId}_ScheduledTasksLastRunThread`]: LastRunThread }),
-        });
+it.effect.each(cases)(
+  "upgrades a fork database that recorded last_run_thread_id as migration $forkId",
+  ({ forkId, expected }) =>
+    Effect.gen(function* () {
+      yield* runMigrations({ toMigrationInclusive: forkId - 1 });
+      yield* Migrator.make({})({
+        loader: Migrator.fromRecord({ [`${forkId}_ScheduledTasksLastRunThread`]: LastRunThread }),
+      });
 
-        assert.deepStrictEqual(yield* runMigrations(), [...expected]);
-        yield* assertUpgradedSchema;
-      }).pipe(Effect.provide(NodeSqliteClient.layer({ filename: ":memory:" }))),
-  );
-}
+      assert.deepStrictEqual(yield* runMigrations(), [...expected]);
+      yield* assertUpgradedSchema;
+    }).pipe(Effect.provide(NodeSqliteClient.layer({ filename: ":memory:" }))),
+);

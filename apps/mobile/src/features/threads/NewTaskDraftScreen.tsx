@@ -28,7 +28,7 @@ import {
   KeyboardStickyView,
   useKeyboardState,
 } from "react-native-keyboard-controller";
-import Animated from "react-native-reanimated";
+import Animated, { FadeInDown, ReduceMotion } from "react-native-reanimated";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useUniwindTheme } from "../../lib/useUniwindTheme";
 import { FONT_FAMILIES } from "../../lib/fontFamilies";
@@ -67,12 +67,14 @@ import {
 } from "../../state/composer-attachment-uploads";
 import { FilePreviewModal, type FilePreviewSource } from "../../components/FilePreviewModal";
 import { VideoPreviewModal, type VideoPreviewSource } from "../../components/VideoPreviewModal";
-import { ProviderIcon } from "../../components/ProviderIcon";
+import { ComposerModelControl } from "../../components/ComposerModelControl";
 import { SymbolView } from "../../components/ui/AppSymbol";
 import { AppText as Text } from "../../components/ui/AppText";
 import { hasProviderUsageLimits, isUsageLimitsCommand } from "@t3tools/shared/usageLimits";
+import { threadContextsOutsideEnvironment } from "@t3tools/shared/composerContextReferences";
 import { COMPOSER_LAYOUT_TRANSITION, ComposerSurface } from "./ThreadComposer";
 import { ComposerCommandPopover } from "./ComposerCommandPopover";
+import { ComposerPopoverAnchor } from "./ComposerPopoverAnchor";
 import { useComposerCommandMenu } from "./use-composer-command-menu";
 import {
   ComposerDictationCancelAction,
@@ -133,6 +135,7 @@ import { resolveDraftProjectSelection } from "./new-task-project-selection";
 import {
   resolveNewTaskBranchLabel,
   resolveNewTaskWorkspaceLabel,
+  resolveNewTaskWorkspaceSelection,
 } from "./new-task-context-presentation";
 import { useIncomingShare } from "../sharing/IncomingShareProvider";
 import { selectIncomingShareAttachmentsForServer } from "../sharing/incoming-share-model";
@@ -140,6 +143,8 @@ import { appAtomRegistry } from "../../state/atom-registry";
 import { serverEnvironment } from "../../state/server";
 import { fileRoutePathSegments } from "../files/filePath";
 import { readEnvironmentScope, useEnvironmentScope } from "../../state/session";
+
+const COMPOSER_POPOVER_ENTERING = FadeInDown.duration(180).reduceMotion(ReduceMotion.System);
 
 function NewTaskWorkspaceIcon(props: {
   readonly workspaceMode: "local" | "worktree";
@@ -1189,8 +1194,17 @@ export function NewTaskDraftScreen(props: {
         draft.modelSelection ?? null,
         selectedProject.id,
       ) ?? flow.selectedModel;
-    const workspaceMode = draft.workspaceSelection?.mode ?? flow.workspaceMode;
-    const selectedBranchName = draft.workspaceSelection?.branch ?? flow.selectedBranchName;
+    const workspaceSelection = resolveNewTaskWorkspaceSelection({
+      selection: draft.workspaceSelection,
+      fallback: {
+        mode: flow.workspaceMode,
+        branch: flow.selectedBranchName,
+        worktreePath: flow.selectedWorktreePath,
+      },
+      isGitRepo: flow.isGitRepo,
+    });
+    const workspaceMode = workspaceSelection.mode;
+    const selectedBranchName = workspaceSelection.branch;
     const initialMessageText = draft.text.trim();
 
     if (
@@ -1246,6 +1260,22 @@ export function NewTaskDraftScreen(props: {
     const contextBlockReason = composerContextSendBlockReason(draft.context);
     if (contextBlockReason) {
       Dialog.alert("Too much context", contextBlockReason);
+      return;
+    }
+    const strandedThread = threadContextsOutsideEnvironment({
+      text: draft.text,
+      records: draft.context?.records ?? [],
+      environmentId: selectedProject.environmentId,
+    })[0];
+    if (strandedThread) {
+      const owner =
+        flow.environments.find(
+          (environment) => environment.environmentId === strandedThread.environmentId,
+        )?.environmentLabel ?? "its machine";
+      Dialog.alert(
+        "Attached thread unavailable",
+        `"${strandedThread.title}" is on another machine. Switch back to ${owner} or remove it from the draft.`,
+      );
       return;
     }
 
@@ -1349,7 +1379,8 @@ export function NewTaskDraftScreen(props: {
     !flow.submitting &&
     pendingPastedTextAttachmentCount === 0 &&
     !voiceInput.blocksSubmission &&
-    !(flow.workspaceMode === "worktree" && !flow.selectedBranchName);
+    // Until the repository check answers, a saved worktree selection may belong to a non-git folder.
+    !(flow.workspaceMode === "worktree" && (!flow.selectedBranchName || !flow.isGitRepoKnown));
   const openDraftDocument = (attachment: ComposerDocumentAttachment) => {
     // A draft attachment lives only in the draft. Without its key the screen would fall through
     // to a remote lookup for bytes the server has never seen.
@@ -1473,11 +1504,11 @@ export function NewTaskDraftScreen(props: {
       <View className="flex-row flex-wrap items-center justify-center gap-x-1">
         <ComposerInlineControl
           accessibilityHint="Opens the project picker"
-          accessibilityLabel="Choose a project"
+          accessibilityLabel="No project"
           chevronDirection="right"
           disabled={isComposerInteractionLocked}
           icon="folder"
-          label="Choose a project"
+          label="No project"
           onPress={chooseProject}
         />
         {environmentControl}
@@ -1536,7 +1567,7 @@ export function NewTaskDraftScreen(props: {
       <ComposerInlineControl
         accessibilityHint={`Switches to ${flow.workspaceMode === "local" ? "a new worktree" : "the current checkout"}`}
         accessibilityLabel={workspaceLabel}
-        disabled={isComposerInteractionLocked || voiceInput.isBusy}
+        disabled={isComposerInteractionLocked || voiceInput.isBusy || !flow.isGitRepo}
         renderIcon={(size) => (
           <NewTaskWorkspaceIcon
             workspaceMode={flow.workspaceMode}
@@ -1553,7 +1584,7 @@ export function NewTaskDraftScreen(props: {
       <ComposerInlineControl
         accessibilityLabel={`${flow.workspaceMode === "worktree" ? "Base branch" : "Branch"}: ${selectedBranchLabel}`}
         chevronDirection="right"
-        disabled={isComposerInteractionLocked}
+        disabled={isComposerInteractionLocked || !flow.isGitRepo}
         icon="arrow.triangle.branch"
         label={showBranchLoading ? "Loading branches…" : selectedBranchLabel}
         maxWidth={190}
@@ -1562,6 +1593,15 @@ export function NewTaskDraftScreen(props: {
     </View>
   );
 
+  const composerPopover = composerMenu.trigger ? (
+    <ComposerCommandPopover
+      items={composerMenu.items}
+      triggerKind={composerMenu.trigger.kind}
+      isLoading={composerMenu.isLoading}
+      error={composerMenu.error}
+      onSelect={composerMenu.onSelect}
+    />
+  ) : null;
   const composerDock = (
     <View
       className={
@@ -1572,15 +1612,15 @@ export function NewTaskDraftScreen(props: {
       {!voiceInput.isBusy &&
       composerMenu.trigger &&
       (composerMenu.items.length > 0 || composerMenu.trigger.kind === "pull-request") ? (
-        <View className="mb-2">
-          <ComposerCommandPopover
-            items={composerMenu.items}
-            triggerKind={composerMenu.trigger.kind}
-            isLoading={composerMenu.isLoading}
-            error={composerMenu.error}
-            onSelect={composerMenu.onSelect}
-          />
-        </View>
+        Platform.OS === "ios" ? (
+          <View>
+            <ComposerPopoverAnchor>
+              <Animated.View entering={COMPOSER_POPOVER_ENTERING}>{composerPopover}</Animated.View>
+            </ComposerPopoverAnchor>
+          </View>
+        ) : (
+          <View className="mb-2">{composerPopover}</View>
+        )
       ) : null}
       {projectClone && projectClone.phase !== "done" && selectedProject ? (
         <View className="px-1 pb-2">
@@ -1698,19 +1738,13 @@ export function NewTaskDraftScreen(props: {
                   />
                   <View className="min-w-0 flex-1 flex-row items-center justify-end gap-2">
                     <View className="min-w-0 shrink">
-                      <ComposerInlineControl
-                        accessibilityLabel="Model and reasoning settings"
+                      <ComposerModelControl
+                        modelOption={flow.selectedModelOption}
+                        selection={flow.selectedModel}
+                        provider={flow.selectedProviderStatus?.driver}
+                        prompt={flow.prompt}
+                        surfaceColor={theme["--color-composer-panel"]}
                         disabled={isComposerInteractionLocked}
-                        emphasized
-                        renderIcon={(size) => (
-                          <ProviderIcon
-                            iconUrl={flow.selectedModelOption?.providerIconUrl}
-                            provider={flow.selectedModelOption?.providerDriver}
-                            size={size}
-                          />
-                        )}
-                        label={flow.selectedModelOption?.label ?? "Choose model"}
-                        maxWidth="100%"
                         onPress={settingsSheetPresentation.open}
                       />
                     </View>

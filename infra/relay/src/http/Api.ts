@@ -102,6 +102,17 @@ const appendRelayCredentialResponseHeaders = HttpEffect.appendPreResponseHandler
     ),
 );
 
+// T3 Code hosts never retry sooner than Retry-After, so during a Cloudflare
+// rate limit they wait out the pause instead of retrying into it.
+const appendCloudflareRetryAfter = (error: unknown) => {
+  const retryAfterMillis = ManagedEndpointProvider.cloudflareRetryAfterMillis(error);
+  if (retryAfterMillis === undefined) return Effect.void;
+  const seconds = String(Math.max(1, Math.ceil(retryAfterMillis / 1000)));
+  return HttpEffect.appendPreResponseHandler((_request, response) =>
+    Effect.succeed(HttpServerResponse.setHeader(response, "retry-after", seconds)),
+  );
+};
+
 const appendRelayDpopChallengeHeader = HttpEffect.appendPreResponseHandler((_request, response) =>
   Effect.succeed(
     response.status === 401
@@ -207,6 +218,21 @@ const relayRequestDeadline = <E, R>(
 
 const SENDER_TRACE_HEADER = /^(traceparent|tracestate|b3|x-b3-.*)$/i;
 
+// Where the request entered Cloudflare's network. The Worker runs near its
+// database, not at this edge, so these are the only way to split relay
+// latency by where users are.
+const annotateRelayEdgeLocation = Effect.gen(function* () {
+  const request = yield* HttpServerRequest.HttpServerRequest;
+  const cf: unknown = request.source instanceof Request ? Reflect.get(request.source, "cf") : null;
+  if (typeof cf !== "object" || cf === null) return;
+  const attributes: Record<string, string> = {};
+  for (const key of ["colo", "country", "continent"] as const) {
+    const value: unknown = Reflect.get(cf, key);
+    if (typeof value === "string" && value) attributes[`relay.edge.${key}`] = value;
+  }
+  yield* Effect.annotateCurrentSpan(attributes);
+});
+
 // The method-named server span is created below; this wrapper must not add another span.
 export const traceRelayHttpRequest = Effect.fnUntraced(function* <E, R>(
   httpEffect: Effect.Effect<
@@ -216,7 +242,8 @@ export const traceRelayHttpRequest = Effect.fnUntraced(function* <E, R>(
   >,
 ) {
   const request = yield* HttpServerRequest.HttpServerRequest;
-  const traced = appendRelayTraceContextResponseHeader.pipe(
+  const traced = annotateRelayEdgeLocation.pipe(
+    Effect.andThen(appendRelayTraceContextResponseHeader),
     Effect.andThen(relayRequestDeadline(httpEffect)),
   );
   if (!isRelayHookPath(request.url)) {
@@ -238,7 +265,8 @@ export const traceRelayHttpRequest = Effect.fnUntraced(function* <E, R>(
     ),
   });
   return yield* HttpMiddleware.tracer(
-    appendRelayTraceContextResponseHeader.pipe(
+    annotateRelayEdgeLocation.pipe(
+      Effect.andThen(appendRelayTraceContextResponseHeader),
       Effect.andThen(
         relayRequestDeadline(
           httpEffect.pipe(Effect.provideService(HttpServerRequest.HttpServerRequest, request)),
@@ -676,6 +704,7 @@ export const recoverEnvironmentTunnelRecord = Effect.fn(
     userId: input.userId,
     environmentId: input.environmentId,
     origin: input.origin,
+    reuseReadyTunnel: true,
   });
   const recoveredTunnelId = recovered.runtime.tunnelId;
   if (
@@ -856,6 +885,7 @@ export const layerClientApi = HttpApiBuilder.group(
               cloudMintPublicKey: config.cloudMintPublicKey,
             };
           },
+          Effect.tapError(appendCloudflareRetryAfter),
           mapErrorTags({
             EnvironmentLinkProofExpired: (_error, traceId) =>
               new RelayEnvironmentLinkProofExpiredError({
@@ -874,10 +904,11 @@ export const layerClientApi = HttpApiBuilder.group(
                 reason: "managed_endpoint_not_configured",
                 traceId,
               }),
-            ManagedEndpointProvisioningFailed: (_error, traceId) =>
+            ManagedEndpointProvisioningFailed: (error, traceId) =>
               new RelayEnvironmentLinkUnavailableError({
                 code: "environment_link_unavailable",
                 reason: "managed_endpoint_provisioning_failed",
+                provisioningStage: error.stage,
                 traceId,
               }),
             ManagedEndpointOriginNotAllowed: (_error, traceId) =>
@@ -1074,10 +1105,12 @@ export const layerDpopClientApi = HttpApiBuilder.group(
                 reason: error.reason,
                 traceId,
               }),
-            EnvironmentMintRequestFailed: (_error, traceId) =>
+            EnvironmentMintRequestFailed: (error, traceId) =>
               new RelayEnvironmentEndpointUnavailableError({
                 code: "environment_endpoint_unavailable",
                 reason: "endpoint_request_failed",
+                ...(error.endpointFailure ? { endpointFailure: error.endpointFailure } : {}),
+                ...(error.endpointStatus ? { endpointStatus: error.endpointStatus } : {}),
                 traceId,
               }),
             EnvironmentMintRequestTimedOut: (_error, traceId) =>
@@ -1117,10 +1150,12 @@ export const layerDpopClientApi = HttpApiBuilder.group(
                 reason: error.reason,
                 traceId,
               }),
-            EnvironmentMintRequestFailed: (_error, traceId) =>
+            EnvironmentMintRequestFailed: (error, traceId) =>
               new RelayEnvironmentEndpointUnavailableError({
                 code: "environment_endpoint_unavailable",
                 reason: "endpoint_request_failed",
+                ...(error.endpointFailure ? { endpointFailure: error.endpointFailure } : {}),
+                ...(error.endpointStatus ? { endpointStatus: error.endpointStatus } : {}),
                 traceId,
               }),
             EnvironmentMintRequestTimedOut: (_error, traceId) =>
@@ -1317,6 +1352,7 @@ export const layerServerApi = HttpApiBuilder.group(
               origin: payload.origin,
             });
           },
+          Effect.tapError(appendCloudflareRetryAfter),
           Effect.catchTags({
             ManagedEndpointOriginNotAllowed: () => Effect.fail(new HttpApiError.Unauthorized({})),
             ManagedEndpointProvisioningNotConfigured: () =>
@@ -1352,6 +1388,7 @@ export const layerServerApi = HttpApiBuilder.group(
               origin: payload.origin,
             });
           },
+          Effect.tapError(appendCloudflareRetryAfter),
           Effect.catchTags({
             ManagedEndpointOriginNotAllowed: () => Effect.fail(new HttpApiError.Unauthorized({})),
             ManagedEndpointProvisioningNotConfigured: () =>
