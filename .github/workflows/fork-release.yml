@@ -244,6 +244,19 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      # Dokploy pulls :nightly only when told to; a bodyless POST redeploys
+      # the configured image.
+      - name: Redeploy hosted web
+        env:
+          DOKPLOY_WEBHOOK: ${{ secrets.DOKPLOY_T3CODE_WEB_DEPLOY_WEBHOOK }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$DOKPLOY_WEBHOOK" ]]; then
+            echo "::warning::DOKPLOY_T3CODE_WEB_DEPLOY_WEBHOOK is not set; skipping redeploy."
+            exit 0
+          fi
+          curl -fsS -X POST --retry 3 --retry-delay 10 "$DOKPLOY_WEBHOOK" -o /dev/null
+
   # Sideloaded Android client. The development package installs next to the
   # store app, matching the fork's Firebase app and Clerk SSO allowlist.
   android:
