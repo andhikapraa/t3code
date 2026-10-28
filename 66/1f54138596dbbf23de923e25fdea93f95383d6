@@ -1,0 +1,45 @@
+apps/mobile/src/features/threads/ThreadDetailScreen.tsx
+  s_40f86e98e38291::t_dd4a0c2f23edbf 228-229,1454
+apps/mobile/src/state/use-thread-composer-state.ts
+  s_40f86e98e38291::t_588b2c43b5b809 55,214,633-638
+apps/server/src/mcp/OrchestratorMcpService.ts
+  s_40f86e98e38291::t_0b76b13c33ecb5 256-258
+apps/server/src/orchestration-v2/ProviderEventIngestor.ts
+  s_40f86e98e38291::t_1b53827af85b1b 367-368,383-384
+apps/server/src/persistence/reconcileForkMigrations.ts
+  s_40f86e98e38291::t_5bb07774d85da9 5,9-12
+apps/server/src/ws.test.ts
+  s_b442255a25f7dc::t_ae0f451b354741 772-773
+apps/web/src/components/scheduledTasks/ScheduledTasksPage.tsx
+  s_40f86e98e38291::t_00281ee73474b3 4,97-98,102,124,162-167,174-178
+packages/provider-pi/src/server/adapter.test.ts
+  s_40f86e98e38291::t_bc36b7ef404648 3321-3324
+packages/provider-pi/src/server/sideQuestion.ts
+  s_40f86e98e38291::t_c0254f65c2f3de 1-4
+packages/shared/src/composerInlineTokens.ts
+  s_40f86e98e38291::t_4daaf19302ce11 24-26,37-39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "661f54138596dbbf23de923e25fdea93f95383d6",
+  "prompts": {},
+  "sessions": {
+    "s_40f86e98e38291": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a182d8-3773-7663-898a-98017716697b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    },
+    "s_b442255a25f7dc": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1727e-cc0b-75f4-9273-022ced6ce6e6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
