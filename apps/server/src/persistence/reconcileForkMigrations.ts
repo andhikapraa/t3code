@@ -7,7 +7,7 @@ export const FORK_MIGRATION_NAME = "ScheduledTasksLastRunThread";
 type MigrationEntry<E> = readonly [number, string, Effect.Effect<unknown, E, SqlClient.SqlClient>];
 
 // The fork's one migration always takes the next free id, and every upstream
-// sync that adds a migration takes that id (57, 61, 62, 63, and 65 so far). The
+// sync that adds a migration takes that id (57, 61, 62, 63, 65, and 68 so far). The
 // migrator skips every id at or below the latest recorded one, so a fork
 // database would never get upstream's migration at that id. Run it under its
 // own name instead; the fork migration then reruns at its new id and finds

@@ -20,7 +20,6 @@ describe("planClaudeSkillDispatch", () => {
     expect(planClaudeSkillDispatch("ok, now $implement all the tickets", SKILLS)).toEqual({
       leadingText: "ok, now /implement all the tickets",
       commandText: "/implement all the tickets",
-      skillName: "implement",
     });
   });
 
@@ -28,7 +27,6 @@ describe("planClaudeSkillDispatch", () => {
     expect(planClaudeSkillDispatch("$review\nfocus on auth", SKILLS)).toEqual({
       leadingText: undefined,
       commandText: "/review\nfocus on auth",
-      skillName: "review",
     });
   });
 
@@ -49,7 +47,6 @@ describe("planClaudeSkillDispatch", () => {
     expect(planClaudeSkillDispatch("$review the diff, then $implement the fixes", SKILLS)).toEqual({
       leadingText: "/review the diff, then /implement the fixes",
       commandText: "/implement the fixes",
-      skillName: "implement",
     });
   });
 
@@ -63,12 +60,10 @@ describe("planClaudeSkillDispatch", () => {
       ).toEqual({
         leadingText: "/review the diff, then /implement the fixes",
         commandText: "/implement the fixes",
-        skillName: "implement",
       });
       expect(planClaudeSkillDispatch(`${symbol}2spec for this`, SKILLS)).toEqual({
         leadingText: undefined,
         commandText: "/2spec for this",
-        skillName: "2spec",
       });
       expect(planClaudeSkillDispatch(`5${symbol}review ${symbol}unknown`, SKILLS)).toBeUndefined();
     }
@@ -99,7 +94,6 @@ describe("planClaudeSkillDispatch", () => {
     ).toEqual({
       leadingText: `/interrogate [The user invoked this skill. Follow the instructions at: ${skillPath("interrogate")}] then /interrogate then /implement and /implement the fixes`,
       commandText: "/implement the fixes",
-      skillName: "implement",
     });
   });
 });

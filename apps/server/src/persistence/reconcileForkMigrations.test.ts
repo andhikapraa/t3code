@@ -5,7 +5,7 @@ import * as Migrator from "effect/sql/Migrator";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import { migrationManifest, runMigrations } from "./Migrations.ts";
-import LastRunThread from "./Migrations/068_ScheduledTasksLastRunThread.ts";
+import LastRunThread from "./Migrations/073_ScheduledTasksLastRunThread.ts";
 
 const assertUpgradedSchema = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient;
@@ -47,7 +47,12 @@ const cases = [
       [65, "CodexUsageNativeTurnIndex"],
       [66, "RepairClientSettlementTimestamps"],
       [67, "WebhookDedupe"],
-      [68, "ScheduledTasksLastRunThread"],
+      [68, "ShellStopRequestIndex"],
+      [69, "ThreadMessageSearch"],
+      [70, "PeerLinks"],
+      [71, "PeerLinkFence"],
+      [72, "WaitingLinkRequestIndex"],
+      [73, "ScheduledTasksLastRunThread"],
     ],
   },
   {
@@ -60,7 +65,12 @@ const cases = [
       [65, "CodexUsageNativeTurnIndex"],
       [66, "RepairClientSettlementTimestamps"],
       [67, "WebhookDedupe"],
-      [68, "ScheduledTasksLastRunThread"],
+      [68, "ShellStopRequestIndex"],
+      [69, "ThreadMessageSearch"],
+      [70, "PeerLinks"],
+      [71, "PeerLinkFence"],
+      [72, "WaitingLinkRequestIndex"],
+      [73, "ScheduledTasksLastRunThread"],
     ],
   },
   {
@@ -72,7 +82,12 @@ const cases = [
       [65, "CodexUsageNativeTurnIndex"],
       [66, "RepairClientSettlementTimestamps"],
       [67, "WebhookDedupe"],
-      [68, "ScheduledTasksLastRunThread"],
+      [68, "ShellStopRequestIndex"],
+      [69, "ThreadMessageSearch"],
+      [70, "PeerLinks"],
+      [71, "PeerLinkFence"],
+      [72, "WaitingLinkRequestIndex"],
+      [73, "ScheduledTasksLastRunThread"],
     ],
   },
   {
@@ -83,7 +98,12 @@ const cases = [
       [65, "CodexUsageNativeTurnIndex"],
       [66, "RepairClientSettlementTimestamps"],
       [67, "WebhookDedupe"],
-      [68, "ScheduledTasksLastRunThread"],
+      [68, "ShellStopRequestIndex"],
+      [69, "ThreadMessageSearch"],
+      [70, "PeerLinks"],
+      [71, "PeerLinkFence"],
+      [72, "WaitingLinkRequestIndex"],
+      [73, "ScheduledTasksLastRunThread"],
     ],
   },
   {
@@ -92,7 +112,23 @@ const cases = [
       [65, "CodexUsageNativeTurnIndex"],
       [66, "RepairClientSettlementTimestamps"],
       [67, "WebhookDedupe"],
-      [68, "ScheduledTasksLastRunThread"],
+      [68, "ShellStopRequestIndex"],
+      [69, "ThreadMessageSearch"],
+      [70, "PeerLinks"],
+      [71, "PeerLinkFence"],
+      [72, "WaitingLinkRequestIndex"],
+      [73, "ScheduledTasksLastRunThread"],
+    ],
+  },
+  {
+    forkId: 68,
+    expected: [
+      [68, "ShellStopRequestIndex"],
+      [69, "ThreadMessageSearch"],
+      [70, "PeerLinks"],
+      [71, "PeerLinkFence"],
+      [72, "WaitingLinkRequestIndex"],
+      [73, "ScheduledTasksLastRunThread"],
     ],
   },
 ] as const;

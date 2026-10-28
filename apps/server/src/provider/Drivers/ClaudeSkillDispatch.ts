@@ -1,11 +1,9 @@
 import type { ServerProviderSkill } from "@t3tools/contracts";
 
 /**
- * Claude Code's only user-side invocation is a text block whose first character
- * is `/`: the harness expands `/name args` into the SKILL.md body, and every
- * character after the name (newlines included) arrives as `ARGUMENTS`. Only one
- * skill expands per message; a second `/x` becomes argument text
- *    ([#87113](https://github.com/anthropics/claude-code/issues/87113)).
+ * Claude expands one skill per message only when `/name` starts the text block.
+ * Everything after the name, including newlines or a second `/x`, becomes `ARGUMENTS`.
+ * https://github.com/anthropics/claude-code/issues/87113
  */
 import { SKILL_MENTION_PATTERN } from "@t3tools/shared/composerInlineTokens";
 
@@ -16,7 +14,6 @@ export interface ClaudeSkillDispatch {
   readonly leadingText: string | undefined;
   /** `/name` plus the trailing text, ready to be the message's last text block. */
   readonly commandText: string;
-  readonly skillName: string;
 }
 
 export function planClaudeSkillDispatch(
@@ -57,6 +54,5 @@ export function planClaudeSkillDispatch(
     // The CLI reads the command name up to whitespace, so separate punctuation
     // that wrapped the mention (`$review, then`) from the name.
     commandText: `/${last.name}${/^[^\s]/.test(trailing) ? " " : ""}${trailing}`.trimEnd(),
-    skillName: last.name,
   };
 }

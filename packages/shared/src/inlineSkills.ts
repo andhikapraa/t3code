@@ -24,7 +24,10 @@ export function formatProviderSkillDisplayName(
 }
 
 /** Known skills mentioned in `text`, with each `$name` token's span. */
-export function* matchInlineSkills(text: string, skills: readonly InlineSkill[]) {
+export function* matchInlineSkills<Skill extends InlineSkill>(
+  text: string,
+  skills: readonly Skill[],
+) {
   for (const match of text.matchAll(SKILL_MENTION_PATTERN)) {
     const name = match[2] ?? "";
     const skill = skills.find((candidate) => candidate.name === name);
