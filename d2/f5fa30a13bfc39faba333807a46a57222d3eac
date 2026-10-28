@@ -1,0 +1,23 @@
+apps/server/src/persistence/reconcileForkMigrations.test.ts
+  s_b442255a25f7dc::t_0a891b6da18232 27-32,34-37,39,41-45,47-48
+apps/server/src/persistence/reconcileForkMigrations.ts
+  s_b442255a25f7dc::t_90f212d75bfa4f 9-24,43-49
+apps/server/src/persistence/Migrations.ts
+  s_b442255a25f7dc::t_1b09b4f96a20f3 4,227
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "d2f5fa30a13bfc39faba333807a46a57222d3eac",
+  "prompts": {},
+  "sessions": {
+    "s_b442255a25f7dc": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1727e-cc0b-75f4-9273-022ced6ce6e6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
