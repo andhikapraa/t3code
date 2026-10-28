@@ -1,11 +1,9 @@
 import { assert, it } from "@effect/vitest";
 import * as NodeSqliteClient from "@t3tools/shared/nodeSqliteClient";
 import * as Effect from "effect/Effect";
-import * as Migrator from "effect/sql/Migrator";
 import * as SqlClient from "effect/sql/SqlClient";
 
 import { migrationManifest, runMigrations } from "./Migrations.ts";
-import LastRunThread from "./Migrations/073_ScheduledTasksLastRunThread.ts";
 
 const assertUpgradedSchema = Effect.gen(function* () {
   const sql = yield* SqlClient.SqlClient;
@@ -24,125 +22,30 @@ const assertUpgradedSchema = Effect.gen(function* () {
       column,
     );
   }
-  const schema = yield* sql<{ readonly name: string }>`
-    SELECT name FROM sqlite_master
-    WHERE name IN ('pull_request_review_guides', 'orchestration_v2_projection_turn_items_failed_error_idx')
-  `;
-  assert.strictEqual(schema.length, 2);
 });
 
-// Each case is a fork build that recorded the fork migration at an id upstream later took.
-const cases = [
-  {
-    forkId: 57,
-    expected: [
-      [57, "ScheduledTaskWebhooks"],
-      [58, "WebhookRelayDeliveries"],
-      [59, "McpAppModelContext"],
-      [60, "ThreadSnapshotWindowIndexes"],
-      [61, "PullRequestReviewGuides"],
-      [62, "ThreadFailureLookupIndex"],
-      [63, "DropUnusedV1Projections"],
-      [64, "CanonicalizeThreadPullRequestLinks"],
-      [65, "CodexUsageNativeTurnIndex"],
-      [66, "RepairClientSettlementTimestamps"],
-      [67, "WebhookDedupe"],
-      [68, "ShellStopRequestIndex"],
-      [69, "ThreadMessageSearch"],
-      [70, "PeerLinks"],
-      [71, "PeerLinkFence"],
-      [72, "WaitingLinkRequestIndex"],
-      [73, "ScheduledTasksLastRunThread"],
-    ],
-  },
-  {
-    forkId: 61,
-    expected: [
-      [61, "PullRequestReviewGuides"],
-      [62, "ThreadFailureLookupIndex"],
-      [63, "DropUnusedV1Projections"],
-      [64, "CanonicalizeThreadPullRequestLinks"],
-      [65, "CodexUsageNativeTurnIndex"],
-      [66, "RepairClientSettlementTimestamps"],
-      [67, "WebhookDedupe"],
-      [68, "ShellStopRequestIndex"],
-      [69, "ThreadMessageSearch"],
-      [70, "PeerLinks"],
-      [71, "PeerLinkFence"],
-      [72, "WaitingLinkRequestIndex"],
-      [73, "ScheduledTasksLastRunThread"],
-    ],
-  },
-  {
-    forkId: 62,
-    expected: [
-      [62, "ThreadFailureLookupIndex"],
-      [63, "DropUnusedV1Projections"],
-      [64, "CanonicalizeThreadPullRequestLinks"],
-      [65, "CodexUsageNativeTurnIndex"],
-      [66, "RepairClientSettlementTimestamps"],
-      [67, "WebhookDedupe"],
-      [68, "ShellStopRequestIndex"],
-      [69, "ThreadMessageSearch"],
-      [70, "PeerLinks"],
-      [71, "PeerLinkFence"],
-      [72, "WaitingLinkRequestIndex"],
-      [73, "ScheduledTasksLastRunThread"],
-    ],
-  },
-  {
-    forkId: 63,
-    expected: [
-      [63, "DropUnusedV1Projections"],
-      [64, "CanonicalizeThreadPullRequestLinks"],
-      [65, "CodexUsageNativeTurnIndex"],
-      [66, "RepairClientSettlementTimestamps"],
-      [67, "WebhookDedupe"],
-      [68, "ShellStopRequestIndex"],
-      [69, "ThreadMessageSearch"],
-      [70, "PeerLinks"],
-      [71, "PeerLinkFence"],
-      [72, "WaitingLinkRequestIndex"],
-      [73, "ScheduledTasksLastRunThread"],
-    ],
-  },
-  {
-    forkId: 65,
-    expected: [
-      [65, "CodexUsageNativeTurnIndex"],
-      [66, "RepairClientSettlementTimestamps"],
-      [67, "WebhookDedupe"],
-      [68, "ShellStopRequestIndex"],
-      [69, "ThreadMessageSearch"],
-      [70, "PeerLinks"],
-      [71, "PeerLinkFence"],
-      [72, "WaitingLinkRequestIndex"],
-      [73, "ScheduledTasksLastRunThread"],
-    ],
-  },
-  {
-    forkId: 68,
-    expected: [
-      [68, "ShellStopRequestIndex"],
-      [69, "ThreadMessageSearch"],
-      [70, "PeerLinks"],
-      [71, "PeerLinkFence"],
-      [72, "WaitingLinkRequestIndex"],
-      [73, "ScheduledTasksLastRunThread"],
-    ],
-  },
-] as const;
+it.effect("adds last_run_thread_id to a fresh database without a migration row", () =>
+  Effect.gen(function* () {
+    yield* runMigrations();
+    yield* assertUpgradedSchema;
+  }).pipe(Effect.provide(NodeSqliteClient.layer({ filename: ":memory:" }))),
+);
 
-it.effect.each(cases)(
-  "upgrades a fork database that recorded last_run_thread_id as migration $forkId",
-  ({ forkId, expected }) =>
+// Each id is one an earlier fork build recorded the column under.
+it.effect.each([57, 61, 62, 63, 65, 68, 73])(
+  "upgrades a fork database that recorded last_run_thread_id as migration %s",
+  (forkId) =>
     Effect.gen(function* () {
+      const sql = yield* SqlClient.SqlClient;
       yield* runMigrations({ toMigrationInclusive: forkId - 1 });
-      yield* Migrator.make({})({
-        loader: Migrator.fromRecord({ [`${forkId}_ScheduledTasksLastRunThread`]: LastRunThread }),
-      });
+      yield* sql`ALTER TABLE scheduled_tasks ADD COLUMN last_run_thread_id TEXT`;
+      yield* sql`
+        INSERT INTO effect_sql_migrations (migration_id, name)
+        VALUES (${forkId}, 'ScheduledTasksLastRunThread')
+      `;
 
-      assert.deepStrictEqual(yield* runMigrations(), [...expected]);
+      const expected = migrationManifest.filter(([id]) => id >= forkId);
+      assert.deepStrictEqual(yield* runMigrations(), expected);
       yield* assertUpgradedSchema;
     }).pipe(Effect.provide(NodeSqliteClient.layer({ filename: ":memory:" }))),
 );

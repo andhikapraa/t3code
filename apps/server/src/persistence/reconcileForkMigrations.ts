@@ -6,10 +6,22 @@ const FORK_MIGRATION_NAME = "ScheduledTasksLastRunThread";
 
 type MigrationEntry<E> = readonly [number, string, Effect.Effect<unknown, E, SqlClient.SqlClient>];
 
-// Upstream syncs keep taking the fork migration's id (57, 61, 62, 63, 65, 68), and
-// the migrator skips ids at or below the latest recorded one. Run upstream's
-// migration under that id instead; the fork migration reruns at its new id and
-// finds last_run_thread_id already present.
+/**
+ * The fork's only schema change. It runs after the migrator, outside the migration table,
+ * so upstream can keep adding migration ids without colliding with the fork.
+ */
+export const ensureForkSchema = Effect.fn("ensureForkSchema")(function* () {
+  const sql = yield* SqlClient.SqlClient;
+  const columns = yield* sql<{ readonly name: string }>`PRAGMA table_info(scheduled_tasks)`;
+  if (columns.length === 0 || columns.some((column) => column.name === "last_run_thread_id")) {
+    return;
+  }
+  yield* sql`ALTER TABLE scheduled_tasks ADD COLUMN last_run_thread_id TEXT`;
+});
+
+// Older fork builds recorded the column as a migration under ids upstream later took
+// (57, 61, 62, 63, 65, 68, 73), and the migrator skips ids at or below the latest one.
+// Run upstream's migration under that id, or drop the row while upstream has no such id.
 export const reconcileForkMigrations = Effect.fn("reconcileForkMigrations")(function* <E>(
   entries: ReadonlyArray<MigrationEntry<E>>,
   throughId?: number,
@@ -28,7 +40,13 @@ export const reconcileForkMigrations = Effect.fn("reconcileForkMigrations")(func
       for (const { migration_id: id } of forkRows) {
         if (throughId !== undefined && id > throughId) continue;
         const upstream = entries.find(([entryId]) => entryId === id);
-        if (upstream === undefined || upstream[1] === FORK_MIGRATION_NAME) continue;
+        if (upstream === undefined) {
+          yield* sql`
+            DELETE FROM effect_sql_migrations
+            WHERE migration_id = ${id} AND name = ${FORK_MIGRATION_NAME}
+          `;
+          continue;
+        }
         const [, name, migration] = upstream;
         yield* migration.pipe(
           Effect.mapError(
