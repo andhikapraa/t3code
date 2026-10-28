@@ -23,7 +23,6 @@ export function sideQuestionBannerItem(input: {
   return {
     id: `side-question:${input.topic.id}`,
     variant: last?.status === "failed" ? "error" : "info",
-    priority: running ? "activity" : "notice",
     icon: <MessageCircleQuestionIcon />,
     title: "Side question",
     description: running ? "Answering. Not added to the thread." : "Not added to the thread.",

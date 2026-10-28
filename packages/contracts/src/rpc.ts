@@ -600,10 +600,8 @@ export const WS_METHODS = {
   subscribeAuthAccess: "subscribeAuthAccess",
   subscribeResourceTelemetry: "subscribeResourceTelemetry",
 
-  // Side questions (`/btw`)
   threadAskSideQuestion: "thread.askSideQuestion",
 
-  // Handoffs (`/handoff`)
   threadHandoff: "thread.handoff",
 } as const;
 

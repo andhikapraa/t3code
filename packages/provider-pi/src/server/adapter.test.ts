@@ -3318,7 +3318,10 @@ describe("PiAdapterV2", () => {
       if (event.type !== "turn_item.updated" || event.turnItem.type !== "user_input_request") {
         return assert.fail("expected a user input request");
       }
-      assert.equal(decodeUserInputQuestions(event.turnItem.questions)[0]?.question, title);
+      // The fork shows a multi-line title's first line as the header and the rest as the body.
+      const [question] = decodeUserInputQuestions(event.turnItem.questions);
+      assert.equal(question?.header, "Which database?");
+      assert.equal(question?.question, "1. Postgres\n2. Type something.\nType your answer:");
       yield* runtime.respondToRuntimeRequest({
         requestId: event.turnItem.requestId,
         answers: { "ui-input": "SQLite" },

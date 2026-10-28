@@ -1,7 +1,7 @@
 import { useAtomValue } from "@effect/atom-react";
 import { useNavigate } from "@tanstack/react-router";
 import { ArrowUpIcon } from "lucide-react";
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import {
   type EnvironmentId,
   type ModelSelection,
@@ -20,11 +20,7 @@ import { useScratchProject } from "../../hooks/useScratchProject";
 import { useEnvironmentSettings } from "../../hooks/useSettings";
 import { newMessageId, newThreadId } from "../../lib/utils";
 import { getCustomModelOptionsByInstance } from "../../modelSelection";
-import {
-  applyProviderInstanceSettings,
-  deriveProviderInstanceEntries,
-  sortProviderInstanceEntries,
-} from "../../providerInstances";
+import { providerInstanceEntriesFor } from "../../providerInstances";
 import type { EnvironmentProject } from "@t3tools/client-runtime/state/models";
 import { useProjects, waitForThreadShell } from "../../state/entities";
 import { useEnvironments, type EnvironmentPresentation } from "../../state/environments";
@@ -94,16 +90,12 @@ interface ComposerTarget {
 function ScheduleWithAgentComposer() {
   const { environments } = useEnvironments();
   const { scratchWorkspaceRootFor } = useScratchProject();
-  const connectedEnvironments = useMemo(
-    () =>
-      environments.filter(
-        (entry) => entry.connection.phase === "connected" && entry.serverConfig !== null,
-      ),
-    [environments],
+  const connectedEnvironments = environments.filter(
+    (entry) => entry.connection.phase === "connected" && entry.serverConfig !== null,
   );
   const allProjects = useProjects();
   const [targetKey, setTargetKey] = useState("");
-  const targets = useMemo(() => {
+  const targets = (() => {
     const projectTargets: ComposerTarget[] = allProjects
       .filter(
         (project) =>
@@ -125,7 +117,7 @@ function ScheduleWithAgentComposer() {
         label: "No project",
       }));
     return [...projectTargets, ...scratchTargets];
-  }, [allProjects, connectedEnvironments, scratchWorkspaceRootFor]);
+  })();
   const target = targets.find((entry) => entry.key === targetKey) ?? targets[0];
   if (!target) return null;
   return (
@@ -163,25 +155,21 @@ function ComposerForm({
   const settings = useEnvironmentSettings(environmentId);
   const providers =
     useAtomValue(serverEnvironment.providersValueAtom(environmentId)) ?? EMPTY_SERVER_PROVIDERS;
-  const instanceEntries = useMemo(
-    () =>
-      sortProviderInstanceEntries(
-        applyProviderInstanceSettings(
-          deriveProviderInstanceEntries(providers),
-          settings,
-          target.project?.id ?? null,
-        ),
-      ),
-    [providers, settings, target.project?.id],
+  const instanceEntries = providerInstanceEntriesFor(
+    providers,
+    settings,
+    target.project?.id ?? null,
   );
   const selection =
     pickedModel ?? scheduledTaskDefaultModel(settings, target.project, instanceEntries);
   const activeInstanceId =
     selection?.instanceId ?? instanceEntries[0]?.instanceId ?? ("" as ProviderInstanceId);
   const activeModel = selection?.model ?? "";
-  const modelOptionsByInstance = useMemo(
-    () => getCustomModelOptionsByInstance(settings, providers, activeInstanceId, activeModel),
-    [settings, providers, activeInstanceId, activeModel],
+  const modelOptionsByInstance = getCustomModelOptionsByInstance(
+    settings,
+    providers,
+    activeInstanceId,
+    activeModel,
   );
 
   const startTurn = useAtomCommand(threadEnvironment.startTurn, { reportFailure: false });

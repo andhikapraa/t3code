@@ -34,12 +34,10 @@ describe("planClaudeSkillDispatch", () => {
     expect(planClaudeSkillDispatch("can we use $review, then ship?", SKILLS)).toEqual({
       leadingText: "can we use /review, then ship?",
       commandText: "/review , then ship?",
-      skillName: "review",
     });
     expect(planClaudeSkillDispatch("($review) and $implement.", SKILLS)).toEqual({
       leadingText: "(/review) and /implement.",
       commandText: "/implement .",
-      skillName: "implement",
     });
   });
 

@@ -253,11 +253,9 @@ function errorMessage(error: unknown): string {
 }
 
 /**
- * Bound tasks post into their thread, which keeps its own workspace, so the
- * stored strategy is only a placeholder. Fresh-thread tasks default to the
- * project checkout: most recurring work (monitoring, reports) only reads, and a
- * new worktree plus fetch on every run is wasted work. Runs that edit files ask
- * for "worktree" explicitly.
+ * Bound tasks run in their thread's workspace, so the stored strategy is a placeholder.
+ * Fresh-thread tasks default to the project checkout because most recurring work only
+ * reads; runs that edit files ask for "worktree".
  */
 export function scheduledTaskWorkspaceStrategy(
   boundToThread: boolean,

@@ -1,16 +1,7 @@
-/**
- * Pi side questions (`/btw`) and handoffs (`/handoff`): prompt a throwaway
- * fork of a thread's Pi session and stream the reply.
- *
- * Pi RPC has no side-question command, and prompting the live process would
- * append to the thread. Instead a separate `pi --mode rpc --fork <session>`
- * runs with tools disabled and a temporary `--session-dir`, so the fork's
- * session file is deleted afterwards and the thread's own file is only read.
- *
- * Extensions stay enabled because Pi providers and models can come from
- * extensions (custom providers would vanish under `--no-extensions`). No user
- * is attached to this process, so extension dialogs are cancelled.
- */
+// `/btw` and `/handoff` prompt a tool-less `pi --mode rpc --fork <session>` in a temp
+// `--session-dir`, because prompting the live process would append to the thread.
+// Extensions stay on since they can supply providers and models; their dialogs are
+// cancelled because no user is attached.
 import { getModelSelectionStringOptionValue } from "@t3tools/shared/model";
 import {
   type ModelSelection,

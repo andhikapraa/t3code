@@ -2,16 +2,14 @@ import * as Effect from "effect/Effect";
 import * as Migrator from "effect/sql/Migrator";
 import * as SqlClient from "effect/sql/SqlClient";
 
-export const FORK_MIGRATION_NAME = "ScheduledTasksLastRunThread";
+const FORK_MIGRATION_NAME = "ScheduledTasksLastRunThread";
 
 type MigrationEntry<E> = readonly [number, string, Effect.Effect<unknown, E, SqlClient.SqlClient>];
 
-// The fork's one migration always takes the next free id, and every upstream
-// sync that adds a migration takes that id (57, 61, 62, 63, 65, and 68 so far). The
-// migrator skips every id at or below the latest recorded one, so a fork
-// database would never get upstream's migration at that id. Run it under its
-// own name instead; the fork migration then reruns at its new id and finds
-// last_run_thread_id already present.
+// Upstream syncs keep taking the fork migration's id (57, 61, 62, 63, 65, 68), and
+// the migrator skips ids at or below the latest recorded one. Run upstream's
+// migration under that id instead; the fork migration reruns at its new id and
+// finds last_run_thread_id already present.
 export const reconcileForkMigrations = Effect.fn("reconcileForkMigrations")(function* <E>(
   entries: ReadonlyArray<MigrationEntry<E>>,
   throughId?: number,

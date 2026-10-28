@@ -38,7 +38,6 @@ import {
   supportsSideQuestions,
   type CodexFeedbackSubmission,
 } from "@t3tools/client-runtime/state/threads";
-import { useNavigation } from "@react-navigation/native";
 import { resolveThreadWorkingStartedAt } from "@t3tools/client-runtime/state/models";
 import { upgradeLegacyContextMessage } from "@t3tools/shared/composerContextLegacy";
 import { composerContextSendBlockReason, reidentifyComposerContext } from "../lib/composerContext";
@@ -53,6 +52,7 @@ import { resolveProviderInteractionMode } from "./legacy-plan-mode";
 
 import type { DraftComposerImageAttachment } from "../lib/composerImages";
 import { scopedThreadKey } from "../lib/scopedEntities";
+import { useSelectWorkspaceDetail } from "../features/workspace/useSelectWorkspaceDetail";
 import { buildThreadFeed, createThreadFeedCache } from "../lib/threadActivity";
 import { acknowledgedThreadMessagesAtom } from "./acknowledged-thread-messages";
 import {
@@ -211,7 +211,7 @@ export function useThreadComposerState() {
     selectedThreadShell?.environmentId ?? null,
     selectedThreadShell?.id ?? null,
   );
-  const navigation = useNavigation();
+  const selectDetail = useSelectWorkspaceDetail();
   const handoffThread = useAtomCommand(threadEnvironment.handoff, { reportFailure: false });
   const [handoffPending, setHandoffPending] = useState(false);
   const handoffInFlightRef = useRef(false);
@@ -630,9 +630,12 @@ export function useThreadComposerState() {
       })
         .then((result) => {
           if (result._tag === "Success") {
-            navigation.navigate("Thread", {
-              environmentId: String(thread.environmentId),
-              threadId: String(result.value.threadId),
+            selectDetail({
+              name: "Thread",
+              params: {
+                environmentId: String(thread.environmentId),
+                threadId: String(result.value.threadId),
+              },
             });
             return;
           }

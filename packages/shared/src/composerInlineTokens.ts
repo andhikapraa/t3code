@@ -21,14 +21,9 @@ export interface CollectComposerInlineTokensOptions {
 }
 
 /**
- * A skill name may start with a digit, but compact monetary amounts and
- * numeric expressions like "$20", "$20k", "$100M", and "$1e6" must stay prose:
- * the composer chips any matched `$name` token, known or not. Tokens beginning
- * with digits must not match numbers with currency/exponent suffixes, and must
- * contain at least one letter. Any currency symbol is accepted as the sigil.
- *
- * Prose punctuation may wrap a mention: `($review)`, `use $review, then`,
- * `"$review"?`. It is never part of the name or the token's source.
+ * The composer chips any `$name`, so amounts like "$20k" or "$1e6" must not match: names
+ * need a letter. Any currency symbol is a sigil. Wrapping punctuation (`($review)`,
+ * `$review,`) is never part of the name or the token's source.
  */
 const SKILL_LEADING = `(^|[\\s(["'])`;
 const SKILL_TRAILING_PUNCTUATION = `[.,!?;:)\\]"']*`;
@@ -39,11 +34,9 @@ const SKILL_MENTION_SOURCE = (end: string) =>
 // half-typed name at the end of the text stays plain.
 const SKILL_TOKEN_REGEX = new RegExp(SKILL_MENTION_SOURCE("\\s"), "gu");
 /**
- * Skill mentions in a sent prompt or rendered message, which may also end at
- * the end of the text. Every surface that chips or dispatches a skill uses
- * this, so a rendered chip and a dispatched skill are always the same set.
- * Group 1 is the leading delimiter and group 2 the skill name. The pattern is
- * global, so use it with `matchAll` or `replace`, not `test` or `exec`.
+ * Mentions in a sent prompt or message; every surface that chips or dispatches a skill uses
+ * this so both agree. Group 1 is the leading delimiter, group 2 the name. Global: use
+ * `matchAll` or `replace`, not `test` or `exec`.
  */
 export const SKILL_MENTION_PATTERN = new RegExp(SKILL_MENTION_SOURCE("\\s|$"), "gu");
 const MENTION_TOKEN_REGEX = /(^|\s)@(?:"((?:\\.|[^"\\])*)"|([^\s@"]+))(?=\s)/g;

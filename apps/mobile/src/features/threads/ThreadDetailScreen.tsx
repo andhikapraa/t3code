@@ -225,7 +225,8 @@ export interface ThreadDetailScreenProps {
   readonly environmentLabel: string | null;
   readonly feedbackSubmissions: ReadonlyArray<CodexFeedbackSubmission>;
   readonly onDismissFeedback: (id: MessageId) => void;
-  readonly sideQuestion: {
+  /** Absent on new-task drafts, which have no thread to ask about yet. */
+  readonly sideQuestion?: {
     readonly topic: SideQuestionTopic | null;
     readonly cancel: () => void;
     readonly close: () => void;
@@ -1450,7 +1451,7 @@ function ThreadDetailBody(props: ThreadDetailScreenProps) {
                     key={`chatgpt-limit:${props.selectedThread.latestRun?.runId}`}
                     thread={props.selectedThread}
                   />
-                  {props.sideQuestion.topic ? (
+                  {props.sideQuestion?.topic ? (
                     <ComposerSideQuestion
                       topic={props.sideQuestion.topic}
                       onCancel={props.sideQuestion.cancel}

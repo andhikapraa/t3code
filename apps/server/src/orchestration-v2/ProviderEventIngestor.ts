@@ -364,11 +364,8 @@ export const layer: Layer.Layer<
      * dropping their probe caches (Claude keeps its own for 5 minutes); on
      * failure or timeout the cached snapshots still apply.
      */
-    const freshUpstreamProviders = (
-      registry: ProviderRegistry.ProviderRegistry["Service"],
-      model: string,
-    ) =>
-      Effect.gen(function* () {
+    const freshUpstreamProviders = Effect.fn("ProviderEventIngestor.freshUpstreamProviders")(
+      function* (registry: ProviderRegistry.ProviderRegistry["Service"], model: string) {
         const cached = yield* registry.getProviders;
         const upstream = upstreamDriverForModel(model);
         const instances = cached.filter((provider) => provider.driver === upstream);
@@ -383,7 +380,8 @@ export const layer: Layer.Layer<
           }),
         ).pipe(Effect.timeout(UPSTREAM_REFRESH_TIMEOUT), Effect.ignore);
         return yield* registry.getProviders;
-      });
+      },
+    );
 
     /** Gives a gateway usage limit the reset time its upstream account publishes. */
     const withResetEstimate = Effect.fn("ProviderEventIngestor.withResetEstimate")(function* (
