@@ -1,0 +1,19 @@
+.github/workflows/fork-release.yml
+  s_b442255a25f7dc::t_843f7449f79f11 219-238
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c6cdaa74981b44f6af60d9e12b2ac3008e6ed2f7",
+  "prompts": {},
+  "sessions": {
+    "s_b442255a25f7dc": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1727e-cc0b-75f4-9273-022ced6ce6e6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
