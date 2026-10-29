@@ -1,0 +1,21 @@
+apps/web/src/shortcuts/chatRouteCommands.ts
+  s_41213ffd87c8a4::t_4d0d3f245ccde6 120
+apps/web/src/components/Sidebar.tsx
+  s_41213ffd87c8a4::t_9688c16ed087b4 2845,3045
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "be990583b949605dccb989e2467eb566fa682d94",
+  "prompts": {},
+  "sessions": {
+    "s_41213ffd87c8a4": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a186b7-576a-744e-b004-79f1fcd5971b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
