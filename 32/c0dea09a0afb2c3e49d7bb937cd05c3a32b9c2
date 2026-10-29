@@ -1,0 +1,19 @@
+apps/server/src/orchestration-v2/ProviderEventIngestor.test.ts
+  s_41213ffd87c8a4::t_68f4ead3ad4760 1654
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "32c0dea09a0afb2c3e49d7bb937cd05c3a32b9c2",
+  "prompts": {},
+  "sessions": {
+    "s_41213ffd87c8a4": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a186b7-576a-744e-b004-79f1fcd5971b",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
