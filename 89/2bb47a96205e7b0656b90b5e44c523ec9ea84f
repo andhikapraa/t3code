@@ -1,0 +1,21 @@
+apps/server/src/provider/agentContextBudget.json
+  s_b442255a25f7dc::t_76dbc916a15966 4
+packages/contracts/src/orchestratorMcp.ts
+  s_b442255a25f7dc::t_3808f01b0cf4b4 658
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "892bb47a96205e7b0656b90b5e44c523ec9ea84f",
+  "prompts": {},
+  "sessions": {
+    "s_b442255a25f7dc": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1727e-cc0b-75f4-9273-022ced6ce6e6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
