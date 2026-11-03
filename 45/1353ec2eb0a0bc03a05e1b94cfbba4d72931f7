@@ -1,0 +1,29 @@
+apps/server/src/mcp/OrchestratorMcpService.test.ts
+  s_2301150e5a6c7a::t_1c972ac0585369 2806-2816
+apps/server/src/scheduledTasks/ScheduledTaskService.test.ts
+  s_b442255a25f7dc::t_08c1a2a88507b6 379
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "451353ec2eb0a0bc03a05e1b94cfbba4d72931f7",
+  "prompts": {},
+  "sessions": {
+    "s_2301150e5a6c7a": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a12e43-cf4e-72bc-b343-ea9a72295f00",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    },
+    "s_b442255a25f7dc": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1727e-cc0b-75f4-9273-022ced6ce6e6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
