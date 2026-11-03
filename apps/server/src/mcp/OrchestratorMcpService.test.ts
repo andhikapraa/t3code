@@ -2803,15 +2803,17 @@ describe("OrchestratorMcpService provider resolution", () => {
       }),
     );
 
-    it.effect("runs fresh-thread tasks in the project checkout unless a worktree is asked for", () =>
-      Effect.gen(function* () {
-        const saved = yield* Ref.make<ReadonlyArray<ScheduledTask["workspaceStrategy"]>>([]);
-        const mcp = yield* OrchestratorMcpService.OrchestratorMcpService.pipe(
-          Effect.provide(service(masterRepository, saved)),
-        );
-        yield* mcp.scheduleTask(client, { projectId, prompt: "Check the build", schedule });
-        assert.deepEqual(yield* Ref.get(saved), [{ type: "root" }]);
-      }),
+    it.effect(
+      "runs fresh-thread tasks in the project checkout unless a worktree is asked for",
+      () =>
+        Effect.gen(function* () {
+          const saved = yield* Ref.make<ReadonlyArray<ScheduledTask["workspaceStrategy"]>>([]);
+          const mcp = yield* OrchestratorMcpService.OrchestratorMcpService.pipe(
+            Effect.provide(service(masterRepository, saved)),
+          );
+          yield* mcp.scheduleTask(client, { projectId, prompt: "Check the build", schedule });
+          assert.deepEqual(yield* Ref.get(saved), [{ type: "root" }]);
+        }),
     );
 
     it.effect("follows the default branch when a task is unbound from its thread", () =>

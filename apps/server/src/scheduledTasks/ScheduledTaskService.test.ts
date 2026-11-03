@@ -376,6 +376,7 @@ it.effect("remembers the thread of the latest successful run across failures and
         ScheduledTaskService.layer.pipe(
           Layer.provide(
             Layer.mergeAll(
+              ManagedPolicy.layerTest(),
               Layer.mock(ThreadLaunchService.ThreadLaunchService)({
                 launch: () =>
                   Ref.updateAndGet(launches, (n) => n + 1).pipe(
