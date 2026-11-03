@@ -655,7 +655,7 @@ export type OrchestratorMcpCapabilitiesResult = typeof OrchestratorMcpCapabiliti
  */
 const OrchestratorMcpScheduledTaskWorkspace = Schema.Literals(["root", "worktree"]).annotate({
   description:
-    "Only with bindToCurrentThread=false. 'root' (default) runs each fresh thread in the project checkout, for read-only work such as monitoring. 'worktree' gives each run its own new worktree from origin/main; use it whenever runs edit files.",
+    "Only with bindToCurrentThread=false. 'root' (default) runs each fresh thread in the project checkout, for read-only work such as monitoring. 'worktree' gives each run a new worktree from the default branch; use it when runs edit files.",
 });
 
 export const OrchestratorMcpScheduleTaskInput = Schema.Struct({
