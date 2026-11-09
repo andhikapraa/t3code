@@ -25,7 +25,7 @@ import {
   piRecordString,
   type PiRpcRecord,
 } from "./rpc.ts";
-import { PI_THINKING_LEVELS } from "./thinkingCapabilities.ts";
+import { PI_THINKING_LEVELS } from "./modelCapabilities.ts";
 
 const PI_DRIVER_KIND = ProviderDriverKind.make("pi");
 const PI_FORK_PROMPT_TIMEOUT_MS = 5 * 60_000;
