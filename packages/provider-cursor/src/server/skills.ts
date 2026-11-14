@@ -13,6 +13,7 @@ import * as HostProcess from "@t3tools/shared/HostProcess";
 
 const FRONTMATTER_PATTERN = /^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/;
 const HAS_SKILL_MENTION_PATTERN = new RegExp(SKILL_MENTION_PATTERN.source, "u");
+const SLASH_SKILL_PATTERN = /(?:^|\s)\/([a-zA-Z0-9][a-zA-Z0-9:_-]*)(?=\s|$)/gu;
 const MAX_SKILL_DEPTH = 10;
 const MAX_SKILL_BYTES = ByteSize.bytes(1_000_000);
 const MAX_SKILL_SCAN_ENTRIES = 10_000;
@@ -310,4 +311,22 @@ export function rewriteCursorSkillMentions(
       return `${prefix}/${name}${next !== undefined && /\S/.test(next) ? " " : ""}`;
     },
   );
+}
+
+/** Names invoked as `/name`, the form Cursor uses and `rewriteCursorSkillMentions` produces. */
+export function cursorSlashSkillNames(prompt: string): ReadonlySet<string> {
+  return new Set(Array.from(prompt.matchAll(SLASH_SKILL_PATTERN), (match) => match[1] ?? ""));
+}
+
+/** Cursor hides `disable-model-invocation` skills from the model, so the prompt carries them. */
+export function appendCursorInvokedSkills(
+  prompt: string,
+  skills: ReadonlyArray<{ readonly name: string; readonly contents: string }>,
+): string {
+  if (skills.length === 0) return prompt;
+  const blocks = skills.map(
+    (skill) =>
+      `<skill name="${skill.name}">\n${skill.contents.replace(FRONTMATTER_PATTERN, "").trim()}\n</skill>`,
+  );
+  return `${prompt}\n\nThe user invoked these skills. Follow their instructions:\n\n${blocks.join("\n\n")}`;
 }

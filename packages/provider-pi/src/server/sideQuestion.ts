@@ -20,10 +20,10 @@ import type { PiSettings } from "../settings.ts";
 import { buildPiRpcLaunch, resolvePiLaunchArgs } from "./mcpInjection.ts";
 import {
   makePiRpcConnection,
-  parsePiModelSlug,
   piRecordField,
   piRecordString,
   type PiRpcRecord,
+  resolvePiModelSlug,
 } from "./rpc.ts";
 import { PI_THINKING_LEVELS } from "./modelCapabilities.ts";
 
@@ -245,7 +245,10 @@ function streamPiForkPrompt(
 
       const { modelSelection } = request;
       if (modelSelection.model !== PI_INHERIT_MODEL_SLUG) {
-        const parsed = parsePiModelSlug(modelSelection.model);
+        const inventory = yield* connection
+          .request({ type: "get_available_models" })
+          .pipe(Effect.orElseSucceed(() => undefined));
+        const parsed = resolvePiModelSlug(modelSelection.model, piRecordField(inventory, "models"));
         if (parsed === null) {
           return yield* fail(`Pi model '${modelSelection.model}' must use provider/model format.`);
         }
