@@ -41,11 +41,8 @@ import {
   handoffBlockReason,
   parseCodexFeedbackCommand,
   parseHandoffCommand,
-  parseSideQuestionCommand,
-  sideQuestionBlockReason,
   submitCodexFeedback,
   supportsHandoff,
-  supportsSideQuestions,
   type CodexFeedbackSubmission,
 } from "@t3tools/client-runtime/state/threads";
 import { resolveThreadWorkingStartedAt } from "@t3tools/client-runtime/state/models";
@@ -130,7 +127,6 @@ import { enqueueThreadOutboxMessage } from "./thread-outbox";
 import { dispatchingQueuedMessageIdAtom, useThreadOutboxMessages } from "./use-thread-outbox";
 import { threadEnvironment } from "./threads";
 import { useAtomCommand } from "./use-atom-command";
-import { useSideQuestion } from "./side-questions";
 
 const EMPTY_QUEUE_WORKFLOW_ATOM = Atom.make<null>(null).pipe(
   Atom.withLabel("mobile-thread-queue-workflow:empty"),
@@ -230,10 +226,6 @@ export function useThreadComposerState(input: {
   const uploadThreadFeedback = useAtomCommand(threadEnvironment.uploadFeedback, {
     reportFailure: false,
   });
-  const sideQuestion = useSideQuestion(
-    selectedThreadShell?.environmentId ?? null,
-    selectedThreadShell?.id ?? null,
-  );
   const selectDetail = useSelectWorkspaceDetail();
   const handoffThread = useAtomCommand(threadEnvironment.handoff, { reportFailure: false });
   const [handoffPending, setHandoffPending] = useState(false);
@@ -715,35 +707,12 @@ export function useThreadComposerState(input: {
     const provider = serverConfig?.providers.find(
       (entry) => entry.instanceId === modelSelection.instanceId,
     );
-    // /btw runs beside the thread and is never queued as a message. It is
-    // gated on the provider the thread runs on (what the server forks), not
-    // the draft's pending model pick.
+    // /handoff starts a new thread from a handoff of this one and is never queued as a
+    // message. It is gated on the provider the thread runs on (what the server forks),
+    // not the draft's pending model pick.
     const threadProvider = serverConfig?.providers.find(
       (entry) => entry.instanceId === thread.providerInstanceId,
     );
-    const sideQuestionText =
-      attachments.length === 0 &&
-      (draft.context?.records.length ?? 0) === 0 &&
-      supportsSideQuestions(threadProvider?.driver)
-        ? parseSideQuestionCommand(text)
-        : null;
-    if (sideQuestionText !== null) {
-      const blockReason = sideQuestionBlockReason(sideQuestionText);
-      if (blockReason !== null) {
-        Dialog.alert("Side question", blockReason);
-        return null;
-      }
-      if (thread.activeProviderThreadId === null) {
-        Dialog.alert("Start the thread first", "Send a message before asking a side question.");
-        return null;
-      }
-      if (sideQuestion.running) return null;
-      clearComposerDraftContent(threadKey);
-      // An open card means the user is following up on it.
-      void sideQuestion.ask(sideQuestionText);
-      return null;
-    }
-    // /handoff starts a new thread from a handoff of this one; this thread is left as is.
     const handoffFocus =
       attachments.length === 0 &&
       (draft.context?.records.length ?? 0) === 0 &&
@@ -1037,7 +1006,6 @@ export function useThreadComposerState(input: {
     onNativePasteText,
     onRemoveDraftImage,
     onSendMessage,
-    sideQuestion,
     handoffPending,
     sideChatUnavailableReason,
   };

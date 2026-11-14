@@ -32,7 +32,6 @@ import {
   childThreadInputsTitle,
   type CodexFeedbackSubmission,
   type EnvironmentThreadStatus,
-  type SideQuestionTopic,
 } from "@t3tools/client-runtime/state/threads";
 import { useKeyboardScrollToEnd } from "@legendapp/list/keyboard";
 import { resolveProviderSkillsForCwd } from "@t3tools/client-runtime/providerSkills";
@@ -181,7 +180,6 @@ import { FreshSessionNotice } from "./FreshSessionNotice";
 import { Notice } from "../../components/ui/Notice";
 import { formatTokens } from "@t3tools/shared/usageFormat";
 import { ComposerFeedback } from "./ComposerFeedback";
-import { ComposerSideQuestion } from "./ComposerSideQuestion";
 import { ComposerUsageLimits } from "./ComposerUsageLimits";
 import { PendingUserInputCard } from "./PendingUserInputCard";
 import { ProviderSubagentBar } from "./ProviderSubagentBar";
@@ -241,12 +239,6 @@ export interface ThreadDetailScreenProps {
   readonly environmentLabel: string | null;
   readonly feedbackSubmissions: ReadonlyArray<CodexFeedbackSubmission>;
   readonly onDismissFeedback: (id: MessageId) => void;
-  /** Absent on new-task drafts, which have no thread to ask about yet. */
-  readonly sideQuestion?: {
-    readonly topic: SideQuestionTopic | null;
-    readonly cancel: () => void;
-    readonly close: () => void;
-  };
   /** A `/handoff` is being written; its new thread opens when ready. */
   readonly handoffPending?: boolean;
   readonly selectedThreadFeed: ReadonlyArray<ThreadFeedEntry>;
@@ -1687,13 +1679,6 @@ function ThreadDetailBody(
                       thread={props.selectedThread}
                       environmentId={props.environmentId}
                     />
-                    {props.sideQuestion?.topic ? (
-                      <ComposerSideQuestion
-                        topic={props.sideQuestion.topic}
-                        onCancel={props.sideQuestion.cancel}
-                        onClose={props.sideQuestion.close}
-                      />
-                    ) : null}
                     {props.handoffPending ? (
                       <View className="px-4 pb-3">
                         <AppText

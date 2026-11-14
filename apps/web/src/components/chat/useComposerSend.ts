@@ -16,14 +16,8 @@ import {
   makeThreadErrorSetter,
 } from "../ChatView.logic";
 import { isUsageLimitsCommand } from "@t3tools/shared/usageLimits";
-import {
-  handoffBlockReason,
-  parseHandoffCommand,
-  parseSideQuestionCommand,
-  sideQuestionBlockReason,
-} from "@t3tools/client-runtime/state/threads";
+import { handoffBlockReason, parseHandoffCommand } from "@t3tools/client-runtime/state/threads";
 import { useAtomCommand } from "../../state/use-atom-command";
-import type { useSideQuestion } from "../../state/sideQuestions";
 import {
   AuthOrchestrationOperateScope,
   DEFAULT_MODEL,
@@ -221,9 +215,7 @@ interface ComposerSendInput {
   readonly resumeCompactionTokens: number | null;
   readonly usageLimitsKey: string | null;
   readonly usageLimitsOffered: boolean;
-  /** `/btw` and `/handoff` fork the provider session the thread already runs on. */
-  readonly sideQuestionsOffered: boolean;
-  readonly sideQuestion: ReturnType<typeof useSideQuestion>;
+  /** `/handoff` forks the provider session the thread already runs on. */
   readonly handoffOffered: boolean;
   readonly openUsageLimits: UsageLimitsPanel["open"];
   readonly clearUsageLimitsFor: UsageLimitsPanel["clearFor"];
@@ -321,8 +313,6 @@ export function useComposerSend(input: ComposerSendInput) {
     resumeCompactionTokens,
     usageLimitsKey,
     usageLimitsOffered,
-    sideQuestionsOffered,
-    sideQuestion,
     handoffOffered,
     openUsageLimits,
     clearUsageLimitsFor,
@@ -420,41 +410,9 @@ export function useComposerSend(input: ComposerSendInput) {
       }
       return;
     }
-    const composerHasNonPromptContent = draftHasNonPromptContent(composerDraftTarget);
-    // /btw runs beside the thread, so it skips the busy-turn guards below on purpose.
-    const sideQuestionText =
-      sideQuestionsOffered && !directAnnotation && !composerHasNonPromptContent
-        ? parseSideQuestionCommand(promptRef.current)
-        : null;
-    if (sideQuestionText !== null) {
-      const blockReason = sideQuestionBlockReason(sideQuestionText);
-      if (blockReason !== null) {
-        toastManager.add(
-          stackedThreadToast({ type: "warning", title: "Side question", description: blockReason }),
-        );
-        return;
-      }
-      if (!isServerThread || activeThread?.activeProviderThreadId == null) {
-        toastManager.add(
-          stackedThreadToast({
-            type: "warning",
-            title: "Start the thread first",
-            description: "Send a message before asking a side question.",
-          }),
-        );
-        return;
-      }
-      if (sideQuestion.running) return;
-      promptRef.current = "";
-      setComposerDraftPrompt(composerDraftTarget, "");
-      composerRef.current?.resetCursorState();
-      // An open panel means the user is following up on it.
-      void sideQuestion.ask(sideQuestionText);
-      return;
-    }
-    // /handoff starts a new thread and leaves this one as is, so it also skips the busy guards.
+    // /handoff starts a new thread and leaves this one as is, so it skips the busy guards below.
     const handoffFocus =
-      handoffOffered && !directAnnotation && !composerHasNonPromptContent
+      handoffOffered && !directAnnotation && !draftHasNonPromptContent(composerDraftTarget)
         ? parseHandoffCommand(promptRef.current)
         : null;
     if (handoffFocus !== null) {

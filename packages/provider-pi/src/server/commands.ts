@@ -8,14 +8,6 @@ const PI_COMPACT_SLASH_COMMAND: ServerProviderSlashCommand = {
   input: { hint: "Optional instructions" },
 };
 
-// Handled by the client as a side question (thread.askSideQuestion), never sent as a turn.
-// Replaces a user extension's TUI-only /btw, which cannot run over RPC.
-export const PI_BTW_SLASH_COMMAND: ServerProviderSlashCommand = {
-  name: "btw",
-  description: "Ask a side question without adding it to the conversation",
-  input: { hint: "Question" },
-};
-
 // Handled by the client as thread.handoff: a new thread starts from a handoff document.
 // Replaces a user extension's /handoff, which can only compact the current session.
 export const PI_HANDOFF_SLASH_COMMAND: ServerProviderSlashCommand = {
@@ -42,8 +34,9 @@ export function parsePiCompactCommand(text: string): PiCompactCommand | null {
 export function withPiBuiltinSlashCommands(
   commands: ReadonlyArray<ServerProviderSlashCommand>,
 ): ReadonlyArray<ServerProviderSlashCommand> {
-  const builtins = [PI_COMPACT_SLASH_COMMAND, PI_BTW_SLASH_COMMAND, PI_HANDOFF_SLASH_COMMAND];
-  const names = new Set(builtins.map((command) => command.name));
+  const builtins = [PI_COMPACT_SLASH_COMMAND, PI_HANDOFF_SLASH_COMMAND];
+  // T3's own `/btw` (side chats) replaces an extension's TUI-only one, which cannot run over RPC.
+  const names = new Set([...builtins.map((command) => command.name), "btw"]);
   return [...builtins, ...commands.filter((command) => !names.has(command.name))];
 }
 

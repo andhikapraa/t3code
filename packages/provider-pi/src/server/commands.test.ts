@@ -2,7 +2,6 @@ import { expect, it } from "@effect/vitest";
 
 import {
   parsePiDiscoveredCommands,
-  PI_BTW_SLASH_COMMAND,
   PI_HANDOFF_SLASH_COMMAND,
   withPiBuiltinSlashCommands,
 } from "./commands.ts";
@@ -58,7 +57,6 @@ it("prepends the builtin commands without duplicating discovered ones", () => {
   expect(compact?.name).toBe("compact");
   expect(withPiBuiltinSlashCommands([{ name: "hello", description: "Say hello." }])).toEqual([
     compact,
-    PI_BTW_SLASH_COMMAND,
     PI_HANDOFF_SLASH_COMMAND,
     { name: "hello", description: "Say hello." },
   ]);
@@ -70,5 +68,5 @@ it("prepends the builtin commands without duplicating discovered ones", () => {
       { name: "handoff", description: "Extension handoff." },
       { name: "hello" },
     ]),
-  ).toEqual([compact, PI_BTW_SLASH_COMMAND, PI_HANDOFF_SLASH_COMMAND, { name: "hello" }]);
+  ).toEqual([compact, PI_HANDOFF_SLASH_COMMAND, { name: "hello" }]);
 });

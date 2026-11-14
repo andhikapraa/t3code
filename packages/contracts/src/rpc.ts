@@ -163,11 +163,6 @@ import {
 } from "./review.ts";
 import { KeybindingsConfigError } from "./keybindings.ts";
 import { OrchestrationSearchThreadsError } from "./threadSearch.ts";
-import {
-  ThreadSideQuestionError,
-  ThreadSideQuestionEvent,
-  ThreadSideQuestionInput,
-} from "./sideQuestion.ts";
 import { ThreadHandoffError, ThreadHandoffInput, ThreadHandoffResult } from "./threadHandoff.ts";
 import {
   ProviderUploadFeedbackError,
@@ -634,8 +629,6 @@ export const WS_METHODS = {
   subscribeServerLifecycle: "subscribeServerLifecycle",
   subscribeAuthAccess: "subscribeAuthAccess",
   subscribeResourceTelemetry: "subscribeResourceTelemetry",
-
-  threadAskSideQuestion: "thread.askSideQuestion",
 
   threadHandoff: "thread.handoff",
 } as const;
@@ -1853,13 +1846,6 @@ const WsOrchestrationV2SearchThreadsRpc = Rpc.make(ORCHESTRATION_V2_WS_METHODS.s
   error: Schema.Union([OrchestrationSearchThreadsError, EnvironmentAuthorizationError]),
 });
 
-const WsThreadAskSideQuestionRpc = Rpc.make(WS_METHODS.threadAskSideQuestion, {
-  payload: ThreadSideQuestionInput,
-  success: ThreadSideQuestionEvent,
-  error: Schema.Union([ThreadSideQuestionError, EnvironmentAuthorizationError]),
-  stream: true,
-});
-
 const WsThreadHandoffRpc = Rpc.make(WS_METHODS.threadHandoff, {
   payload: ThreadHandoffInput,
   success: ThreadHandoffResult,
@@ -2323,7 +2309,6 @@ export const WsRpcGroup = RpcGroup.make(
   WsSubscribeServerLifecycleRpc,
   WsSubscribeAuthAccessRpc,
   WsSubscribeResourceTelemetryRpc,
-  WsThreadAskSideQuestionRpc,
   WsThreadHandoffRpc,
   WsOrchestrationV2DispatchCommandRpc,
   WsOrchestrationV2GetWorkflowScriptRpc,

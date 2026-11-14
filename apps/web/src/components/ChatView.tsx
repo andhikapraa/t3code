@@ -53,8 +53,6 @@ import { feedbackBannerItem } from "./chat/ComposerFeedback";
 import { freshSessionBannerItem } from "./chat/ComposerFreshSession";
 import { armFreshSession, disarmFreshSession, useFreshSessionArmed } from "./chat/freshSessionArms";
 import { useUsageLimitsPanel } from "./chat/useUsageLimitsPanel";
-import { sideQuestionBannerItem } from "./chat/ComposerSideQuestion";
-import { useSideQuestion } from "~/state/sideQuestions";
 import { useWorktreeSetup } from "./chat/useWorktreeSetup";
 import { useChatShortcuts } from "./chat/useChatShortcuts";
 import { ChatBannerLane } from "./chat/ChatBannerLane";
@@ -111,7 +109,6 @@ import {
   isCompleteTurnItemRow,
   shouldShowLoadEarlierControl,
   supportsHandoff,
-  supportsSideQuestions,
   type CodexFeedbackSubmission,
 } from "@t3tools/client-runtime/state/threads";
 import {
@@ -1437,16 +1434,12 @@ export default function ChatView(props: ChatViewProps) {
     providers: providerStatuses,
     sources: serverConfig?.usageLimitSources ?? EMPTY_USAGE_LIMIT_SOURCES,
   });
-  // /btw: answered from a throwaway fork of the provider session, never sent as a turn.
-  // Gated on the provider the thread actually runs on (what the server forks),
-  // not the composer's pending model pick.
+  // /handoff is written from a fork of the provider session, so it is gated on the
+  // provider the thread actually runs on, not the composer's pending model pick.
   const forkableProviderDriver = isServerThread
     ? providerStatuses.find((entry) => entry.instanceId === serverThread?.providerInstanceId)
         ?.driver
     : activeProviderStatus?.driver;
-  const sideQuestionsOffered = supportsSideQuestions(forkableProviderDriver);
-  const sideQuestion = useSideQuestion(environmentId, isServerThread ? threadId : null);
-  // /handoff is gated like /btw: on the provider the server forks.
   const handoffOffered = supportsHandoff(forkableProviderDriver);
   const {
     beginLocalDispatch,
@@ -2609,16 +2602,6 @@ export default function ChatView(props: ChatViewProps) {
           },
         })
       : null;
-  const sideQuestionBanner =
-    sideQuestion.topic === null
-      ? null
-      : sideQuestionBannerItem({
-          topic: sideQuestion.topic,
-          cwd: activeWorkspaceRoot,
-          environmentId,
-          onCancel: sideQuestion.cancel,
-          onClose: sideQuestion.close,
-        });
   const composerBannerItems = (() => {
     const fallbackSelection = draftFallback?.selection;
     const defaultSelection =
@@ -2670,11 +2653,7 @@ export default function ChatView(props: ChatViewProps) {
       deriveProviderExtensionStatuses(serverProjection),
     );
     const extensionStatusItems = extensionStatusBanner === null ? [] : [extensionStatusBanner];
-    // The user asked for these, so they lead the notice tier instead of trailing it.
-    const usageLimitsItems = [
-      ...(sideQuestionBanner === null ? [] : [sideQuestionBanner]),
-      ...(usageLimitsBanner === null ? [] : [usageLimitsBanner]),
-    ];
+    const usageLimitsItems = usageLimitsBanner === null ? [] : [usageLimitsBanner];
     const projectCloneItems = projectCloneBannerItem === null ? [] : [projectCloneBannerItem];
     // An approval's feedback goes to that approval; the armed session waits for the next message.
     const freshSessionItems =
@@ -2984,8 +2963,6 @@ export default function ChatView(props: ChatViewProps) {
     resumeCompactionTokens,
     usageLimitsKey,
     usageLimitsOffered,
-    sideQuestionsOffered,
-    sideQuestion,
     handoffOffered,
     openUsageLimits,
     clearUsageLimitsFor,

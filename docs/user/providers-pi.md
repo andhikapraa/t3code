@@ -57,16 +57,8 @@ widgets do not have a T3 Code equivalent.
 
 ## Side Questions
 
-Send `/btw` followed by a question in an existing Pi thread to ask about the conversation without
-adding to it, even while Pi is working. The answer appears above the composer and is never sent to
-the thread. While it is open, `/btw` again asks a follow-up; close it to start over. It stays open,
-and keeps answering, when you switch to another thread and back. Side answers are not saved, so a
-reload clears them.
-
-Side questions use the thread's model with Pi's tools turned off and are never added to the thread.
-Your Pi extensions still load, so code an extension runs on its own is not covered by that. Each
-side question uses your provider quota and takes longer to start than a normal reply. A `/btw`
-command from a Pi extension is replaced by this one in T3 Code.
+Use `/side` or `/btw` in a Pi thread to open a [side chat](./thread-sidebar.md#side-chats). A `/btw` command
+from a Pi extension is replaced by this one in T3 Code.
 
 ## Handoff
 

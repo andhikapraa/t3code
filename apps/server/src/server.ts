@@ -209,7 +209,6 @@ import * as CodexUsageHistory from "./usage/CodexUsageHistory.ts";
 import * as RuntimeLayer from "./orchestration-v2/runtimeLayer.ts";
 import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
 import * as ThreadSearch from "./orchestration-v2/ThreadSearch.ts";
-import * as ThreadSideQuestion from "./orchestration-v2/ThreadSideQuestion.ts";
 import * as ThreadHandoff from "./orchestration-v2/ThreadHandoff.ts";
 import * as ThreadSettlementService from "./orchestration-v2/ThreadSettlementService.ts";
 import * as IdleCompactionService from "./orchestration-v2/IdleCompactionService.ts";
@@ -711,7 +710,6 @@ const layerRuntimeCoreDependenciesBase = Layer.mergeAll(
   layerProviderInstallationRefresh,
   ProviderInstallation.layer,
   ReplayMarkers.layer,
-  ThreadSideQuestion.layer.pipe(Layer.provide(ProjectionStoreV2.layer)),
   ThreadHandoff.layer.pipe(Layer.provide(ProjectionStoreV2.layer)),
   Layer.effectDiscard(ProjectSettingsOverrideSweep.sweep),
 ).pipe(

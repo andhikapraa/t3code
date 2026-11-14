@@ -47,7 +47,6 @@ export * from "./peerLink.ts";
 export * from "./threadMetadataMcp.ts";
 export * from "./threadPullRequest.ts";
 export * from "./threadSearch.ts";
-export * from "./sideQuestion.ts";
 export * from "./threadHandoff.ts";
 export * from "./threadTags.ts";
 export * from "./threadTitle.ts";

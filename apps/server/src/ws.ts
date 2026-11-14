@@ -171,7 +171,6 @@ import {
 import { dedupeSnapshotBodies } from "@t3tools/shared/orchestrationV2DedupedBodies";
 import * as ProjectStore from "./orchestration-v2/ProjectStore.ts";
 import * as ThreadSearch from "./orchestration-v2/ThreadSearch.ts";
-import * as ThreadSideQuestion from "./orchestration-v2/ThreadSideQuestion.ts";
 import * as ThreadHandoff from "./orchestration-v2/ThreadHandoff.ts";
 import * as OrchestrationEventStore from "./persistence/OrchestrationEventStore.ts";
 import { userFacingDispatchErrorMessage } from "./orchestration-v2/UserFacingErrors.ts";
@@ -1446,7 +1445,6 @@ export const layerWsRpc = (
       const scratchThreadPromotion = yield* ScratchThreadPromotion.ScratchThreadPromotion;
       const eventLoopMonitor = yield* EventLoopMonitor.EventLoopMonitor;
       const threadSearch = yield* ThreadSearch.ThreadSearch;
-      const threadSideQuestion = yield* ThreadSideQuestion.ThreadSideQuestion;
       const threadHandoff = yield* ThreadHandoff.ThreadHandoff;
 
       const providerSessionsV2 = yield* ProviderSessionManager.ProviderSessionManagerV2;
@@ -3524,7 +3522,6 @@ export const layerWsRpc = (
               Stream.concat(Stream.make(latest), changes),
             ),
           ),
-        [WS_METHODS.threadAskSideQuestion]: (input) => threadSideQuestion.ask(input),
         [WS_METHODS.threadHandoff]: (input) =>
           startup.enqueueCommand(threadHandoff.handoff(input)).pipe(
             Effect.catchTags({

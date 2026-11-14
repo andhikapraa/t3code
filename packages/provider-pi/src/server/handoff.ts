@@ -1,4 +1,4 @@
-// `/btw` and `/handoff` prompt a tool-less `pi --mode rpc --fork <session>` in a temp
+// `/handoff` prompts a tool-less `pi --mode rpc --fork <session>` in a temp
 // `--session-dir`, because prompting the live process would append to the thread.
 // Extensions stay on since they can supply providers and models; their dialogs are
 // cancelled because no user is attached.
@@ -33,29 +33,6 @@ const isProviderDriverError = Schema.is(ProviderDriverError);
 const PI_KNOWN_THINKING_LEVELS: ReadonlySet<string> = new Set(PI_THINKING_LEVELS);
 const PI_INHERIT_MODEL_SLUG = "default";
 const PI_DIALOG_METHODS = new Set(["select", "confirm", "input", "editor"]);
-
-const SIDE_INSTRUCTION = `[Side question from the user. This is not a new task: do not continue the work above, do not call tools, and do not claim to have changed anything. Answer directly and concisely in text.]`;
-
-export interface SideQuestionTurn {
-  readonly question: string;
-  readonly answer: string;
-}
-
-/** One prompt carrying the instruction, earlier side turns, and the new question. */
-export function buildPiSideQuestionPrompt(
-  question: string,
-  previousTurns: ReadonlyArray<SideQuestionTurn>,
-): string {
-  const earlier = previousTurns.map(
-    (turn, index) =>
-      `Earlier side question ${index + 1}: ${turn.question}\nYour answer: ${turn.answer}`,
-  );
-  return [
-    SIDE_INSTRUCTION,
-    ...earlier,
-    earlier.length > 0 ? `Follow-up: ${question}` : question,
-  ].join("\n\n");
-}
 
 // OMP's handoff-document prompt (pi-setup extensions/omp-compaction/prompts.ts),
 // so a T3 handoff reads like the one the Pi extension writes.
@@ -117,7 +94,7 @@ export function buildPiHandoffPrompt(focus: string | undefined): string {
  * Maps one Pi RPC event to fork-prompt output. `null` means "ignore".
  * Exported for tests: this is the protocol surface that can drift.
  */
-export function classifyPiSideQuestionEvent(
+export function classifyPiForkPromptEvent(
   event: PiRpcRecord,
 ):
   | { readonly type: "delta"; readonly delta: string }
@@ -169,19 +146,6 @@ interface PiForkSource {
   readonly nativeThreadId: string;
   readonly modelSelection: ModelSelection;
 }
-
-export const makePiSideQuestion =
-  (input: PiForkPromptDeps) =>
-  (
-    request: PiForkSource & {
-      readonly question: string;
-      readonly previousTurns: ReadonlyArray<SideQuestionTurn>;
-    },
-  ): Stream.Stream<string, ProviderDriverError> =>
-    streamPiForkPrompt(input, request, {
-      message: buildPiSideQuestionPrompt(request.question, request.previousTurns),
-      label: "side question",
-    });
 
 /** Writes a handoff document for the thread; fails when Pi returns no text. */
 export const makePiHandoff =
@@ -266,7 +230,7 @@ function streamPiForkPrompt(
 
       yield* connection.request({ type: "prompt", message: prompt.message });
       while (true) {
-        const outcome = classifyPiSideQuestionEvent(yield* Queue.take(connection.events));
+        const outcome = classifyPiForkPromptEvent(yield* Queue.take(connection.events));
         if (outcome === null) continue;
         if (outcome.type === "delta") yield* Queue.offer(queue, outcome.delta);
         else if (outcome.type === "dialog") {

@@ -12,7 +12,7 @@ import * as ProviderLatestVersions from "@t3tools/provider-core/server/ProviderL
 import * as ProviderHost from "@t3tools/provider-core/server/ProviderHost";
 import { piUsageReader } from "./usage.ts";
 import { makePiTextGeneration } from "./textGeneration.ts";
-import { makePiHandoff, makePiSideQuestion } from "./sideQuestion.ts";
+import { makePiHandoff } from "./handoff.ts";
 import { PiAdapterV2Driver, type PiAdapterV2DriverEnv } from "./adapter.ts";
 import { ProviderDriverError } from "@t3tools/provider-core/server/errors";
 import {
@@ -223,7 +223,6 @@ export const PiDriver: ProviderDriver<PiSettings, PiDriverEnv, Path.Path> = {
             ),
       orchestrationAdapter,
       textGeneration,
-      askSideQuestion: makePiSideQuestion(forkPromptDeps),
       writeHandoff: makePiHandoff(forkPromptDeps),
     } satisfies ProviderInstance;
   }),

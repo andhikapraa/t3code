@@ -193,9 +193,6 @@ vi.mock("../lib/copyTextWithHaptic", () => ({ copyTextWithHaptic: vi.fn() }));
 vi.mock("../features/layout/workspace/useSelectWorkspaceDetail", () => ({
   useSelectWorkspaceDetail: () => vi.fn(),
 }));
-vi.mock("./side-questions", () => ({
-  useSideQuestion: () => ({ running: false, ask: vi.fn() }),
-}));
 vi.mock("./use-remote-environment-registry", () => ({ setPendingConnectionError: vi.fn() }));
 
 import { Alert } from "react-native";
