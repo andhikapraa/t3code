@@ -1,0 +1,39 @@
+apps/mobile/src/state/use-thread-composer-state.ts
+  s_01e3dc6f28830c::t_fbba85ae36c633 710-712
+apps/web/src/components/ChatView.tsx
+  s_01e3dc6f28830c::t_c2054fa2de6c62 1437-1438,2656
+apps/web/src/components/chat/useComposerSend.ts
+  s_01e3dc6f28830c::t_438cb087a462e8 19,218,413,415
+docs/user/providers-pi.md
+  s_01e3dc6f28830c::t_d9eed4fd76ab00 60-61
+packages/client-runtime/src/rpc/client.ts
+  s_01e3dc6f28830c::t_e2a543eeb98951 83
+packages/provider-pi/src/server/commands.test.ts
+  s_01e3dc6f28830c::t_0b3a569d5535c4 71
+packages/provider-pi/src/server/commands.ts
+  s_01e3dc6f28830c::t_f8d99c5d576944 37-39
+packages/provider-pi/src/server/driver.test.ts
+  s_01e3dc6f28830c::t_b1d4c2cfba23d3 149,158
+packages/provider-pi/src/server/driver.ts
+  s_01e3dc6f28830c::t_f2204c7cb8f651 15
+packages/provider-pi/src/server/handoff.test.ts
+  s_01e3dc6f28830c::t_dada2da00ea8ca 3,7,13,18,23,29,38,41
+packages/provider-pi/src/server/handoff.ts
+  s_01e3dc6f28830c::t_5f02ca039c6608 1,97,233
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "da5f7d610cae25385064e555fc44f7e16347819f",
+  "prompts": {},
+  "sessions": {
+    "s_01e3dc6f28830c": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1d7ae-2ad3-723f-9e95-2b313cfacbd7",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
