@@ -8,6 +8,7 @@ import {
 } from "@t3tools/client-runtime/state/runtime";
 import { resolveProjectSettings } from "@t3tools/shared/projectSettings";
 import { useMemo, useRef, useState } from "react";
+import { useGT } from "gt-react-native";
 import { Pressable, TextInput, View } from "react-native";
 import * as Dialog from "../../../components/ui/Dialog";
 
@@ -47,6 +48,7 @@ export function ScheduleWithAgentComposer({
   readonly targets: readonly SettingsTarget[];
   readonly onStarted: (environmentId: EnvironmentId, threadId: ThreadId) => void;
 }) {
+  const gt = useGT();
   const allProjects = useProjects();
   const composerTargets = useMemo(() => {
     const projectTargets: ComposerTarget[] = allProjects.flatMap((project) => {
@@ -69,10 +71,10 @@ export function ScheduleWithAgentComposer({
         key: `${environment.environmentId}:scratch`,
         environment,
         project: null,
-        label: "No project",
+        label: gt("No project"),
       }));
     return [...projectTargets, ...scratchTargets];
-  }, [allProjects, targets]);
+  }, [allProjects, gt, targets]);
   const [selectedKey, setSelectedKey] = useState<string | null>(null);
   const target = composerTargets.find((entry) => entry.key === selectedKey) ?? composerTargets[0];
   if (!target) return null;
@@ -102,6 +104,7 @@ function ComposerForm({
   readonly onTargetChange: (key: string) => void;
   readonly onStarted: (environmentId: EnvironmentId, threadId: ThreadId) => void;
 }) {
+  const gt = useGT();
   const environmentId = target.environment.environmentId;
   const config = useEnvironmentServerConfig(environmentId);
   const openScratch = useAtomCommand(projectEnvironment.openScratch, { reportFailure: false });
@@ -126,7 +129,7 @@ function ComposerForm({
         option.selection.model === selection?.model,
     )?.label ??
     selection?.model ??
-    "No models available";
+    gt("No models available");
   const canSend = prompt.trim().length > 0 && selection !== null && !sending;
 
   const submit = async () => {
@@ -142,7 +145,7 @@ function ComposerForm({
         setSending(false);
         if (!isAtomCommandInterrupted(opened)) {
           Dialog.alert(
-            "Could not start the setup thread",
+            gt("Could not start the setup thread"),
             String(squashAtomCommandFailure(opened)),
           );
         }
@@ -177,7 +180,10 @@ function ComposerForm({
     sendingRef.current = false;
     setSending(false);
     if (result._tag === "Failure") {
-      Dialog.alert("Could not start the setup thread", String(squashAtomCommandFailure(result)));
+      Dialog.alert(
+        gt("Could not start the setup thread"),
+        String(squashAtomCommandFailure(result)),
+      );
       return;
     }
     setPrompt("");
@@ -185,17 +191,17 @@ function ComposerForm({
   };
 
   return (
-    <SettingsSection title="Set up with an agent">
+    <SettingsSection title={gt("Set up with an agent")}>
       <View className="gap-2 px-4 py-3">
         <TextInput
-          accessibilityLabel="Describe a recurring task"
+          accessibilityLabel={gt("Describe a recurring task")}
           value={prompt}
           onChangeText={setPrompt}
           readOnly={sending}
           multiline
           scrollEnabled
           textAlignVertical="top"
-          placeholder="Every weekday at 9:00, check for new errors and summarize them"
+          placeholder={gt("Every weekday at 9:00, check for new errors and summarize them")}
           placeholderTextColorClassName="accent-foreground-muted"
           className="max-h-40 min-h-20 font-sans text-base text-foreground"
         />
@@ -211,7 +217,7 @@ function ComposerForm({
           >
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={`Project, ${target.label}`}
+              accessibilityLabel={gt("Project, {project}", { project: target.label })}
               className="min-w-0 shrink flex-row items-center gap-1 rounded-full bg-subtle px-3 py-2 active:opacity-70"
             >
               <Text className="shrink text-sm text-foreground" numberOfLines={1}>
@@ -240,7 +246,7 @@ function ComposerForm({
           >
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={`Model, ${selectedModelLabel}`}
+              accessibilityLabel={gt("Model, {model}", { model: selectedModelLabel })}
               className="min-w-0 shrink flex-row items-center gap-1 rounded-full bg-subtle px-3 py-2 active:opacity-70"
             >
               <Text className="shrink text-sm text-foreground" numberOfLines={1}>
@@ -256,7 +262,7 @@ function ComposerForm({
           </Menu>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Set up with agent"
+            accessibilityLabel={gt("Set up with agent")}
             accessibilityState={{ disabled: !canSend }}
             disabled={!canSend}
             onPress={() => void submit()}

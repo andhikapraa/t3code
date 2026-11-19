@@ -818,13 +818,16 @@ export function useThreadComposerState(input: {
         ? parseHandoffCommand(text)
         : null;
     if (handoffFocus !== null) {
-      const blockReason = handoffBlockReason(handoffFocus);
+      const blockReason = handoffBlockReason(handoffFocus, m);
       if (blockReason !== null) {
-        Dialog.alert("Handoff", blockReason);
+        Dialog.alert(m(msg("Handoff")), blockReason);
         return null;
       }
       if (thread.activeProviderThreadId === null) {
-        Dialog.alert("Start the thread first", "Send a message before handing off.");
+        Dialog.alert(
+          m(msg("Start the thread first")),
+          m(msg("Send a message before handing off.")),
+        );
         return null;
       }
       if (handoffInFlightRef.current) return null;
@@ -851,8 +854,8 @@ export function useThreadComposerState(input: {
           }
           const error = squashAtomCommandFailure(result);
           Dialog.alert(
-            "Handoff failed",
-            error instanceof Error ? error.message : "The handoff failed.",
+            m(msg("Handoff failed")),
+            error instanceof Error ? error.message : m(msg("The handoff failed.")),
           );
         })
         .finally(() => {

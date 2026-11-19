@@ -89,7 +89,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import { useGT, useMessages } from "gt-react-native";
+import { T, useGT, useMessages } from "gt-react-native";
 import { m } from "../../i18n/messages";
 import {
   AppState,
@@ -1683,7 +1683,7 @@ function ThreadDetailBody(
                           accessibilityLiveRegion="polite"
                           className="text-xs text-foreground-muted"
                         >
-                          Writing handoff… A new thread opens when it is ready.
+                          <T>Writing handoff… A new thread opens when it is ready.</T>
                         </AppText>
                       </View>
                     ) : null}

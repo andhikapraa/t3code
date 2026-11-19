@@ -1,3 +1,6 @@
+import { mFallback, msg } from "gt-i18n";
+import type { MFunctionType } from "gt-i18n/types";
+
 /**
  * Handoffs (`/handoff`): continue a thread's work in a new thread in the same
  * project and workspace. The server writes the handoff and sends it as the new
@@ -16,9 +19,16 @@ export function parseHandoffCommand(text: string): string | null {
 const HANDOFF_FOCUS_MAX_CHARS = 20_000;
 
 /** Why a parsed `/handoff` focus cannot be sent, or null when it can. */
-export function handoffBlockReason(focus: string): string | null {
+export function handoffBlockReason(
+  focus: string,
+  resolve: MFunctionType = mFallback,
+): string | null {
   return focus.length > HANDOFF_FOCUS_MAX_CHARS
-    ? `Handoff focus is limited to ${HANDOFF_FOCUS_MAX_CHARS.toLocaleString("en-US")} characters.`
+    ? resolve(
+        msg("Handoff focus is limited to {limit} characters.", {
+          limit: HANDOFF_FOCUS_MAX_CHARS.toLocaleString("en-US"),
+        }),
+      )
     : null;
 }
 

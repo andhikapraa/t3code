@@ -312,7 +312,7 @@ const SidebarUtilityMenu = memo(function SidebarUtilityMenu() {
           ) : null}
           <SidebarUtilityItem
             icon={<CalendarClockIcon />}
-            label="Scheduled tasks"
+            label={gt("Scheduled tasks")}
             onClick={handleScheduledTasksClick}
           />
           <SidebarUtilityItem

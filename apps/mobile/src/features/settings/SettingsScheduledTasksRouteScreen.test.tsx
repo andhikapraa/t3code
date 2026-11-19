@@ -57,6 +57,9 @@ vi.mock("./components/SettingsEnvironmentFilterHeader", () => ({
   useSettingsEnvironmentMenu: () => null,
 }));
 vi.mock("./components/ScheduledTaskPromptField", () => ({ ScheduledTaskPromptField: () => null }));
+vi.mock("./components/ScheduleWithAgentComposer", () => ({
+  ScheduleWithAgentComposer: () => null,
+}));
 vi.mock("../layout/workspace/useSelectWorkspaceDetail", () => ({
   useSelectWorkspaceDetail: () => vi.fn(),
 }));

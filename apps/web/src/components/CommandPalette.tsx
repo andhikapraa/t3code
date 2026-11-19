@@ -1712,7 +1712,7 @@ function OpenCommandPaletteDialog(props: {
     kind: "action",
     value: "action:scheduled-tasks",
     searchTerms: ["scheduled tasks", "schedule", "cron", "recurring", "automation", "monitor"],
-    title: "Open scheduled tasks",
+    title: gt("Open scheduled tasks"),
     icon: <CalendarClockIcon className={ITEM_ICON_CLASS} />,
     run: async () => {
       await navigate({ to: "/scheduled-tasks" });

@@ -923,7 +923,7 @@ function ScheduledTaskRow({
                   }
                 >
                   <MessageSquareIcon />
-                  {task.threadId ? "Open thread" : "Open latest run"}
+                  {task.threadId ? <T>Open thread</T> : <T>Open latest run</T>}
                 </MenuItem>
               ) : null}
               {isWebhook ? (

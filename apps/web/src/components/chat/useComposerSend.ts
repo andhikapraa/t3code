@@ -447,10 +447,14 @@ export function useComposerSend(input: ComposerSendInput) {
         ? parseHandoffCommand(promptRef.current)
         : null;
     if (handoffFocus !== null) {
-      const blockReason = handoffBlockReason(handoffFocus);
+      const blockReason = handoffBlockReason(handoffFocus, m);
       if (blockReason !== null) {
         toastManager.add(
-          stackedThreadToast({ type: "warning", title: "Handoff", description: blockReason }),
+          stackedThreadToast({
+            type: "warning",
+            title: m(msg("Handoff")),
+            description: blockReason,
+          }),
         );
         return;
       }
@@ -458,8 +462,8 @@ export function useComposerSend(input: ComposerSendInput) {
         toastManager.add(
           stackedThreadToast({
             type: "warning",
-            title: "Start the thread first",
-            description: "Send a message before handing off.",
+            title: m(msg("Start the thread first")),
+            description: m(msg("Send a message before handing off.")),
           }),
         );
         return;
@@ -473,8 +477,8 @@ export function useComposerSend(input: ComposerSendInput) {
       const progressToast = toastManager.add(
         stackedThreadToast({
           type: "loading",
-          title: "Writing handoff",
-          description: "A new thread opens when it is ready.",
+          title: m(msg("Writing handoff")),
+          description: m(msg("A new thread opens when it is ready.")),
           timeout: 0,
         }),
       );
@@ -501,8 +505,8 @@ export function useComposerSend(input: ComposerSendInput) {
             progressToast,
             stackedThreadToast({
               type: "error",
-              title: "Handoff failed",
-              description: error instanceof Error ? error.message : "The handoff failed.",
+              title: m(msg("Handoff failed")),
+              description: error instanceof Error ? error.message : m(msg("The handoff failed.")),
             }),
           );
         })

@@ -1,5 +1,6 @@
 import { useAtomValue } from "@effect/atom-react";
 import { useNavigate } from "@tanstack/react-router";
+import { T, useGT } from "gt-react";
 import { ArrowUpIcon } from "lucide-react";
 import { useRef, useState } from "react";
 import {
@@ -49,13 +50,16 @@ export function ScheduledTasksPage(target: {
   readonly environmentId?: EnvironmentId | undefined;
   readonly taskId?: ScheduledTaskId | undefined;
 }) {
+  const gt = useGT();
   return (
     <SidebarInset className="h-dvh min-h-0 overflow-hidden overscroll-y-none isolate">
       <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-background text-foreground">
         <WorkspacePageHeader electron={isElectron}>
-          <WorkspaceBreadcrumb ariaLabel="Scheduled tasks breadcrumb">
+          <WorkspaceBreadcrumb ariaLabel={gt("Scheduled tasks breadcrumb")}>
             <WorkspaceBreadcrumbItem current>
-              <h1>Scheduled tasks</h1>
+              <h1>
+                <T>Scheduled tasks</T>
+              </h1>
             </WorkspaceBreadcrumbItem>
           </WorkspaceBreadcrumb>
         </WorkspacePageHeader>
@@ -63,7 +67,7 @@ export function ScheduledTasksPage(target: {
           <WorkspacePageContainer className="gap-8">
             <SettingsScopeProvider search={ALL_SCOPE} onChange={ignoreScopeChange}>
               <ScheduleWithAgentComposer />
-              <ScheduledTaskList {...target} title="Tasks" />
+              <ScheduledTaskList {...target} title={gt("Tasks")} />
             </SettingsScopeProvider>
           </WorkspacePageContainer>
         </div>
@@ -88,6 +92,7 @@ interface ComposerTarget {
 }
 
 function ScheduleWithAgentComposer() {
+  const gt = useGT();
   const { environments } = useEnvironments();
   const { scratchWorkspaceRootFor } = useScratchProject();
   const connectedEnvironments = environments.filter(
@@ -114,7 +119,7 @@ function ScheduleWithAgentComposer() {
         key: `${entry.environmentId}:scratch`,
         environmentId: entry.environmentId,
         project: null,
-        label: "No project",
+        label: gt("No project"),
       }));
     return [...projectTargets, ...scratchTargets];
   })();
@@ -144,6 +149,7 @@ function ComposerForm({
   readonly onTargetChange: (key: string) => void;
 }) {
   const navigate = useNavigate();
+  const gt = useGT();
   const { openScratchProject } = useScratchProject();
   const environmentId = target.environmentId;
   const showEnvironment = connectedEnvironments.length > 1;
@@ -181,7 +187,7 @@ function ComposerForm({
     setSending(true);
     const project =
       target.project ??
-      (await openScratchProject(environmentId, "Could not start the setup thread"));
+      (await openScratchProject(environmentId, gt("Could not start the setup thread")));
     if (!project) {
       sendingRef.current = false;
       setSending(false);
@@ -227,7 +233,7 @@ function ComposerForm({
       toastManager.add(
         stackedThreadToast({
           type: "error",
-          title: "Could not start the setup thread",
+          title: gt("Could not start the setup thread"),
           description: String(squashAtomCommandFailure(result)),
         }),
       );
@@ -251,8 +257,8 @@ function ComposerForm({
       }}
     >
       <Textarea
-        aria-label="Describe a recurring task"
-        placeholder="Every weekday at 9:00, check Sentry for new errors and summarize them"
+        aria-label={gt("Describe a recurring task")}
+        placeholder={gt("Every weekday at 9:00, check Sentry for new errors and summarize them")}
         unstyled
         value={prompt}
         disabled={sending}
@@ -267,7 +273,7 @@ function ComposerForm({
       <div className="flex items-center gap-1">
         <Select value={target.key} onValueChange={(value) => value && onTargetChange(value)}>
           <SelectTrigger
-            aria-label="Project"
+            aria-label={gt("Project")}
             size="compact"
             variant="ghost"
             className="w-auto min-w-0"
@@ -309,7 +315,7 @@ function ComposerForm({
           size="icon-sm"
           className="ml-auto"
           disabled={!canSend}
-          aria-label="Set up with agent"
+          aria-label={gt("Set up with agent")}
         >
           <ArrowUpIcon />
         </Button>
