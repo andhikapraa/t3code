@@ -1,0 +1,75 @@
+apps/web/src/components/scheduledTasks/ScheduledTasksPage.tsx
+  s_428c80b0111c61::t_0e5826afe7b04a 3,53,58,60-62,70,95,122,152,190,236,260-261,276,318
+apps/mobile/src/features/settings/components/ScheduleWithAgentComposer.tsx
+  s_428c80b0111c61::t_08bd8b8e90c3ec 11,51,74,77,107,132,148,183-186,194,197,204,220,249,265
+apps/mobile/src/features/threads/ThreadDetailScreen.tsx
+  s_428c80b0111c61::t_5abacd96b32ee4 92,1686
+apps/mobile/src/i18n/translations/de.json
+  s_428c80b0111c61::t_84ac369f384b5a 754,1594,1598-1603,2751,2762,3500,4358,5106-5112
+apps/mobile/src/i18n/translations/en.json
+  s_428c80b0111c61::t_c2957a162ddf46 754,1594,1598-1603,2751,2762,3501,4359,5107-5113
+apps/mobile/src/i18n/translations/es.json
+  s_428c80b0111c61::t_aba7708c6930a1 754,1594,1598-1603,2747,2758,3495,4351,5100-5106
+apps/mobile/src/i18n/translations/fr.json
+  s_428c80b0111c61::t_5bd1e0536d746a 754,1594,1598-1603,2747,2758,3495,4352,5100-5106
+apps/mobile/src/i18n/translations/ja.json
+  s_428c80b0111c61::t_feea13b21d0c83 754,1594,1598-1603,2744,2755,3492,4333,5082-5088
+apps/mobile/src/i18n/translations/ko.json
+  s_428c80b0111c61::t_19fdfe7dbeac14 754,1594,1598-1603,2748,2759,3496,4338,5086-5092
+apps/mobile/src/i18n/translations/pt-BR.json
+  s_428c80b0111c61::t_4eae963219de7f 754,1594,1598-1603,2747,2758,3495,4352,5100-5106
+apps/mobile/src/i18n/translations/ru.json
+  s_428c80b0111c61::t_602782f7ef8d48 754,1594,1598-1603,2799,2810,3549,4430,5179-5185
+apps/mobile/src/i18n/translations/sv.json
+  s_428c80b0111c61::t_e984f60b894a9e 754,1594,1598-1603,2751,2762,3501,4358,5106-5112
+apps/mobile/src/i18n/translations/zh.json
+  s_428c80b0111c61::t_c198bb9928b731 754,1595,1599-1604,2748,2759,3497,4341,5090-5096
+apps/mobile/src/state/use-thread-composer-state.ts
+  s_428c80b0111c61::t_ca68cfe5a95df5 821,823,827-830,857-858
+apps/web/src/components/CommandPalette.tsx
+  s_428c80b0111c61::t_28cd32aa8b854a 1715
+apps/web/src/components/chat/useComposerSend.ts
+  s_428c80b0111c61::t_a0b14289a78a7a 450,453-457,465-466,480-481,508-509
+apps/web/src/components/settings/ScheduledTasksSettings.tsx
+  s_428c80b0111c61::t_ae5ef5a95dc1de 926
+apps/web/src/components/sidebar/SidebarChrome.tsx
+  s_428c80b0111c61::t_ce728b8a6b5f9c 315
+apps/web/src/i18n/translations/de.json
+  s_428c80b0111c61::t_47a6858c5bdd43 754,1721,4601-4607,4615-4617,4619,5714,7095-7101,9496
+apps/web/src/i18n/translations/en.json
+  s_428c80b0111c61::t_d061f6da4c5216 754,1722,4600-4606,4614-4616,4618,5715,7103-7109,9504
+apps/web/src/i18n/translations/es.json
+  s_428c80b0111c61::t_93482dcc546f17 754,1722,4598-4604,4612-4614,4616,5713,7096-7102,9492
+apps/web/src/i18n/translations/fr.json
+  s_428c80b0111c61::t_ca82e1af543882 754,1722,4599-4605,4613-4615,4617,5714,7097-7103,9494
+apps/web/src/i18n/translations/ja.json
+  s_428c80b0111c61::t_6a04598fe728c5 754,1721,4588-4594,4602-4604,4606,5696,7063-7069,9449
+apps/web/src/i18n/translations/ko.json
+  s_428c80b0111c61::t_1434937fce1292 754,1721,4585-4591,4599-4601,4603,5694,7066-7072,9452
+apps/web/src/i18n/translations/pt-BR.json
+  s_428c80b0111c61::t_48077e4d491d95 754,1722,4598-4604,4612-4614,4616,5713,7096-7102,9493
+apps/web/src/i18n/translations/ru.json
+  s_428c80b0111c61::t_46d3133c0d888d 754,1722,4598-4604,4612-4614,4616,5713,7096-7102,9496
+apps/web/src/i18n/translations/sv.json
+  s_428c80b0111c61::t_ee7bbb527b03f2 754,1722,4599-4605,4613-4615,4617,5714,7102-7108,9502
+apps/web/src/i18n/translations/zh.json
+  s_428c80b0111c61::t_341b9c33219a31 754,1722,4605-4611,4619-4621,4623,5720,7111-7117,9510
+packages/client-runtime/src/state/threadHandoff.ts
+  s_428c80b0111c61::t_05f2dd3bddb441 1-3,22-25,27-31
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "017d54839ad6c7d9db5c16c491a72759d11101d1",
+  "prompts": {},
+  "sessions": {
+    "s_428c80b0111c61": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a1f163-1a35-75db-a80a-f9a87b71b7c6",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
