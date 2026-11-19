@@ -2,7 +2,7 @@ import * as Effect from "effect/Effect";
 import * as Migrator from "effect/sql/Migrator";
 import * as SqlClient from "effect/sql/SqlClient";
 
-const FORK_MIGRATION_NAME = "ScheduledTasksLastRunThread";
+export const FORK_MIGRATION_NAME = "ScheduledTasksLastRunThread";
 
 type MigrationEntry<E> = readonly [number, string, Effect.Effect<unknown, E, SqlClient.SqlClient>];
 

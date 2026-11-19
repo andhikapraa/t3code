@@ -16,6 +16,7 @@ import {
   RawEventId,
   RunAttemptId,
   RunId,
+  type RuntimeRequestId,
   ThreadId,
 } from "@t3tools/contracts";
 import * as Context from "effect/Context";
@@ -60,12 +61,13 @@ export class ProviderEventNormalizeError extends Schema.TaggedError<ProviderEven
   {
     providerSessionId: ProviderSessionId,
     threadId: ThreadId,
-    providerEvent: ProviderAdapter.ProviderAdapterV2Event,
+    // The rejected payload cannot be validated again while reporting its normalization failure.
+    eventType: Schema.String,
     cause: Schema.optional(Schema.Defect()),
   },
 ) {
   override get message(): string {
-    return `Failed to normalize provider event ${this.providerEvent.type} for thread ${this.threadId}.`;
+    return `Failed to normalize provider event ${this.eventType} for thread ${this.threadId}.`;
   }
 }
 
@@ -369,11 +371,14 @@ export const layer: Layer.Layer<
         input: ProviderEventIngestInput,
         providerTurnId: ProviderTurnId,
         threadId = input.threadId,
+        retained: ReadonlyArray<RuntimeRequestId> = [],
       ) {
         const pending = yield* projections.getPendingNativeUserInputs(threadId, providerTurnId);
         const now = yield* DateTime.now;
         const events: Array<OrchestrationV2DomainEvent> = [];
+        const kept = new Set(retained);
         for (const request of pending.runtimeRequests) {
+          if (kept.has(request.id)) continue;
           events.push(
             yield* makeDomainEvent(input, {
               type: "runtime-request.updated",
@@ -384,6 +389,7 @@ export const layer: Layer.Layer<
           );
         }
         for (const node of pending.nodes) {
+          if (node.runtimeRequestId !== null && kept.has(node.runtimeRequestId)) continue;
           events.push(
             yield* makeDomainEvent(input, {
               type: "node.updated",
@@ -395,6 +401,7 @@ export const layer: Layer.Layer<
           );
         }
         for (const item of pending.turnItems) {
+          if (item.type === "user_input_request" && kept.has(item.requestId)) continue;
           events.push(
             yield* makeDomainEvent(input, {
               type: "turn-item.updated",
@@ -598,6 +605,7 @@ export const layer: Layer.Layer<
                       input,
                       input.event.providerTurn.id,
                       input.event.threadId,
+                      input.event.retainedRuntimeRequestIds,
                     )
                   : []),
                 yield* makeDomainEvent(input, {
@@ -723,7 +731,12 @@ export const layer: Layer.Layer<
               // The session manager serves these to clients before ingestion.
               return [];
             case "turn.terminal":
-              const dismissed = yield* dismissNativeUserInputs(input, input.event.providerTurnId);
+              const dismissed = yield* dismissNativeUserInputs(
+                input,
+                input.event.providerTurnId,
+                undefined,
+                input.event.retainedRuntimeRequestIds,
+              );
               if (input.event.status !== "failed") {
                 return dismissed;
               }
@@ -791,7 +804,7 @@ export const layer: Layer.Layer<
                 new ProviderEventNormalizeError({
                   providerSessionId: input.providerSessionId,
                   threadId: input.threadId,
-                  providerEvent: input.event,
+                  eventType: input.event.type,
                   cause,
                 }),
             ),

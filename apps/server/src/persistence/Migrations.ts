@@ -6,7 +6,11 @@ import {
   DATABASE_MIGRATIONS_FINISHED_MESSAGE,
   DATABASE_MIGRATIONS_STARTED_MESSAGE,
 } from "@t3tools/shared/databaseMigrationLog";
-import { ensureForkSchema, reconcileForkMigrations } from "./reconcileForkMigrations.ts";
+import {
+  ensureForkSchema,
+  FORK_MIGRATION_NAME,
+  reconcileForkMigrations,
+} from "./reconcileForkMigrations.ts";
 import { reconcileV2PreviewMigration } from "./reconcileV2PreviewMigration.ts";
 
 import Migration0001 from "./Migrations/001_OrchestrationEvents.ts";
@@ -100,6 +104,13 @@ import Migration0088 from "./Migrations/088_TurnItemTypeStatusIndex.ts";
 import Migration0089 from "./Migrations/089_ShellThreadReadIndexes.ts";
 import Migration0090 from "./Migrations/090_AuthConnectDevices.ts";
 import Migration0091 from "./Migrations/091_AuthConnectDeniedRequests.ts";
+import Migration0092 from "./Migrations/092_QueuedTurnInputIndexJsonValid.ts";
+import Migration0093 from "./Migrations/093_ProviderTurnAttemptIndex.ts";
+import Migration0094 from "./Migrations/094_TurnItemMessageOrdinalIndex.ts";
+import Migration0095 from "./Migrations/095_TurnItemInlineWorkOutput.ts";
+import Migration0096 from "./Migrations/096_RepairStaleTitleRegeneration.ts";
+import Migration0097 from "./Migrations/097_IssueTrackerBindings.ts";
+import Migration0098 from "./Migrations/098_ActiveShellIndexIndexes.ts";
 
 const migrationEntries = [
   [1, "OrchestrationEvents", Migration0001],
@@ -194,6 +205,13 @@ const migrationEntries = [
   [89, "ShellThreadReadIndexes", Migration0089],
   [90, "AuthConnectDevices", Migration0090],
   [91, "AuthConnectDeniedRequests", Migration0091],
+  [92, "QueuedTurnInputIndexJsonValid", Migration0092],
+  [93, "ProviderTurnAttemptIndex", Migration0093],
+  [94, "TurnItemMessageOrdinalIndex", Migration0094],
+  [95, "TurnItemInlineWorkOutput", Migration0095],
+  [96, "RepairStaleTitleRegeneration", Migration0096],
+  [97, "IssueTrackerBindings", Migration0097],
+  [98, "ActiveShellIndexIndexes", Migration0098],
 ] as const;
 
 export const migrationManifest = migrationEntries.map(([id, name]) => [id, name] as const);
@@ -261,14 +279,23 @@ export const hasPendingMigrations = Effect.fn("hasPendingMigrations")(function* 
     SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'effect_sql_migrations'
   `;
   if (tables.length === 0) return true;
-  const rows = yield* sql<{ readonly latestId: number | null; readonly previewRows: number }>`
+  const rows = yield* sql<{
+    readonly latestId: number | null;
+    readonly previewRows: number;
+    readonly forkRows: number;
+  }>`
     SELECT
       MAX(migration_id) AS latestId,
-      SUM(name = 'OrchestrationV2' AND migration_id IN (53, 54)) AS previewRows
+      SUM(name = 'OrchestrationV2' AND migration_id IN (53, 54)) AS previewRows,
+      SUM(name = ${FORK_MIGRATION_NAME}) AS forkRows
     FROM effect_sql_migrations
   `;
   const row = rows[0];
-  return (row?.latestId ?? 0) < latestMigrationId || (row?.previewRows ?? 0) > 0;
+  return (
+    (row?.latestId ?? 0) < latestMigrationId ||
+    (row?.previewRows ?? 0) > 0 ||
+    (row?.forkRows ?? 0) > 0
+  );
 });
 
 const run = Migrator.make({});
@@ -281,15 +308,18 @@ export const runMigrations = Effect.fn("runMigrations")(function* ({
   toMigrationInclusive,
 }: RunMigrationsOptions = {}) {
   // The desktop waits past its readiness budget until the finished line follows this one.
-  if (yield* hasPendingMigrations()) yield* Effect.log(DATABASE_MIGRATIONS_STARTED_MESSAGE);
+  const hasPending = yield* hasPendingMigrations();
+  if (hasPending) yield* Effect.log(DATABASE_MIGRATIONS_STARTED_MESSAGE);
   const includesV2 =
     toMigrationInclusive === undefined || toMigrationInclusive >= FIRST_V2_MIGRATION_ID;
-  const previewMigrations = includesV2 ? yield* reconcileV2PreviewMigration() : [];
+  // The reconcile takes the write lock; CLI startup must not contend with the server for a no-op.
+  const previewMigrations = includesV2 && hasPending ? yield* reconcileV2PreviewMigration() : [];
   // Before the skip check: fork databases recorded the fork migration under
   // ids upstream later took, which the check would otherwise reject.
-  const forkMigrations = includesV2
-    ? yield* reconcileForkMigrations(migrationEntries, toMigrationInclusive)
-    : [];
+  const forkMigrations =
+    includesV2 && hasPending
+      ? yield* reconcileForkMigrations(migrationEntries, toMigrationInclusive)
+      : [];
   if (includesV2) {
     yield* assertV2MigrationsCanRun(toMigrationInclusive);
   }
