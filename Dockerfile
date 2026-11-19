@@ -29,7 +29,7 @@ RUN --mount=type=secret,id=relay_client_otlp_token,required=false \
   vp run --filter @t3tools/web build \
   && node scripts/apply-web-brand-assets.ts nightly
 
-FROM nginx:1.29-alpine
+FROM nginx:1.31-alpine
 COPY docker/web-nginx.conf /etc/nginx/conf.d/default.conf
 COPY --from=build /repo/apps/web/dist /usr/share/nginx/html
 EXPOSE 80
