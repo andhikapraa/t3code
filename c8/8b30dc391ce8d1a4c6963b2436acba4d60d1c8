@@ -1,0 +1,19 @@
+apps/server/src/provider/agentContextBudget.json
+  s_1afe95378dcd79::t_83e828b64ed5bb 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "c88b30dc391ce8d1a4c6963b2436acba4d60d1c8",
+  "prompts": {},
+  "sessions": {
+    "s_1afe95378dcd79": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a20266-42d5-7269-b377-4ec232874129",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
