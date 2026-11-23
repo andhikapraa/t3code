@@ -324,6 +324,31 @@ jobs:
       - name: Setup Gradle cache
         uses: gradle/actions/setup-gradle@v5
 
+      # Maven Central answers runner IPs with 429, which disables the repository for the
+      # whole build. Google's mirror serves the same artifacts.
+      - name: Mirror Maven Central
+        run: |
+          set -euo pipefail
+          dir="${GRADLE_USER_HOME:-$HOME/.gradle}/init.d"
+          mkdir -p "$dir"
+          cat > "$dir/maven-central-mirror.gradle" <<'EOF'
+          def mirror = 'https://maven-central.storage-download.googleapis.com/maven2/'
+          def redirect = { RepositoryHandler repos ->
+            repos.withType(MavenArtifactRepository).configureEach { repo ->
+              if (repo.url.toString().startsWith('https://repo.maven.apache.org/maven2')) repo.url = mirror
+            }
+          }
+          beforeSettings { settings ->
+            redirect(settings.pluginManagement.repositories)
+            redirect(settings.buildscript.repositories)
+            redirect(settings.dependencyResolutionManagement.repositories)
+          }
+          allprojects {
+            redirect(buildscript.repositories)
+            redirect(repositories)
+          }
+          EOF
+
       # ubuntu-24.04 ships the Android SDK at $ANDROID_HOME; Gradle installs the
       # platform, build-tools, and NDK versions the project pins on first use.
       - name: Restore signing key and Firebase config
