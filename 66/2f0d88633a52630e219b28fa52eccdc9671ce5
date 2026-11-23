@@ -1,0 +1,1582 @@
+apps/server/src/mcp/McpHttpServer.ts
+  s_e1d836184d57e2::t_bb940ce3785622 19,21,34,39,58,63-65,75-76,290-300,304-327,374,381-388,402,1351,1376-1386,1448,1451,1469-1477,1511-1574
+apps/desktop/src/app/DesktopCliShim.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 69-70,73
+apps/mobile/src/features/threads/LinkedThreadSheet.test.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1-134
+apps/server/src/orchestration-v2/Adapters/AntigravityAdapterV2.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1330-1339,1362-1469
+  s_e1d836184d57e2::t_7c52c161bb3185 1470
+apps/mobile/src/state/use-selected-thread-git-actions.ts
+  s_e1d836184d57e2::t_bb940ce3785622 39-43,78-83,236,256,390,437
+apps/server/src/orchestration-v2/runtimeLayer.ts
+  s_e1d836184d57e2::t_bb940ce3785622 59-62,68,236,319-329,333-336,441,444
+apps/server/src/orchestration-v2/ThreadLaunchService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 506,525-535,542,544,3236-3268
+  s_e1d836184d57e2::t_b12890fde1d31b 3269-3272
+apps/server/vite.config.ts
+  s_e1d836184d57e2::t_bb940ce3785622 92-96
+apps/server/src/issue/IssueService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 7,20,64,599-713
+  s_e1d836184d57e2::t_daa732732dbe7b 714-716
+apps/desktop/src/electron/ElectronMenu.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-45
+apps/mobile/src/components/ui/FilePreviewSession.test.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1,6,11-18,24-25,31-35,38-39,49-82,88,96-106,139-140,157-161,164-250
+  s_e1d836184d57e2::t_f24d5cf6628057 251
+apps/mobile/src/features/threads/threadFeedEndFollow.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-8
+apps/server/src/auth/EnvironmentAuth.ts
+  s_e1d836184d57e2::t_bb940ce3785622 638-641,1644-1661,1744
+apps/mobile/src/features/pull-requests/pullRequestList.ts
+  s_e1d836184d57e2::t_bb940ce3785622 193
+apps/server/src/cli/doctor.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 11,122-146
+  s_e1d836184d57e2::t_11d258f9c87ab7 147-148
+apps/mobile/src/i18n/translations/ko.json
+  s_e1d836184d57e2::t_bb940ce3785622 55-74,142-143,399-423,685-687,816-820,822,1369,1395,1530,1563,2015,2818,3872-3873,3875-3881,3885,4061,4209-4218,4294,4781,5248-5323,5355,5615-5617
+apps/mobile/src/features/threads/FeedbackRequestCard.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1-214
+apps/server/src/orchestration-v2/CheckpointRollbackService.taskFolder.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 155-161
+apps/server/src/mcp/OrchestratorMcpService.schedules.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-91
+apps/server/src/workflows/WorkflowAgents.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-117
+apps/server/src/milestones/MilestoneHub.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-230
+apps/server/src/auth/RpcAuthorization.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 57-63
+apps/server/src/orchestration-v2/ThreadSearch.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 749-750,771,822,844-850,859-863
+apps/server/src/usage/UsageService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 2512-2516,2601-2655,3301-3366,3961-3986,4097
+apps/mobile/src/state/use-composer-drafts.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1428,1430-1435
+apps/mobile/src/features/issues/IssueRouteScreen.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 10,408-414,417-449,457-471,562
+apps/mobile/src/features/layout/workspace/workspace-tabs-state.ts
+  s_e1d836184d57e2::t_bb940ce3785622 19,21,57,85
+apps/mobile/src/i18n/translations/es.json
+  s_e1d836184d57e2::t_bb940ce3785622 55-74,142-143,399-423,685-687,816-820,822,1369,1395,1530,1563,2014,2817,3872-3873,3875-3881,3885,4061,4209-4218,4295,4795,5263-5337,5369,5629-5631
+apps/server/src/feedback/FeedbackReport.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-235
+apps/server/src/provider/acp/AntigravityTurnOutcome.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 33-35,39-45,95,100,163-196
+apps/server/src/orchestration-v2/CheckpointCaptureService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 24,61,69,246-266,268-327,329-370
+apps/desktop/src/window/RemoteRequestHeaders.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-129
+apps/server/src/provider/userInputAttachments.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 332-341,598-619,802,804
+apps/server/src/provider/Drivers/ClaudeExecutable.ts
+  s_e1d836184d57e2::t_bb940ce3785622 53-55,76-105
+apps/server/src/orchestration-v2/SelectionRestart.integration.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 584-599,620
+apps/mobile/src/features/threads/ThreadDetailScreen.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1648,1658,1664-1668
+apps/mobile/src/components/ui/FilePreviewModal.android.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 5,136-138,140,142-145,150-152,176-190,192
+apps/server/src/feedback/FeedbackService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-1043
+apps/server/src/cli/workflow.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-186
+apps/server/src/orchestration-v2/testkit/OrchestratorReplayRestartBackgroundNote.integration.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 298-319
+apps/server/src/orchestration-v2/ThreadSearch.ts
+  s_e1d836184d57e2::t_bb940ce3785622 296-299
+apps/server/src/persistence/Migrations/075_SubagentDeliveryState.ts
+  s_e1d836184d57e2::t_bb940ce3785622 14-16
+apps/server/src/persistence/Migrations/110_Workflows.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-149
+apps/server/src/provider/Drivers/codexUsage.ts
+  s_e1d836184d57e2::t_bb940ce3785622 151-153,337,357,403,408,416,430-435,521
+apps/server/src/provider/acp/AntigravityProtocol.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 256-257,260,262,266-272
+apps/server/src/telemetry/AnalyticsService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 85,89,315,319,328
+apps/server/src/workflows/forgeApi.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-109
+apps/mobile/src/lib/composerFiles.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 5-7,63-64,107-116,128-129,170-174,182,202-203,222,233,237-238,253,272,277-279,287,398,424,502,532,545-546,552,614,620-621,623-626,652,657,709-724
+  s_e1d836184d57e2::t_f7cb144abc223f 725
+apps/mobile/src/lib/filePreviewGallery.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1,4-22
+  s_e1d836184d57e2::t_9e43515a6b46fa 23
+apps/mobile/modules/t3-native-controls/android/src/main/java/expo/modules/t3nativecontrols/T3WorkspaceNavigationModule.kt
+  s_e1d836184d57e2::t_bb940ce3785622 419,433
+apps/server/src/orchestration-v2/Adapters/ClaudeAdapterV2.testkit.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1499-1501
+apps/server/src/workflows/workflowAgent.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-442
+apps/mobile/src/features/settings/SettingsSourceControlDetailRouteScreens.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 5,171,181-183,186-191,199,208,219,226-237
+  s_e1d836184d57e2::t_5a98b1e3684e74 238-240
+apps/server/src/mcp/toolkits/workflow/handlers.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-59
+apps/server/src/project/ProjectFaviconResolver.ts
+  s_e1d836184d57e2::t_bb940ce3785622 80-85,127-148
+apps/server/src/orchestration-v2/DelegatedChildTerminalRetry.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 34,330-582
+  s_e1d836184d57e2::t_0935c7fc4d11c1 583-584
+apps/server/src/speech/stream.ts
+  s_e1d836184d57e2::t_bb940ce3785622 11,20-23,76-87,89-97,100-101,106-107
+apps/server/src/mcp/toolkits/pullRequests/tools.ts
+  s_e1d836184d57e2::t_bb940ce3785622 19,266,274-276,525-527,686-689
+apps/server/src/provider/Drivers/codexUsage.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 101,144,163,190,193,253,310,330,337,523,539,553,586-589,681-684,706,724,765,786,926,977,998
+apps/server/src/mcp/OrchestratorMcpService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 4,158,1184-1185,1234-1235,1813-1839,1855,2546,3057
+apps/mobile/src/features/issues/IssueCommentComposer.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 173-177
+apps/server/src/terminal/Manager.ts
+  s_e1d836184d57e2::t_bb940ce3785622 2794-2796,2799
+apps/server/src/workflows/WorkflowAgentLinks.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-292
+apps/server/src/orchestration-v2/ProviderRuntimeRecoveryService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 764-765
+apps/mobile/src/features/settings/components/IssueTrackerSection.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 3,5,85-89,103,105-110,117,147-148,159-164,175,181,204,215,251,254,259,261-264,269
+apps/mobile/modules/t3-review-diff/android/src/main/java/expo/modules/t3reviewdiff/T3ReviewDiffView.kt
+  s_e1d836184d57e2::t_bb940ce3785622 769
+apps/server/src/pullRequest/PullRequestWatchService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 5,72-73,136,158,188
+apps/server/src/orchestration-v2/ProviderEventIngestor.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 2406-2459
+apps/server/src/orchestration-v2/ThreadSettlementService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 445,460-470,650-653,661-670,685-688,695-701,713-722,730
+apps/server/src/sourceControl/SourceControlProviderRegistry.ts
+  s_e1d836184d57e2::t_bb940ce3785622 225-233
+apps/server/src/assets/AssetAccess.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 310-315,318-331,815-820
+apps/server/src/provider/acp/AntigravityAcpSupport.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 511-529,531-535
+apps/mobile/src/features/layout/workspace/workspace-tabs-state.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 60
+apps/desktop/src/wsl/DesktopWslEnvironment.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1122-1155,1162-1165,1174-1175,1287
+apps/server/src/http.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 175-234
+apps/server/src/mcp/toolkits/workflow/tools.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-10
+apps/mobile/src/lib/contextImageGallery.ts
+  s_e1d836184d57e2::t_bb940ce3785622 6,19
+apps/server/src/orchestration-v2/Adapters/ClaudeAgentSdkQueryRunner.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 21,35,738,782,809,835-979
+  s_e1d836184d57e2::t_2c57213df11596 980
+apps/server/src/orchestration-v2/ProviderSessionManager.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 652,772,2105-2139,2537,5611-5699
+apps/mobile/src/features/layout/workspace/navigation-tab-order.ts
+  s_e1d836184d57e2::t_bb940ce3785622 4-6,34
+apps/server/src/mcp/toolkits/feedback/handlers.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-47
+apps/server/src/orchestration-v2/ProviderTurnStartService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 2293-2312,2550,2573,3166-3198
+  s_e1d836184d57e2::t_1c105138ef93db 2292,3199
+apps/server/src/feedback/FeedbackTrace.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-157
+apps/server/src/provider/acp/AntigravityProtocol.ts
+  s_e1d836184d57e2::t_bb940ce3785622 58-63,128-133,135,155
+apps/mobile/src/features/pull-requests/PullRequestRouteScreen.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 89,232-241
+apps/server/src/feedback/FeedbackStore.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-371
+apps/server/src/provider/ProviderInstanceRegistry.ts
+  s_e1d836184d57e2::t_bb940ce3785622 58,73-121,403,406,443,489,499-505,545
+apps/desktop/src/window/DesktopWindow.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 77-82
+apps/server/src/serverRuntimeStartup.autoPull.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 161
+apps/server/src/workflows/stepServices.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-458
+apps/server/src/htmlRender/HtmlRender.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 525-551
+apps/server/src/environment/DirectEndpoints.ts
+  s_e1d836184d57e2::t_bb940ce3785622 27-32
+apps/server/src/milestones/MilestoneEvents.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-793
+apps/server/src/scheduledTasks/Schedule.ts
+  s_e1d836184d57e2::t_bb940ce3785622 7
+apps/mobile/src/features/workflows/WorkflowRunRouteScreen.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1-376
+apps/server/src/feedback/scrubFeedback.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-130
+apps/server/src/orchestration-v2/ProviderSessionManager.ts
+  s_e1d836184d57e2::t_bb940ce3785622 81-83,347-348,352,424-434,499-505,581-588,1256-1261,1668,1700,1711,1714-1715,1770,2082,2089,2092-2093,2121,2123,2137-2138,2140-2148,2151-2157,2200,2210,2229,2232-2234,2237-2269,2290,2309-2310,2712-2717,2945,2998-3017,3562,3584-3589,3603,3609-3611
+apps/mobile/src/state/mediaActions.ts
+  s_e1d836184d57e2::t_bb940ce3785622 46-50,71,82-83,85
+apps/server/src/milestones/OrchestrationMilestones.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-300
+apps/mobile/src/features/files/FileMarkdownPreview.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 9-16,45,234-250,252-301,304-306
+  s_e1d836184d57e2::t_972658f5b49ef8 307
+apps/mobile/src/state/thread-outbox-model.ts
+  s_e1d836184d57e2::t_bb940ce3785622 37-38,55
+apps/server/src/orchestration-v2/CheckpointRestoreSafety.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 83
+apps/server/src/orchestration-v2/Orchestrator.ts
+  s_e1d836184d57e2::t_bb940ce3785622 716,1024-1027,1036,1360,1367-1376,2604-2605,3008-3031,3033-3043,3199,4080,4085,6173-6186,7939,11112-11203,14592-14598,14674,14677,15128-15146,15154,15288,15333-15335,15337-15346,15536,15542,15561,16255-16256
+  s_e1d836184d57e2::t_3014eeaa0c7332 16257
+apps/desktop/src/preview/PickTarget.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-121
+apps/server/src/cli/thread.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 30,57-153,528-542,577-609
+  s_e1d836184d57e2::t_a3a854d8bec7bb 610
+apps/server/src/issue/IssueTrackerConnections.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-144
+apps/mobile/src/features/layout/workspace/workspace-tab-navigation.ts
+  s_e1d836184d57e2::t_bb940ce3785622 286
+apps/server/src/orchestration-v2/CheckpointRollbackService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 85,221,406-413,441,449,851,859,955-969,1003-1022
+  s_e1d836184d57e2::t_416f31e501516a 1023
+apps/server/src/orchestration-v2/RestartBackgroundNote.ts
+  s_e1d836184d57e2::t_bb940ce3785622 16,154-220,223
+  s_e1d836184d57e2::t_2c81e81de68449 221-222,224
+apps/mobile/src/features/threads/useSidebarRowThreadKey.test.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1-94
+apps/mobile/src/features/threads/useSidebarRowThreadKey.ts
+  s_e1d836184d57e2::t_bb940ce3785622 4,9-23,26-28
+apps/server/src/cloud/pinnedRuntime.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 155-156,734-772
+  s_e1d836184d57e2::t_98d07008141e65 773
+apps/server/src/milestones/MilestoneHub.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-146
+apps/mobile/src/features/layout/createWorkspaceStackNavigator.ios.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 48
+apps/server/src/orchestration-v2/ProviderTurnStartService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 64-68,86,88,168-174,423-438,599,602,1008-1010,1027,1045-1049,1053,1057-1081,1084-1088,1286,1296,1703,1730-1731,1734-1735,1905-1919,2107,2126,2146,2157,2159-2166,2241-2243
+apps/server/src/orchestration-v2/ThreadSettlementService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 6,963-1019
+  s_e1d836184d57e2::t_ebe62567d0b899 1020-1023
+apps/server/src/mcp/AcpMcpStdioBridge.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 475-501
+apps/mobile/src/features/layout/workspace/WorkspaceTabsContext.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 69
+apps/server/src/socketHeartbeat.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-27
+apps/server/src/telemetry/ProviderUsageAnalytics.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 29-50,61-71,73,75,146-149,369,373-382
+apps/mobile/modules/t3-review-diff/tests/android/src/test/kotlin/expo/modules/t3reviewdiff/ReviewDiffGeometryTest.kt
+  s_e1d836184d57e2::t_bb940ce3785622 153-163
+  s_e1d836184d57e2::t_4310e90c8038f6 152
+apps/mobile/src/state/use-vcs-action-state.ts
+  s_e1d836184d57e2::t_bb940ce3785622 46-51,53,56-57,60-63,66,70-78,81-90,121,140-143
+apps/mobile/modules/t3-composer-editor/tests/ios/main.swift
+  s_e1d836184d57e2::t_bb940ce3785622 274-284,301-311
+apps/server/src/project/ProjectFaviconResolver.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 222-257,287
+apps/server/src/orchestration-v2/ThreadManagementService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 73,97,1040-1057,1060-1062,1066-1067,1070-1077,1395-1403
+apps/server/src/usage/usageTranscriptReader.ts
+  s_e1d836184d57e2::t_bb940ce3785622 39-40,467
+apps/mobile/src/i18n/translations/en.json
+  s_e1d836184d57e2::t_bb940ce3785622 55-74,142-143,399-423,685-687,816-820,822,1369,1395,1530,1563,2014,2821,3879-3880,3882-3888,3892,4068,4216-4225,4302,4804,5271-5345,5377,5637-5639
+apps/server/src/mcp/toolkits/orchestrator/tools.ts
+  s_e1d836184d57e2::t_bb940ce3785622 353
+apps/mobile/src/features/threads/ThreadSettingsSheet.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 124,335,344,511,635,659,668,847,892,896-904,906,919-922,1115-1117,1144-1145,1338-1339,1376-1381,1406
+apps/server/src/orchestration-v2/ThreadLaunchService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 13,128-129,574,666-678,915-919,1016-1017,1136-1137,1153,1502
+apps/server/src/pullRequest/PullRequestService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1373,1997-1999
+apps/mobile/src/features/sharing/incoming-share-model.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1,16-41,64-66,74-76,93-94,100,104-180
+  s_e1d836184d57e2::t_f4b035b5dda3a9 181
+apps/server/src/persistence/IssueTrackerBindings.ts
+  s_e1d836184d57e2::t_bb940ce3785622 7-12,23,28-32,53-74,91-92,102-112,120,123-127,145,147-148,151-153,158-181,184
+apps/mobile/src/features/layout/workspace/WorkspaceToolbar.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 59-61
+apps/server/src/persistence/Migrations/108_AgentFeedback.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-15
+apps/server/src/socketHeartbeat.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-39
+apps/server/src/usage/UsageService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 43-47,427-428,573,608,696,809,885-889,965-974,1097
+  s_e1d836184d57e2::t_34e711a7c4d3ad 42
+apps/mobile/src/features/threads/ThreadComposer.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 273,482-483,657,666,866-869,909,912,915-917
+apps/server/src/cli/feedback.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-153
+apps/server/src/orchestration-v2/ProviderRuntimeRecoveryService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 422-515,518-540
+apps/server/src/feedback/scrubFeedback.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-225
+apps/server/src/vcs/GitVcsDriverCore.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 6056-6058,6084,6488-6500,6502-6517,7459-7483,7485-7494,10348-10374
+  s_e1d836184d57e2::t_c28be9e0048536 10375-10376
+apps/server/src/workflows/api.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-15
+apps/server/src/mcp/toolkits/feedback/tools.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-34
+apps/server/src/auth/RpcAuthorization.ts
+  s_e1d836184d57e2::t_bb940ce3785622 132-135,137
+apps/server/src/cli/project.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 19,143,152-153,156,160
+apps/mobile/src/features/layout/AdaptiveWorkspaceLayout.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 119-123,279-283
+apps/desktop/src/wsl/DesktopWslEnvironment.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 558-586,588-591,600,604-610
+apps/server/src/provider/CodexChatGptAuth.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 237
+apps/server/src/provider/CodexDeveloperInstructions.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1,36
+apps/mobile/src/features/layout/workspace/WorkspaceRootScreen.android.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 28,81,101
+apps/server/src/orchestration-v2/deferredCommandMessage.ts
+  s_e1d836184d57e2::t_bb940ce3785622 9-10,12
+apps/server/src/workflows/WorkflowRuntime.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-978
+apps/server/src/preview/ServerBrowser.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 2147-2181
+apps/server/src/cli/environment.ts
+  s_e1d836184d57e2::t_bb940ce3785622 296,301-303,305-309
+apps/mobile/src/features/threads/ThreadRouteScreen.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 592,595-596,1035
+apps/server/src/issue/IssueTrackerConnections.ts
+  s_e1d836184d57e2::t_bb940ce3785622 2-5,11,13,15,36,40,45,56-59,82-88,90,97-113,115-119,123,133,142-143,147-148,153-166,171-183,187,190,192,194,196-220,227-244,255-287,290,292,294-295,302-316,318,323
+apps/server/src/mcp/toolkits/core.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 462,586
+apps/server/src/orchestration-v2/ProjectionStore.ts
+  s_e1d836184d57e2::t_bb940ce3785622 105,1262,1963-1965,2280-2282,2372,2393,3464,4400-4435,4437,4442-4443,5578,6406,6518,7378-7380,7402-7403,8426,8623-8628,8678-8684,8705-8711,9261-9270,9646,9663,9678-9681
+apps/server/src/provider/agentContextBudget.json
+  s_e1d836184d57e2::t_bb940ce3785622 4
+apps/mobile/src/features/workflows/WorkflowStepSheet.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1-119
+apps/server/src/auth/McpOAuth.ts
+  s_e1d836184d57e2::t_bb940ce3785622 100
+apps/mobile/src/state/use-vcs-action-state.test.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1-123
+apps/server/src/mcp/McpHttpServer.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 64-67,1724-1850
+  s_e1d836184d57e2::t_7258fbd92789b9 1851-1852
+apps/server/src/serverOwnership.ts
+  s_e1d836184d57e2::t_bb940ce3785622 210-226
+apps/server/src/workflows/workflow.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-897
+apps/mobile/src/lib/composerImages.ts
+  s_e1d836184d57e2::t_bb940ce3785622 37-38,129,140-144,153-159,232-261,377-378,380-381,387-393,395,397,399,553,567,575,589-600,678,687,697-707
+apps/server/src/cli/doctor.ts
+  s_e1d836184d57e2::t_bb940ce3785622 16-20,22-25
+apps/server/src/cli/project.ts
+  s_e1d836184d57e2::t_bb940ce3785622 10-11,400,403
+apps/mobile/src/features/layout/workspace/navigation-tabs.ts
+  s_e1d836184d57e2::t_bb940ce3785622 33
+apps/mobile/src/features/sharing/incoming-share-model.ts
+  s_e1d836184d57e2::t_bb940ce3785622 415-417,427-452,459,461,467,469-474
+apps/server/src/workflows/WorkflowAgentThreads.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-335
+apps/server/src/binCli.ts
+  s_e1d836184d57e2::t_bb940ce3785622 23,25,96-97
+apps/server/src/mcp/toolkits/project/tools.ts
+  s_e1d836184d57e2::t_bb940ce3785622 10,169-170
+apps/server/src/orchestration-v2/CheckpointRollbackService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 159,182-183,185
+apps/server/src/serverSettings.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1068-1083
+apps/mobile/src/features/threads/legendListAtEnd.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-107
+apps/server/src/usage/usageAggregation.ts
+  s_e1d836184d57e2::t_bb940ce3785622 80-95
+apps/mobile/src/i18n/translations/ru.json
+  s_e1d836184d57e2::t_bb940ce3785622 55-74,142-143,399-423,685-687,816-820,822,1369,1395,1530,1563,2038,2869,3926-3927,3929-3935,3939,4115,4263-4272,4349,4874,5342-5416,5448,5709-5711
+apps/server/src/orchestration-v2/testkit/fixtures/simple/pi_output.ts
+  s_e1d836184d57e2::t_bb940ce3785622 27-30,35-56,58-65
+apps/server/src/speech/stream.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 4,8-9,173-200
+apps/mobile/src/features/layout/WorkspaceEmptyDetail.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 10,21-22
+apps/server/src/workflows/WorkflowRuntime.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-464
+apps/mobile/src/features/settings/ThreadSettingsSections.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1,4,25,68,269-349
+  s_e1d836184d57e2::t_7bd206c99a5ae4 350
+apps/server/src/persistence/Migrations/075_SubagentDeliveryState.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-48
+apps/server/src/scheduledTasks/webhookRoute.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 34-35,75-83,95,129-152
+apps/server/src/peer/PeerLinks.ts
+  s_e1d836184d57e2::t_bb940ce3785622 119-122,670-698,701,703,705,707-716,718-724,726
+apps/mobile/src/features/layout/workspace/WorkspaceRootScreen.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 40-44,125,172,197
+apps/server/src/git/GitManager.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 89-90,129,489-491,526,5116-5239
+  s_e1d836184d57e2::t_652be5ae7ee0b5 5240-5241
+apps/server/src/environment/ServerEnvironment.ts
+  s_e1d836184d57e2::t_bb940ce3785622 234,309
+apps/mobile/src/features/threads/thread-work-log.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1,218,230-232,271,323,375,1525-1526,1530,1540-1546
+apps/mobile/src/Stack.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 142-143,215,790-798
+apps/server/src/auth/mcpOAuthHttp.ts
+  s_e1d836184d57e2::t_bb940ce3785622 12,24,80,211-219
+  s_e1d836184d57e2::t_650a1b1f57dd17 220
+apps/server/src/mcp/McpInvocationContext.ts
+  s_e1d836184d57e2::t_bb940ce3785622 2,156-159,221-227,235-247
+  s_e1d836184d57e2::t_73d7e3bb0d98fc 248
+apps/desktop/src/window/RemoteRequestHeaders.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-186
+apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.ts
+  s_e1d836184d57e2::t_bb940ce3785622 35,49,183-211,575-594,871,928-932,1394,1437-1454,1466,2219-2251,2267,2638,4345-4346,5453,5455,6088-6100,6635,6644,6646,6702,7444-7445,7792,7801,7825-7827,7917,8195-8196,8228,8240,8263,8376
+apps/server/src/mcp/toolkits/workflow/tools.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-76
+apps/server/src/project/ProjectCloneTracker.ts
+  s_e1d836184d57e2::t_bb940ce3785622 300-301,306-310,312,324,331-333
+apps/server/src/auth/McpOAuth.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 212,400-415
+apps/mobile/modules/t3-review-diff/ios/T3ReviewDiffView.swift
+  s_e1d836184d57e2::t_bb940ce3785622 1032,1647,2353,2357-2363
+apps/server/src/vcs/GitVcsDriverCore.ts
+  s_e1d836184d57e2::t_bb940ce3785622 37,51,456-457,471,476-477,494,596,603,608,1095,1476-1478,2062,2071,2144-2146,2208,2218,2357,2671,2951,2957,3672,3723,3725-3726,3766,4037,5239,5285-5287,5334,6530,6905,6945
+apps/server/src/preview/ServerBrowser.ts
+  s_e1d836184d57e2::t_bb940ce3785622 54,1249-1252,1259-1264,1267-1273
+apps/server/src/orchestration-v2/ProviderEventIngestor.ts
+  s_e1d836184d57e2::t_bb940ce3785622 570-600,756,759,810-812,992-994
+apps/server/src/orchestration-v2/RestartBackgroundNote.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 4,9,19,21,284-330
+  s_e1d836184d57e2::t_f5f46e9715d936 331
+apps/mobile/src/components/ComposerAttachmentStrip.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 13,48-49,307-308,360-372
+  s_e1d836184d57e2::t_f0d145e92761de 373-374
+apps/server/src/usage/usageTranscriptReader.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 165-166,229,246,258,265,275,383,405,479
+apps/server/src/workflows/WorkflowForge.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-113
+apps/server/src/persistence/Migrations/109_IssueTrackerAccounts.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-18
+apps/mobile/src/components/ComposerToolbar.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 379
+apps/desktop/src/electron/ElectronProtocol.ts
+  s_e1d836184d57e2::t_bb940ce3785622 23
+apps/server/src/orchestration-v2/testkit/fixtures/opencode2_command/opencode_transcript.ndjson
+  s_e1d836184d57e2::t_bb940ce3785622 1,18-19
+apps/mobile/src/features/workflows/WorkflowTimeline.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1-591
+apps/server/src/mcp/toolkits/workflow/handlers.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-98
+apps/server/src/persistence/reconcileV2PreviewMigration.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 88-92,221-225
+apps/mobile/src/components/ProviderIcon.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 200-201,212
+apps/server/src/workflows/WorkflowAgentLinks.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-313
+apps/server/src/workflows/triggers.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-156
+apps/server/src/mcp/McpWebhookTransport.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-66
+apps/mobile/src/features/threads/messageImageGallery.ts
+  s_e1d836184d57e2::t_bb940ce3785622 4,19
+apps/server/src/provider/Drivers/AntigravityUsage.ts
+  s_e1d836184d57e2::t_bb940ce3785622 71
+apps/mobile/src/features/files/ThreadFilesRouteScreen.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 77,257,708-739,797-801,928,931,934,1105,1110,1112-1115
+apps/mobile/src/i18n/translations/pt-BR.json
+  s_e1d836184d57e2::t_bb940ce3785622 55-74,142-143,399-423,685-687,816-820,822,1369,1395,1530,1563-1564,2014,2817,3872-3873,3875-3881,3885,4061,4209-4218,4295,4796,5263-5337,5369,5629-5631
+apps/server/src/mcp/toolkits/environment/handlers.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 98-109
+apps/server/src/orchestration-v2/Adapters/ClaudeAdapterV2.ts
+  s_e1d836184d57e2::t_bb940ce3785622 97,170-174,298-303,305-307,310-312,318-322,330-331,342,358-361,366-369,371-373,375-381,405,537-563,566-568,570-571,573-590,592-623,1425,1431-1441,1605-1622,1624-1629,1635,1659,1676-1678,1685-1686,1728,1745-1746,1927-1936,1948-1953,2144-2146,2428,2534,2590,2796,5275-5276,5287,5435-5436,6147-6150,6778-6783,7260-7261,7264-7268,7287-7301,7320,7323-7332,8674,8682,10090,10214-10216,11142-11147,11150-11154,11166,11200-11202,11204,11206,11341,11366-11372,11673,11688-11691,13331-13341,13343,13357,13422,13439,13491-13503,13505,13547-13548,13844
+apps/mobile/src/features/workflows/WorkflowStepCard.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1-165
+apps/desktop/src/window/DesktopWindow.ts
+  s_e1d836184d57e2::t_bb940ce3785622 17,23,48,413,1042-1054,1064-1067
+apps/server/src/orchestration-v2/DelegatedCompletionDelivery.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 22,5067-5195
+  s_e1d836184d57e2::t_a45eacafc5306b 5196-5198
+apps/mobile/src/lib/threadActivity.ts
+  s_e1d836184d57e2::t_bb940ce3785622 273-274,285,458-464,513,636-637,712-713,784-785,1504-1505,1964-1968,1973,1997,2144,2150-2151,2160-2162
+apps/server/src/startupAccess.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 74-87
+apps/mobile/src/features/files/useFullFileText.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-66
+apps/mobile/src/features/layout/workspace-overlay-routes.ts
+  s_e1d836184d57e2::t_bb940ce3785622 40
+apps/server/src/cloud/pinnedRuntime.ts
+  s_e1d836184d57e2::t_bb940ce3785622 263,293-294,296-301,422-424,428,446,497,830-839,877-878,925-926,941,944-948
+apps/server/src/orchestration-v2/Adapters/ClaudeAdapterV2.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 45,65-66,118,121-124,354-374,942-947,960,963,977-987,990,1019-1029,1033-1034,1050-1071,8493-8721,10667-10750,16766-16839
+  s_e1d836184d57e2::t_bd07b81d57b52e 16840-16841
+apps/desktop/src/electron/ElectronMenu.ts
+  s_e1d836184d57e2::t_bb940ce3785622 171-172
+apps/mobile/src/i18n/translations/zh.json
+  s_e1d836184d57e2::t_bb940ce3785622 55-74,142-143,399-423,685-687,816-820,822,1369,1395,1531,1564,2016,2818,3874-3875,3877-3883,3887,4063,4212-4221,4298,4785,5253-5326,5358,5619-5621
+apps/server/src/http.ts
+  s_e1d836184d57e2::t_bb940ce3785622 25,278-294,299-301,306-314,317-329
+apps/server/src/git/GitManager.ts
+  s_e1d836184d57e2::t_bb940ce3785622 70-73,206-211,285,2019,2056,2894-3018,3070-3079,3361
+  s_e1d836184d57e2::t_b951795d97032f 69
+apps/server/src/orchestration-v2/ContextHandoffDelivery.ts
+  s_e1d836184d57e2::t_bb940ce3785622 15-23
+apps/mobile/src/features/pull-requests/PullRequestListRow.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 125,182-192
+apps/mobile/src/lib/filePreviewGallery.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 2,6,71-129
+  s_e1d836184d57e2::t_f6da477959dc1d 130
+apps/mobile/src/i18n/translations/fr.json
+  s_e1d836184d57e2::t_bb940ce3785622 55-74,142-143,399-423,685-687,816-820,822,1369,1395,1530,1563,2014,2817,3872-3873,3875-3881,3885,4061,4209-4218,4295,4796,5263-5337,5369,5629-5631
+apps/server/src/orchestration-v2/CheckpointCaptureService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 40,45,702-747,749-753,755-768,770-787,789-796,798-799,802,804-821,824-825,829-837,839-853,855-879,881-919,921,923-938,942-955,957-963,967,969-985
+apps/server/src/orchestration-v2/ThreadForkService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 103-108
+apps/server/src/orchestration-v2/ThreadManagementService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 77-83,97,476-580
+  s_e1d836184d57e2::t_16df6faf0ad1c2 581-582
+apps/mobile/src/features/workflows/WorkflowsScreen.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 1-264
+apps/server/src/cli/config.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 6,26,36-37,180-248,250,255,258-259,261,265,272-273
+apps/server/src/mcp/toolkits/project/handlers.ts
+  s_e1d836184d57e2::t_bb940ce3785622 462-465
+apps/server/src/vcs/GitVcsDriver.ts
+  s_e1d836184d57e2::t_bb940ce3785622 3,2372-2426,2428,2431-2467,2553-2555
+apps/mobile/src/lib/composerImages.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 119-123,130-131,160-162,165-166,184,187,210,225-226,228,230-231,282
+apps/server/src/workflows/WorkflowForge.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-455
+apps/web/src/appInit.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 65,271
+apps/mobile/src/features/threads/thread-settings-sheet-state.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 14-18,165-182
+  s_e1d836184d57e2::t_371158396b1c61 183
+apps/server/src/orchestration-v2/runtimeLayer.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1868-1888,1902-1923,9350,9457,9496-9564,10970,11956-12019,12051-12055,12067,12070-12100,12102-12104,12107,12113-12133
+apps/server/src/project/ProjectCloneTracker.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 315-376
+apps/server/src/assets/AssetAccess.ts
+  s_e1d836184d57e2::t_bb940ce3785622 445-446,519-520
+apps/server/src/mcp/toolkits/pullRequests/handlers.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 840,896,1183-1187,1195-1197,1213,1216
+apps/server/src/feedback/FeedbackList.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-62
+apps/server/src/mcp/toolkits/pullRequests/handlers.ts
+  s_e1d836184d57e2::t_bb940ce3785622 69,337-341,623,1059
+apps/server/src/orchestration-v2/Adapters/AntigravityAdapterV2.ts
+  s_e1d836184d57e2::t_bb940ce3785622 44,248-253
+apps/mobile/src/features/layout/workspace/AndroidWorkspaceSidebar.android.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 5,35,37-38,54
+apps/server/src/cli/feedback.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-222
+apps/mobile/src/features/layout/workspace/navigation-tab-order.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 52-57,59-60
+apps/server/src/cli/config.ts
+  s_e1d836184d57e2::t_bb940ce3785622 30,353-354,359-361
+apps/server/src/orchestration-v2/ThreadFork.execution.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 679-680,733,742,1727-1754,1969
+apps/server/src/workflows/Workflows.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-221
+apps/mobile/modules/t3-native-controls/ios/T3SidebarTabBarView.swift
+  s_e1d836184d57e2::t_bb940ce3785622 112-115,117-120
+apps/server/src/provider/AgentContextBudget.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 6,36,47-48,61,79,91-92
+apps/server/src/orchestration-v2/ThreadFind.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 654-655
+apps/server/src/server.ts
+  s_e1d836184d57e2::t_bb940ce3785622 12-13,230,643-649,767-771,780-781
+apps/server/src/orchestration-v2/Adapters/AcpAdapterV2.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 11-15,28,33,631,648-650,3051-3224,5854-5895,7299,12619-13410
+apps/server/src/orchestration-v2/ThreadPullRequestService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 113,241-246,248-257,275-294,296,332
+apps/server/src/mcp/OrchestratorMcpService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 109,256-262
+apps/server/src/vcs/GitVcsDriver.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1430,1444,1479-1492,1494-1500,1502,1523-1533,1537-1629
+  s_e1d836184d57e2::t_3a36f9c259c5d8 1630-1631
+apps/server/src/cli/thread.ts
+  s_e1d836184d57e2::t_bb940ce3785622 88-98,146,158,167,200-208,220-234,251-256,271,498-499,830,849,856-858,892,895-897,1065-1070
+apps/server/src/orchestration-v2/Adapters/OpenCode2AdapterV2.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 3656-3657,3706-3782,6876,6928,6993,7352,7860,7978,8294-8295,8407-8408
+apps/server/src/orchestration-v2/SteeringCompletion.integration.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1322-1342,1383-1397
+apps/mobile/src/features/settings/settings-search.ts
+  s_e1d836184d57e2::t_bb940ce3785622 162
+apps/server/src/orchestration-v2/ClaudeAutomaticDelivery.integration.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 18,26,47,1217-1223,1228-1229,1253-1258,1263-1264,1373-1643
+apps/mobile/src/i18n/translations/ja.json
+  s_e1d836184d57e2::t_bb940ce3785622 55-74,142-143,399-423,685-687,816-820,822,1369,1395,1530,1563,2014,2814,3868-3869,3871-3877,3881,4057,4205-4214,4290,4776,5244-5317,5349,5609-5611
+apps/server/src/provider/ProviderRegistry.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 23,2686-2757
+  s_e1d836184d57e2::t_08ec6e3b85d52f 2758-2760
+apps/server/src/workflows/options.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-28
+apps/mobile/src/lib/threadActivity.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1486,1498-1506
+apps/mobile/src/native/T3ComposerEditor.ios.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 67-68,112,154,401
+apps/server/src/milestones/OrchestrationMilestones.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-245
+apps/server/src/provider/acp/AntigravityTurnOutcome.ts
+  s_e1d836184d57e2::t_bb940ce3785622 23-26,112,117,134,251,270-272
+apps/server/src/vcs/VcsProcess.ts
+  s_e1d836184d57e2::t_bb940ce3785622 143-158,267
+apps/mobile/src/features/review/ReviewCommentComposerSheet.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 5,19,53-77,119-122,124-129,135-137,151,153-154,283-288
+apps/server/src/orchestration-v2/testkit/ProviderSwitch.integration.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 3235-3352
+apps/server/src/provider/acp/AntigravityAcpSupport.ts
+  s_e1d836184d57e2::t_bb940ce3785622 431
+apps/server/src/pullRequest/PullRequestWatchService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 208-217
+apps/server/src/usage/usageScanCache.ts
+  s_e1d836184d57e2::t_bb940ce3785622 47-48,78,140-141,293-304,332,339,347,352
+apps/server/src/orchestration-v2/RunExecutionService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 463-464,592,595,996-998
+apps/server/src/mcp/AcpMcpStdioBridge.ts
+  s_e1d836184d57e2::t_bb940ce3785622 14-15,18-23,26-27,151,154
+apps/mobile/src/features/usage/UsageLimitsPooled.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 23,214,598-599
+apps/server/src/scheduledTasks/webhookRoute.ts
+  s_e1d836184d57e2::t_bb940ce3785622 5,15-16,43-44,103-135
+apps/server/src/keybindings.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 185-186,210-219
+.github/VOUCHED.td
+  s_e1d836184d57e2::t_bb940ce3785622 49
+apps/server/src/milestones/MilestoneEvents.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-189
+apps/server/src/workflows/runReferences.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-90
+apps/mobile/src/lib/composerImageGallery.ts
+  s_e1d836184d57e2::t_bb940ce3785622 5,15
+apps/server/src/startupAccess.ts
+  s_e1d836184d57e2::t_bb940ce3785622 54-56,161-163
+apps/server/src/persistence/Migrations.ts
+  s_e1d836184d57e2::t_bb940ce3785622 121-125,234-238
+apps/desktop/src/preview/PickPreload.ts
+  s_e1d836184d57e2::t_bb940ce3785622 31,324-333
+apps/server/src/serverSettings.ts
+  s_e1d836184d57e2::t_bb940ce3785622 385-398,408-437,839-842,844-851
+apps/server/src/workflows/WorkflowStore.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-424
+apps/server/src/orchestration-v2/Adapters/CodexAdapterV2.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1238,1535-1707,2013-2102,5808-5933,13028-13049
+apps/mobile/src/native/T3ComposerEditor.types.ts
+  s_e1d836184d57e2::t_bb940ce3785622 72-73
+apps/server/src/provider/ProviderInstanceRegistry.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 350-384
+apps/server/src/persistence/Migrations/106_WorktreePathKeyIndex.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-16
+apps/server/src/workflows/Workflows.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-2424
+apps/mobile/modules/t3-composer-editor/ios/T3ComposerEditorModule.swift
+  s_e1d836184d57e2::t_bb940ce3785622 120
+apps/server/src/issue/IssueTrackerHostLive.ts
+  s_e1d836184d57e2::t_bb940ce3785622 3-4,11,17-24,34-36
+apps/mobile/modules/t3-review-diff/android/src/main/java/expo/modules/t3reviewdiff/ReviewDiffCanvasDrawing.kt
+  s_e1d836184d57e2::t_bb940ce3785622 73-77
+apps/server/src/mcp/OrchestratorMcpService.activity.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 3,435-559
+  s_e1d836184d57e2::t_f6a3f079bcf6a2 560-562
+apps/server/src/git/remoteRefs.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-2,6,22,32,53,72
+apps/server/src/git/GitWorkflowService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 32,369
+apps/server/src/workflows/WorkflowEngine.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-1056
+apps/mobile/src/native/T3ComposerEditor.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 15
+apps/mobile/src/features/pull-requests/pullRequestGlyphs.ts
+  s_e1d836184d57e2::t_bb940ce3785622 10
+apps/server/src/issue/IssueService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 12,48,80-81,97-101,114-123,149-151,219,224,316,372,386-387,391,393,417-425,427-428,435,443,480,496-501,799-816,818,820-842,844-874
+apps/mobile/vite.config.ts
+  s_e1d836184d57e2::t_bb940ce3785622 7,50,54
+apps/server/src/guest/GuestShareService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 134-136
+apps/server/src/preview/PreviewBrowserHost.ts
+  s_e1d836184d57e2::t_bb940ce3785622 11-12,97
+apps/server/src/cli/workflow.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-408
+apps/server/src/usage/usageScanCache.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 55,98,134,169-178,188,208,213,270,282-283,289,295,319,381,388
+apps/server/src/orchestration-v2/ProjectionStore.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 2523-2534,2543,2548-2552,3217-3224,3236-3237,3244,3246-3253,3255,3258-3268,5682-5698,7672
+apps/server/src/orchestration-v2/ThreadPullRequestService.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 803-901
+apps/desktop/src/preview/PickTarget.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-22
+apps/server/src/orchestration-v2/runOutput.ts
+  s_e1d836184d57e2::t_bb940ce3785622 63-68
+apps/server/src/feedback/FeedbackService.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-221
+apps/server/src/provider/acp/AcpJsonRpcConnection.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1624-1643
+apps/server/src/mcp/toolkits/orchestrator/handlers.ts
+  s_e1d836184d57e2::t_bb940ce3785622 231,239
+apps/mobile/src/features/threads/LinkedThreadSheet.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 289-291,340-345,362,371-379
+apps/server/src/telemetry/ProviderDimensions.ts
+  s_e1d836184d57e2::t_bb940ce3785622 17,25-28,33,41-67,72-73,86
+apps/server/src/orchestration-v2/testkit/ProviderReplayHarness.ts
+  s_e1d836184d57e2::t_bb940ce3785622 20,156,321-338,341,343,532
+apps/mobile/src/state/use-composer-drafts.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 94,98-99,134,150,304,1224-1254
+apps/server/src/config.ts
+  s_e1d836184d57e2::t_bb940ce3785622 46-47,166
+apps/mobile/modules/t3-composer-editor/ios/T3ComposerEditorView.swift
+  s_e1d836184d57e2::t_bb940ce3785622 89-90,313-314,332-336,344-348,430-446,536,567-569
+apps/mobile/src/state/use-selected-thread-git-actions.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 336-341
+apps/mobile/src/features/threads/ThreadFeed.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 46,163-166,249,341-344,625-627,666,2099,2213-2222,3325,3343,3391-3394,3397,3416,3427,4392
+apps/mobile/src/i18n/translations/de.json
+  s_e1d836184d57e2::t_bb940ce3785622 55-74,142-143,399-423,685-687,816-820,822,1369,1395,1530,1563,2014,2821,3877-3878,3880-3886,3890,4066,4214-4223,4300,4802,5269-5343,5375,5635-5637
+apps/mobile/src/lib/composer-image-schema.ts
+  s_e1d836184d57e2::t_bb940ce3785622 13
+apps/mobile/src/features/threads/threadQueueControlPresentation.ts
+  s_e1d836184d57e2::t_bb940ce3785622 8,47-49
+apps/server/src/observability/RpcInstrumentation.ts
+  s_e1d836184d57e2::t_bb940ce3785622 108-116,126
+apps/server/src/peer/PeerLinks.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 160,209-222
+apps/server/src/provider/documentTextWorker.ts
+  s_e1d836184d57e2::t_bb940ce3785622 173,175-177,462,473,552,555,622-632
+apps/mobile/src/i18n/translations/sv.json
+  s_e1d836184d57e2::t_bb940ce3785622 55-74,142-143,399-423,685-687,816-820,822,1369,1395,1530,1563,2014,2821,3878-3879,3881-3887,3891,4067,4215-4224,4301,4802,5269-5343,5375,5635-5637
+apps/server/src/provider/ProviderRegistry.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1053-1073
+apps/mobile/modules/t3-native-controls/android/src/main/res/drawable/t3_workflows.xml
+  s_e1d836184d57e2::t_bb940ce3785622 1-3
+apps/server/src/persistence/Migrations/107_DeferredSlashCommandIndex.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-17
+apps/server/src/telemetry/ProviderDimensions.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 10,15,21-23,45,51-55,76-79
+  s_e1d836184d57e2::t_b39dc14d348c20 80-81
+apps/mobile/src/features/threads/thread-settings-sheet-state.ts
+  s_e1d836184d57e2::t_bb940ce3785622 38-67
+apps/server/src/mcp/McpWebhookTransport.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-127
+apps/server/src/orchestration-v2/Orchestrator.control-reads.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 10-12,3190-3285
+  s_e1d836184d57e2::t_3fc7391374134c 3286
+apps/mobile/src/features/layout/workspace/WorkspaceExtraTab.tsx
+  s_e1d836184d57e2::t_bb940ce3785622 4,6,10
+apps/server/src/provider/Drivers/ClaudeExecutable.test.ts
+  s_e1d836184d57e2::t_bb940ce3785622 1-5,7,12-17,35,115-151
+  s_e1d836184d57e2::t_a57c3db25f64ee 152-153
+apps/server/src/workflows/WorkflowStore.ts
+  s_e1d836184d57e2::t_af3719ce7c0e64 1-1142
+apps/server/src/workspace/TaskFolders.test.ts
+  s_e1d836184d57e2::t_c94b5e674a6df5 251-260,262-268,270-279
+apps/server/src/workspace/TaskFolders.ts
+  s_e1d836184d57e2::t_85467fff542edc 2,19,229-230,870,882-890,943-944,951-968,1037-1048,1078
+apps/server/src/workspace/WorkspaceEntries.test.ts
+  s_e1d836184d57e2::t_521f88d4ca7934 1168-1195
+apps/server/src/workspace/WorkspaceEntries.ts
+  s_e1d836184d57e2::t_e60419f08463c3 9,158-163,169-183,277,280-281,283-303
+apps/server/src/ws.test.ts
+  s_e1d836184d57e2::t_ea2401495d4254 11,14-15,137-138,140,893-894,896,2657-2814
+apps/server/src/ws.ts
+  s_e1d836184d57e2::t_f44316a9240c57 40,136-137,139,210,1503-1507,1509,2377-2395,2423,2432-2433,2771,3870-3884
+apps/web/src/bootstrap.test.ts
+  s_e1d836184d57e2::t_f97ece46ab401e 1-68
+apps/web/src/bootstrap.ts
+  s_e1d836184d57e2::t_cb8db60366cf7d 2-4,7-11
+apps/web/src/browser/HostedBrowserWebview.tsx
+  s_e1d836184d57e2::t_c8b2cf8615c81b 16,26,248-255
+apps/web/src/browser/browserViewportLayout.test.ts
+  s_e1d836184d57e2::t_e66a31f8fc8255 5,8,48-72
+apps/web/src/browser/browserViewportLayout.ts
+  s_e1d836184d57e2::t_4af5c0728da67f 74-97
+apps/web/src/bundledDev.test.ts
+  s_e1d836184d57e2::t_f00e1b8f790321 29-34,102
+apps/web/src/components/BranchToolbar.logic.test.ts
+  s_e1d836184d57e2::t_41f620c3b8a3b6 24,142-154
+apps/web/src/components/BranchToolbar.logic.ts
+  s_e1d836184d57e2::t_cfc046096f0b8b 84-93
+apps/web/src/components/BranchToolbar.tsx
+  s_e1d836184d57e2::t_3e3c7f7523fc8a 161-162,185-186,196,210-212,216,227-228,338,429,432-459,461-474,756,807
+apps/web/src/components/ChatMarkdown.browser.test.tsx
+  s_e1d836184d57e2::t_092e89f4569f0e 93-103,184,574-594
+apps/web/src/components/ChatMarkdown.tsx
+  s_e1d836184d57e2::t_49ea75fdec8b39 883,886,921,928-929,931,938,945-952,954-962
+apps/web/src/components/ChatView.browser.test.tsx
+  s_e1d836184d57e2::t_e40cc54809154c 550-586
+apps/web/src/components/ChatView.tsx
+  s_e1d836184d57e2::t_70f32ef377652d 109,335,979-992,1104-1108,1575,1578,2375-2379,3668-3672,3686,3862,3983-3985,3989-3991,4011,4130
+apps/web/src/components/CommandPalette.tsx
+  s_e1d836184d57e2::t_bb716ef9d4d6c7 87,135,519,1767-1779
+apps/web/src/components/ComposerPromptEditorTiptap.input.browser.test.tsx
+  s_e1d836184d57e2::t_8272987d680401 71-72,82-83,95-96,685-732,1270-1291
+apps/web/src/components/ComposerPromptEditorTiptap.tsx
+  s_e1d836184d57e2::t_089e3e1ea68375 67,207-208,1133,1769-1773,1987
+apps/web/src/components/CustomSnoozeDialog.tsx
+  s_e1d836184d57e2::t_c1c80a0931d62f 16,69,153
+apps/web/src/components/HistorySwipeNavigation.browser.test.tsx
+  s_e1d836184d57e2::t_9a6e35c5aefea6 27-39,49-52,90-115
+apps/web/src/components/HistorySwipeNavigation.tsx
+  s_e1d836184d57e2::t_a0c0d0bb03ffed 47,52,70-79,82,142-146
+apps/web/src/components/ProjectCloneToastCoordinator.tsx
+  s_e1d836184d57e2::t_3798a2411d52ab 48-49,103,117,125-152,170,189,221
+apps/web/src/components/RightPanelTabs.browser.test.tsx
+  s_e1d836184d57e2::t_b5621f510205d1 71,142
+apps/web/src/components/Sidebar.browser.test.tsx
+  s_e1d836184d57e2::t_3f64b8754865a8 332-382
+apps/web/src/components/Sidebar.logic.test.ts
+  s_e1d836184d57e2::t_9c0ff9c278e737 10-11,1816-1834
+apps/web/src/components/Sidebar.logic.ts
+  s_e1d836184d57e2::t_06f846b4ab234d 1186-1187,1195-1200
+apps/web/src/components/Sidebar.motion.browser.test.ts
+  s_e1d836184d57e2::t_409308b27d8aa6 1-35
+apps/web/src/components/Sidebar.motion.ts
+  s_e1d836184d57e2::t_72a08aa62be751 25-30,46,65,162-169,190-191,196,250,264
+apps/web/src/components/Sidebar.snooze.ts
+  s_e1d836184d57e2::t_14045f05d48ea4 12,56,62-63
+apps/web/src/components/Sidebar.tsx
+  s_e1d836184d57e2::t_fd41b59b3102ef 75,190,275-280,439,454,458,524-525,528,536,539,847,1173-1179,1191,1209,1216-1219,1364,1454-1458,1615-1616,1656,1660,1683-1684,2218,2233,2289,2293,2308-2309,3087-3090,3109,3114,3139,3201-3210,3607
+apps/web/src/components/chat/ChatComposer.tsx
+  s_e1d836184d57e2::t_2ab3d8f4034564 26,124,138-139,219,293,464,466,468,609,611,669-674,775-782,785-794,798-814,817-820,823,838-839,1123,1436,1438-1449,1498-1499,1705,1816-1823,1843-1848,3016-3020,3023,3028,3041-3047,3619,3720-3726,3886-3887,3889
+apps/web/src/components/chat/ComposerAttachmentStrip.tsx
+  s_e1d836184d57e2::t_f320024b1c74b0 11,734-737,741,745-765,768-787
+apps/web/src/components/chat/ComposerModelEffort.browser.test.tsx
+  s_e1d836184d57e2::t_81ebbea38a8565 125-148
+apps/web/src/components/chat/ComposerModelEffort.tsx
+  s_e1d836184d57e2::t_40c087dc7056e7 209-210,247-257,264-268
+apps/web/src/components/chat/ComposerStashMenu.tsx
+  s_e1d836184d57e2::t_ec3ef1421b8faf 6,22-24
+apps/web/src/components/chat/FeedbackRequestCard.tsx
+  s_e1d836184d57e2::t_c80c6fe434393a 1-218
+apps/web/src/components/chat/MessagesTimeline.browser.test.tsx
+  s_e1d836184d57e2::t_554a45c00677e6 629-670
+apps/web/src/components/chat/MessagesTimeline.logic.test.ts
+  s_e1d836184d57e2::t_cd6783c76c219e 1788,1824-1846,4769-4791
+apps/web/src/components/chat/MessagesTimeline.logic.ts
+  s_e1d836184d57e2::t_4f010065411ee1 1059,1061,1616-1617,1669-1673,2386-2390,2398
+apps/web/src/components/chat/MessagesTimeline.tsx
+  s_e1d836184d57e2::t_dea12dd054a08f 3,30,246,263,294-295,371,391,759,1199,1231-1232,1238,1251-1254,1269-1276,1292-1294,1323
+apps/web/src/components/chat/ProviderStartingIcon.tsx
+  s_e1d836184d57e2::t_5cf2e661cdaf1f 1-67
+apps/web/src/components/chat/QueuedRunsControl.tsx
+  s_e1d836184d57e2::t_28d3b22870c7fd 13,276-278
+apps/web/src/components/chat/RightPanelSurfaceContent.tsx
+  s_e1d836184d57e2::t_7b7111d618e5d0 144-146,149-151,213-215,222-230
+apps/web/src/components/chat/ThreadDetailsPanel.browser.test.tsx
+  s_e1d836184d57e2::t_1ea440679fdee0 128-145,169-170,181-184,186,213-229
+apps/web/src/components/chat/ThreadDetailsPanel.tsx
+  s_e1d836184d57e2::t_ddaa2f9c09e08f 74-75,225-226
+apps/web/src/components/chat/ThreadRelationshipsControl.browser.test.tsx
+  s_e1d836184d57e2::t_d646b0f71f4f8c 239-280
+apps/web/src/components/chat/ThreadRelationshipsControl.tsx
+  s_e1d836184d57e2::t_8ecae2054a40ac 124-130,135-136,138,145
+apps/web/src/components/chat/TimelineV2EventRow.tsx
+  s_e1d836184d57e2::t_bbc57d28435e6f 15,36-44
+apps/web/src/components/chat/TimelineWorkGroupRows.tsx
+  s_e1d836184d57e2::t_6d02cdff457d76 44,447-453,466-474,496,504-505,521,529-535,545,554,581-590
+apps/web/src/components/chat/composerAttachmentFiles.test.ts
+  s_e1d836184d57e2::t_00546458003d34 16,145-150
+apps/web/src/components/chat/composerAttachmentFiles.ts
+  s_e1d836184d57e2::t_11f7f8470f6967 250-255,257-276,294
+apps/web/src/components/chat/composerContextUndo.test.ts
+  s_e1d836184d57e2::t_41a2346ef35e69 1-5,44,95-155
+apps/web/src/components/chat/composerContextUndo.ts
+  s_e1d836184d57e2::t_e5a9da87761c10 2-3,14,21-25,29-30,48,75-79,86-87,107-123,144-151
+apps/web/src/components/chat/queuedMessageEdit.test.ts
+  s_e1d836184d57e2::t_775b1962f4d529 1-8,20-25,30-50,125,145,155-185,191,200,208-286,296
+apps/web/src/components/chat/queuedMessageEdit.ts
+  s_e1d836184d57e2::t_e8bae06d817fb6 2-12,23-84,103,105,109-119,123,128,132-134
+apps/web/src/components/chat/timelineRowContext.ts
+  s_e1d836184d57e2::t_17b4ecf47d9dcb 3,121
+apps/web/src/components/chat/useComposerContextImport.ts
+  s_e1d836184d57e2::t_3a1bb2c013f2d6 13,63-64,100-101,120-121,443-455
+apps/web/src/components/chat/useComposerSend.ts
+  s_e1d836184d57e2::t_a6b184f6958e27 72,1838,1850-1861
+apps/web/src/components/chat/useQueuedRunEdit.browser.test.tsx
+  s_e1d836184d57e2::t_a6263aab03dc7a 5,367,372-409,411-426,428-435,437-440,443,452-456
+apps/web/src/components/chat/useQueuedRunEdit.ts
+  s_e1d836184d57e2::t_a89894d6058da2 72,84,241-248,255,257-268,314,337-344,376-379,386-408,535,539
+apps/web/src/components/composerContextPresentation.test.ts
+  s_e1d836184d57e2::t_127f17c6261a63 1,4-13,64-147
+apps/web/src/components/composerContextPresentation.tsx
+  s_e1d836184d57e2::t_08b5b7115ab32a 5-6,8,46,67-71,80-91,106,121-128,132-158,240,250
+apps/web/src/components/desktopUpdate.logic.test.ts
+  s_e1d836184d57e2::t_1e2339c4faeb71 8,10,63-116
+apps/web/src/components/desktopUpdate.logic.ts
+  s_e1d836184d57e2::t_0f0a05f2c08d6e 2-6,149-153,224-251
+apps/web/src/components/files/AttachmentFilePreview.browser.test.tsx
+  s_e1d836184d57e2::t_8464abb0c69665 241,245-261,265-281,286,517-564,566,608,611-615,1983,1985,1999-2007,2011-2019
+apps/web/src/components/files/AttachmentFilePreview.office.browser.test.tsx
+  s_e1d836184d57e2::t_241db5a075877d 289-290
+apps/web/src/components/files/BinaryViewer.tsx
+  s_e1d836184d57e2::t_14f755fbf737d2 205,208-210,213,215-216,218-226,359,371
+apps/web/src/components/files/ChunkedMarkdown.tsx
+  s_e1d836184d57e2::t_0b7fe6a497f8be 1-106
+apps/web/src/components/files/DocumentPages.tsx
+  s_e1d836184d57e2::t_b8626ad79da75f 78,92,139-142,146-148
+apps/web/src/components/files/FileBrowserPanel.browser.test.tsx
+  s_e1d836184d57e2::t_6e3349636f5fb1 165-168
+apps/web/src/components/files/FileBrowserPanel.tsx
+  s_e1d836184d57e2::t_4bd0923c4d657f 652-677
+apps/web/src/components/files/FileMarkdownPreview.tsx
+  s_e1d836184d57e2::t_b460a79a88d5a6 13,34
+apps/web/src/components/files/FilePreviewPanel.browser.test.tsx
+  s_e1d836184d57e2::t_cdea647d93e68d 565,567-581,583,594-595
+apps/web/src/components/files/FilePreviewPanel.test.ts
+  s_e1d836184d57e2::t_da97cf3b9fa052 161-165,240-242,299-306
+apps/web/src/components/files/FilePreviewPanel.tsx
+  s_e1d836184d57e2::t_2e8e9b63958f1d 41,43,59,61,104-105,126-127,1187-1196,1199-1207,1360-1361,1375-1378,1409-1417,1659-1668,1698,1778,1780,1784,1787-1791,1942-2028,2033-2034,2037-2043,2049,2086,2088-2092,2094-2110
+apps/web/src/components/files/LargeFilePreview.tsx
+  s_e1d836184d57e2::t_d894c980278cf6 1-125
+apps/web/src/components/files/LargeTextViewer.tsx
+  s_e1d836184d57e2::t_728b5283b9921d 4,33-62,78-83,104-105,107-108,128,130-135,181,184-186,194-195,210-212,259-273,276,279-280
+apps/web/src/components/files/NotebookPreview.tsx
+  s_e1d836184d57e2::t_5b26d371108fc7 50-85,130-157,159-166
+apps/web/src/components/files/ProjectFilePicker.logic.test.ts
+  s_e1d836184d57e2::t_242bf436a7e67b 40-53
+apps/web/src/components/files/ProjectFilePicker.logic.ts
+  s_e1d836184d57e2::t_785203c36436a7 22-31,37-38
+apps/web/src/components/files/ReadOnlySourcePreview.tsx
+  s_e1d836184d57e2::t_6743d1bd2f5f45 20-21,75-76,91-93
+apps/web/src/components/files/extendedDocumentPreview.ts
+  s_e1d836184d57e2::t_1f420f337eb476 541,564,707-708,728,733
+apps/web/src/components/files/fullFileText.test.ts
+  s_e1d836184d57e2::t_ce460bed87f73a 1-36
+apps/web/src/components/files/fullFileText.ts
+  s_e1d836184d57e2::t_25334634a56957 1-90
+apps/web/src/components/files/imageDecode.worker.ts
+  s_e1d836184d57e2::t_f3723941109898 28,193-195,209-210
+apps/web/src/components/files/largeTextProtocol.ts
+  s_e1d836184d57e2::t_553a653330542c 6-11
+apps/web/src/components/files/office/Spreadsheet.tsx
+  s_e1d836184d57e2::t_3fcca382901d0e 58,77,94-95,97-98,105,108-109,112-113,132-134,149
+apps/web/src/components/files/office/sheet-frame.ts
+  s_e1d836184d57e2::t_f8c67f47c0f6cf 2,19-24,36,42-43,56-60,62-69,83-97,99-109,162,177-211,217-220,223,225-232,236,242-243,247,249,253-262,272,298,302
+apps/web/src/components/files/office/sheet-resize.browser.test.ts
+  s_e1d836184d57e2::t_b3306f1eab4032 148-210
+apps/web/src/components/files/useEditableAfterHighlight.ts
+  s_e1d836184d57e2::t_28911fdd7fd0e5 1-46
+apps/web/src/components/issue/IssueDetailPanel.tsx
+  s_e1d836184d57e2::t_4e8189f22e3fdc 21,380-410,417,426-427,480-503,931-935
+apps/web/src/components/issue/IssuesPage.tsx
+  s_e1d836184d57e2::t_f9c51c386c55cc 422,867-873
+apps/web/src/components/projectScriptEditor.browser.test.tsx
+  s_e1d836184d57e2::t_ca0e2ebacd773b 6,90-102
+apps/web/src/components/projectScriptEditor.tsx
+  s_e1d836184d57e2::t_076b01f9feba79 191-192
+apps/web/src/components/pullRequest/PullRequestDetailLayout.tsx
+  s_e1d836184d57e2::t_97f8f791c926af 2,7,9,12-36
+apps/web/src/components/pullRequest/PullRequestDetailPanel.tsx
+  s_e1d836184d57e2::t_1d1e10fd6824f2 93,1582
+apps/web/src/components/pullRequest/PullRequestRow.tsx
+  s_e1d836184d57e2::t_5a0c4574fea4f0 28,165-167
+apps/web/src/components/pullRequest/PullRequestsPage.tsx
+  s_e1d836184d57e2::t_8af4972afc8d9a 38,418
+apps/web/src/components/pullRequest/pullRequestList.logic.test.ts
+  s_e1d836184d57e2::t_b525f1039f801b 20,556-567
+apps/web/src/components/pullRequest/pullRequestList.logic.ts
+  s_e1d836184d57e2::t_8c151a08f945df 592-600
+apps/web/src/components/settings/EnvironmentsMap.tsx
+  s_e1d836184d57e2::t_97d1e4e4f251d7 1047,1097
+apps/web/src/components/settings/IssueTrackerSettings.tsx
+  s_e1d836184d57e2::t_23dd922e5af8d7 4-5,7,13,24,58-59,61,90-106,117,124,137,142-144,147,150,153,175-177,264-266,300,305,310,312-315,330,387-432
+apps/web/src/components/settings/KeybindingsSettings.logic.test.ts
+  s_e1d836184d57e2::t_b5b0002d133f7d 17,254-262
+apps/web/src/components/settings/KeybindingsSettings.logic.ts
+  s_e1d836184d57e2::t_b6efcfb894abdd 91,99-103,560,562,609-611
+apps/web/src/components/settings/KeybindingsSettings.tsx
+  s_e1d836184d57e2::t_cdf260fd73895d 31,90,105-110,113-114,116,122,127,130-132,919
+apps/web/src/components/settings/LabsSettingsPanel.tsx
+  s_e1d836184d57e2::t_885da5f1b0607c 1,5,11,16-20,34,38,198-222,328-398
+apps/web/src/components/settings/LinkedEnvironmentsSettings.tsx
+  s_e1d836184d57e2::t_34e5f17faa95fa 662,671-682
+apps/web/src/components/settings/SettingsPanels.tsx
+  s_e1d836184d57e2::t_f375f571d87736 45,49,260-271
+apps/web/src/components/settings/SnoozePresetsSettings.tsx
+  s_e1d836184d57e2::t_26a5976a081baf 20,253,257,261,274
+apps/web/src/components/settings/ThemeImportDialog.browser.test.tsx
+  s_e1d836184d57e2::t_774ea2b98e1ffe 160-211
+apps/web/src/components/settings/ThemeImportDialog.tsx
+  s_e1d836184d57e2::t_41071681bd1cb1 236,242,245
+apps/web/src/components/settings/settingsSearch.test.ts
+  s_e1d836184d57e2::t_17f6ff55dce249 171
+apps/web/src/components/settings/settingsSearch.ts
+  s_e1d836184d57e2::t_dcad835f16329a 75,92,562-568,1010-1019,1586,1679
+apps/web/src/components/settings/useAvailableSettingsSearchItems.ts
+  s_e1d836184d57e2::t_9452244275d38f 48-53,92
+apps/web/src/components/sidebar/SidebarDraftBlock.browser.test.tsx
+  s_e1d836184d57e2::t_c35e17fffec455 11-19,24,28,102-140
+apps/web/src/components/sidebar/SidebarDraftBlock.tsx
+  s_e1d836184d57e2::t_dd44fdd23ce5e8 6,16,19,37-67,70-71,84-85,89-91,106-110,217,239,241-242,244,257,280-283,297
+apps/web/src/components/sidebar/SidebarThreadHeader.tsx
+  s_e1d836184d57e2::t_ef3d96133c21e2 2,100
+apps/web/src/components/sidebar/SidebarUpdatePill.tsx
+  s_e1d836184d57e2::t_d8cb4931e9edd4 25,180
+apps/web/src/components/sidebar/mainAppLocation.ts
+  s_e1d836184d57e2::t_1085ba041c0efd 17-18
+apps/web/src/components/ui/scroll-area.tsx
+  s_e1d836184d57e2::t_3ab170941c4c37 30,40,68-75
+apps/web/src/components/ui/shared-tooltip.tsx
+  s_e1d836184d57e2::t_1265ab1962351e 14,83-84
+apps/web/src/components/ui/tooltip.browser.test.tsx
+  s_e1d836184d57e2::t_6e563b25b3fd40 117-138
+apps/web/src/components/usage/UsagePage.tsx
+  s_e1d836184d57e2::t_8d1cfb22745afc 522
+apps/web/src/components/workflows/WorkflowDefinitionEditor.logic.test.ts
+  s_e1d836184d57e2::t_bce1c1f68ac39d 1-49
+apps/web/src/components/workflows/WorkflowDefinitionEditor.logic.ts
+  s_e1d836184d57e2::t_5c2d3235497aff 1-23
+apps/web/src/components/workflows/WorkflowDefinitionEditor.tsx
+  s_e1d836184d57e2::t_7252144a7750af 1-575
+apps/web/src/components/workflows/WorkflowPane.tsx
+  s_e1d836184d57e2::t_2160be092c2d6d 1-179
+apps/web/src/components/workflows/WorkflowReferences.tsx
+  s_e1d836184d57e2::t_cbc44c043e7eda 1-193
+apps/web/src/components/workflows/WorkflowRunFeed.tsx
+  s_e1d836184d57e2::t_80f1650848ade6 1-1924
+apps/web/src/components/workflows/WorkflowRunsView.browser.test.tsx
+  s_e1d836184d57e2::t_d7288cf9ed609f 1-477
+apps/web/src/components/workflows/WorkflowRunsView.tsx
+  s_e1d836184d57e2::t_9a8775f71c9a5a 1-384
+apps/web/src/components/workflows/WorkflowThreadPane.tsx
+  s_e1d836184d57e2::t_d9aeeb41fcdf8a 1-65
+apps/web/src/components/workflows/WorkflowsPage.tsx
+  s_e1d836184d57e2::t_dcaac0c4da222b 1-328
+apps/web/src/components/workflows/useWorkflowEnvironmentIds.ts
+  s_e1d836184d57e2::t_c20b301b28d4f8 1-11
+apps/web/src/components/workflows/workflowPane.logic.test.ts
+  s_e1d836184d57e2::t_e87e4f6f045876 1-50
+apps/web/src/components/workflows/workflowPane.logic.ts
+  s_e1d836184d57e2::t_5f6583460cd1eb 1-103
+apps/web/src/hooks/useHandleNewThread.test.ts
+  s_e1d836184d57e2::t_364b23eb29cf27 5-13,45,64-73,102-107,120,193,206,219,239,264-268,282-294,296,298-302,304,306-310,312-315,317-324,326-328,330-345,350
+apps/web/src/hooks/useHandleNewThread.ts
+  s_e1d836184d57e2::t_6253bfc09c5f9e 6-11,13,18,48,75-107,237-238,258-307,348,352-353,357-358,398,448-449,456,466
+apps/web/src/i18n/I18nProvider.tsx
+  s_e1d836184d57e2::t_243bab3541d95e 4,8-11
+apps/web/src/i18n/locales.test.ts
+  s_e1d836184d57e2::t_4f01aeaa79310b 1-18
+apps/web/src/i18n/locales.ts
+  s_e1d836184d57e2::t_51b5b7350fcb4b 1-2,7-15
+apps/web/src/i18n/runtime.ts
+  s_e1d836184d57e2::t_9b2809db80731f 9,16,23-31,52-58,61,69,86,100-103
+apps/web/src/i18n/translations/de.json
+  s_e1d836184d57e2::t_2fcdacee0bd539 55-74,399-423,685-687,816-820,822,1777-1778,1865,2558,3640-3647,5682,8908-8913,8922-8923,8929-8931,9015-9017,11871,11943,12428-12683,12802-12806
+apps/web/src/i18n/translations/en.json
+  s_e1d836184d57e2::t_47d0e7044221dd 55-74,399-423,685-687,816-820,822,1778-1779,1866,2558,3639-3646,5683,8916-8921,8930-8931,8937-8939,9023-9025,11879,11951,12436-12691,12811-12815
+apps/web/src/i18n/translations/es.json
+  s_e1d836184d57e2::t_1ff6e69cfb2079 55-74,399-423,685-687,816-820,822,1778-1779,1866,2558,3639-3646,5681,8906-8911,8920-8921,8927-8929,9013-9015,11864,11936,12421-12676,12797-12801
+apps/web/src/i18n/translations/fr.json
+  s_e1d836184d57e2::t_7c0715e640bb86 55-74,399-423,685-687,816-820,822,1778-1779,1866,2558,3639-3646,5682,8907-8912,8921-8922,8928-8930,9015-9017,11869,11941,12426-12681,12802-12806
+apps/web/src/i18n/translations/ja.json
+  s_e1d836184d57e2::t_46ffb1738937c5 55-74,399-423,685-687,816-820,822,1777-1778,1865,2556,3635-3642,5664,8864-8869,8878-8879,8885-8887,8971-8973,11820,11892,12377-12624,12743-12747
+apps/web/src/i18n/translations/ko.json
+  s_e1d836184d57e2::t_533a045ee16276 55-74,399-423,685-687,816-820,822,1777-1778,1865,2557,3635-3642,5662,8867-8872,8881-8882,8888-8890,8974-8976,11816,11888,12373-12621,12739-12743
+apps/web/src/i18n/translations/pt-BR.json
+  s_e1d836184d57e2::t_9fe540e6aa19d0 55-74,399-423,685-687,816-820,822,1778-1779,1866,2132,2558,3639-3646,5681,8906-8911,8920-8921,8927-8929,9014-9016,11869,11941,12426-12681,12802-12806
+apps/web/src/i18n/translations/ru.json
+  s_e1d836184d57e2::t_d8b5581444443d 55-74,399-423,685-687,816-820,822,1778-1779,1866,2558,3639-3646,5681,8908-8913,8922-8923,8929-8931,9015-9017,11870,11942,12427-12682,12802-12806
+apps/web/src/i18n/translations/sv.json
+  s_e1d836184d57e2::t_11e6120d66908b 55-74,399-423,685-687,816-820,822,1778-1779,1866,2558,3639-3646,5682,8914-8919,8928-8929,8935-8937,9021-9023,9601,9603,11877,11949,12434-12689,12809-12813
+apps/web/src/i18n/translations/zh.json
+  s_e1d836184d57e2::t_b0541f7d404289 55-74,399-423,685-687,816-820,822,1778-1779,1866,2562,3644-3651,5688,8924-8929,8938-8939,8945-8947,9031-9033,11895,11967,12453-12701,12822-12826
+apps/web/src/index.css
+  s_e1d836184d57e2::t_3d9f3144174b13 234-237,352-372
+apps/web/src/keybindings.test.ts
+  s_e1d836184d57e2::t_0991aa44976a4e 761-831
+apps/web/src/keybindings.ts
+  s_e1d836184d57e2::t_56fdc7e748ebd3 20-21,26,29-37,56,209-217
+apps/web/src/keyboardLayout.test.ts
+  s_e1d836184d57e2::t_073cac85b3b2b8 1-81
+apps/web/src/keyboardLayout.ts
+  s_e1d836184d57e2::t_44dbe589bdc746 1-44
+apps/web/src/lib/chunkReloadGuard.ts
+  s_e1d836184d57e2::t_edeff99c650c92 37-48
+apps/web/src/lib/composerContextRecords.ts
+  s_e1d836184d57e2::t_1ea9f27a5ec7ac 12-13,493-502,504,506,511,513,516,521-523,529,532,539-545
+apps/web/src/lib/discardComposerDraft.test.ts
+  s_e1d836184d57e2::t_8096cd0c5c202e 83-99
+apps/web/src/lib/discardComposerDraft.ts
+  s_e1d836184d57e2::t_7feb144c88ae0d 22,24,42,70-84
+apps/web/src/lib/pageTranslationGuard.browser.test.tsx
+  s_e1d836184d57e2::t_e10d686de601e1 1-42
+apps/web/src/lib/pageTranslationGuard.ts
+  s_e1d836184d57e2::t_8e919f9a768519 1-20
+apps/web/src/lib/preserveReadingPosition.ts
+  s_e1d836184d57e2::t_17d2ec15aabb23 1-115
+apps/web/src/lib/resourceTelemetryState.browser.test.tsx
+  s_e1d836184d57e2::t_f1438000867a8c 176,269-312
+apps/web/src/lib/resourceTelemetryState.ts
+  s_e1d836184d57e2::t_fd83e993abbe4f 63-65
+apps/web/src/lib/t3ProjectFileDefaults.ts
+  s_e1d836184d57e2::t_e9e2be0dc5f959 1-6,9,17-31,41,46-58
+apps/web/src/main.test.ts
+  s_e1d836184d57e2::t_a98c78eedbd869 8,23-24
+apps/web/src/main.tsx
+  s_e1d836184d57e2::t_ba6ba5273a295a 7,13-16,39,51
+apps/web/src/routeTree.gen.ts
+  s_e1d836184d57e2::t_5b591104cd92dc 22,109-113,318,365,415,466,513,562,683-689,1015,1028
+apps/web/src/routes/_chat.settings.tsx
+  s_e1d836184d57e2::t_fd9bc67e2faa67 55-70,72-76,80-81,87,89
+apps/web/src/routes/_chat.workflows.tsx
+  s_e1d836184d57e2::t_ec6f5179860f16 1-15
+apps/web/src/session-logic.test.ts
+  s_e1d836184d57e2::t_8b121f4d410952 293-296,332-336
+apps/web/src/session-logic.ts
+  s_e1d836184d57e2::t_5fe9ea2edb17b7 248,258,1158-1159,1161
+apps/web/src/state/linkedThreadView.ts
+  s_e1d836184d57e2::t_40fbfad3e9386c 14,110-120,209-217,219,243,250
+apps/web/src/state/terminalSessions.ts
+  s_e1d836184d57e2::t_9649a4f42c92b2 25-31,283-322
+apps/web/src/timestampFormat.test.ts
+  s_e1d836184d57e2::t_afb173ae9e3fb4 1,21-34
+apps/web/src/timestampFormat.ts
+  s_e1d836184d57e2::t_983eb95d2138cf 87,89,95-99,101,184-188,191
+apps/web/src/workspaceBasenameLookup.test.ts
+  s_e1d836184d57e2::t_fe235f84f858a1 132-146
+apps/web/test/fakeEnvironment.ts
+  s_e1d836184d57e2::t_314306dcc0fe38 70-75
+apps/web/vite.config.ts
+  s_e1d836184d57e2::t_e61a788d820e5d 114-116
+docs/internals/performance-regressions.md
+  s_e1d836184d57e2::t_16dbb4fc170c3d 100-122
+docs/internals/product-analytics.md
+  s_e1d836184d57e2::t_b2a860c97128bc 147-162
+docs/internals/workflows.md
+  s_e1d836184d57e2::t_20813b06dba275 1-178
+docs/operations/scenarios.md
+  s_e1d836184d57e2::t_1ec900bb9eeba3 26-27
+docs/orchestration-v2/orchestrator-mcp-server.md
+  s_e1d836184d57e2::t_63d46f0b2f54e1 482-488
+docs/user/managed-policy.md
+  s_e1d836184d57e2::t_456422a048babe 252
+docs/user/outside-agents.md
+  s_e1d836184d57e2::t_cd7b2456c08244 138-154
+docs/user/permission-modes.md
+  s_e1d836184d57e2::t_0003a036b7320f 51-54
+docs/user/project-settings.md
+  s_e1d836184d57e2::t_a62ba879c1aa16 106-108
+docs/user/providers-claude.md
+  s_e1d836184d57e2::t_0b97f7e653502e 66-67
+docs/user/remote-access.md
+  s_e1d836184d57e2::t_8d2446ef589d09 471-474
+docs/user/source-control.md
+  s_e1d836184d57e2::t_15f78f51a67582 163-165,419-421
+docs/user/telemetry.md
+  s_e1d836184d57e2::t_bf59d2586e3f61 13-62
+docs/user/thread-sidebar.md
+  s_e1d836184d57e2::t_fe6abfee3b2523 216-228
+docs/user/workflows.md
+  s_e1d836184d57e2::t_1590c69bf85c82 1-92
+evals/README.md
+  s_e1d836184d57e2::t_dfa51c8feaf312 7-14
+evals/mcp-tool-use/cases/agent-feedback.ndjson
+  s_e1d836184d57e2::t_02a09a9f0a462f 1-18
+evals/mcp-tool-use/run.ts
+  s_e1d836184d57e2::t_5a5f8a7342d6b0 34,60-68,317-318,506,570-571,592,599,609-614,625,633-639,729-730,757-760,830-831,867-871,2143-2144,2301-2333,3294,3308,3324,3336,3338,3342,3348,3358
+evals/package.json
+  s_e1d836184d57e2::t_9ad75d21e3201b 14
+evals/workflow-authoring/README.md
+  s_e1d836184d57e2::t_8b9fe7b5a58c9d 1-36
+evals/workflow-authoring/cases.ts
+  s_e1d836184d57e2::t_2d5952949876b3 1-270
+evals/workflow-authoring/fixtures/globals.d.ts
+  s_e1d836184d57e2::t_72cf47d65af8fb 1-11
+evals/workflow-authoring/fixtures/replay-keeps-in-a-module.ts
+  s_e1d836184d57e2::t_4232e4edc372a9 1-19
+evals/workflow-authoring/fixtures/replay-keeps-what-it-read.ts
+  s_e1d836184d57e2::t_19e6c4519c67f2 1-20
+evals/workflow-authoring/fixtures/replay-reads-outside-a-step.ts
+  s_e1d836184d57e2::t_cf778624c24d58 1-17
+evals/workflow-authoring/fixtures/scheduled-agent-then-approval.ts
+  s_e1d836184d57e2::t_eac8956c0a19c8 1-34
+evals/workflow-authoring/fixtures/webhook-filter-and-dedupe.ts
+  s_e1d836184d57e2::t_23303e5c2d630e 1-22
+evals/workflow-authoring/grade.ts
+  s_e1d836184d57e2::t_02859c56d3cbdf 1-159
+evals/workflow-authoring/run.test.ts
+  s_e1d836184d57e2::t_604bd4453d4e3e 1-37
+evals/workflow-authoring/run.ts
+  s_e1d836184d57e2::t_88516be7b3d247 1-179
+knip.jsonc
+  s_e1d836184d57e2::t_f5e8d9a0f905e2 20-23
+package.json
+  s_e1d836184d57e2::t_cc91a87d274ca0 34
+packages/client-runtime/package.json
+  s_e1d836184d57e2::t_f722f4b89be9d5 50-53,114-117
+packages/client-runtime/src/clock.test.ts
+  s_e1d836184d57e2::t_655b2dd580e1fd 3-9,181-200
+packages/client-runtime/src/clock.ts
+  s_e1d836184d57e2::t_655702c7a753bc 107-129
+packages/client-runtime/src/device/stream.test.ts
+  s_e1d836184d57e2::t_7ea38cc3ad8c07 143-171
+packages/client-runtime/src/device/stream.ts
+  s_e1d836184d57e2::t_3436cf8e93fd86 1,160,432,1465-1469
+packages/client-runtime/src/feedbackRequest.test.ts
+  s_e1d836184d57e2::t_fff55d8d4b256b 1-79
+packages/client-runtime/src/feedbackRequest.ts
+  s_e1d836184d57e2::t_8ebb1ea0cb7704 1-145
+packages/client-runtime/src/issueLinks.test.ts
+  s_e1d836184d57e2::t_a3988089670017 3,142-160
+packages/client-runtime/src/issueLinks.ts
+  s_e1d836184d57e2::t_3134640fcf36d1 85-86,97-108,111-113
+packages/client-runtime/src/issueList.test.ts
+  s_e1d836184d57e2::t_a4c0c158aaece3 147-175
+packages/client-runtime/src/issueList.ts
+  s_e1d836184d57e2::t_f05225e3064819 173-175,192-194,214,218-219
+packages/client-runtime/src/linkedThread.test.ts
+  s_e1d836184d57e2::t_046dbc38602486 1-2,259-263,266,273-274,290-325
+packages/client-runtime/src/linkedThread.ts
+  s_e1d836184d57e2::t_6d4b2358229c68 92-102
+packages/client-runtime/src/operations/commands.ts
+  s_e1d836184d57e2::t_57e6c77cafc33f 1077,1079
+packages/client-runtime/src/operations/threadTitle.ts
+  s_e1d836184d57e2::t_470cbc7368ae5c 6,49
+packages/client-runtime/src/rpc/client.ts
+  s_e1d836184d57e2::t_c6cd2aee638668 74-75,303,356,491,507-529,552
+packages/client-runtime/src/rpc/session.test.ts
+  s_e1d836184d57e2::t_3bab2e10df5a72 294-346,878-904,1155-1197
+packages/client-runtime/src/rpc/session.ts
+  s_e1d836184d57e2::t_367414c10c73bd 142,144,147-149,166-172,208-234,237,270-273,308-311,319-320,373-410,412,428-433,479-481,518-530,539,542-543
+packages/client-runtime/src/state/commandPermissions.test.ts
+  s_e1d836184d57e2::t_c3cad71306ceed 14,228-264,567-581
+packages/client-runtime/src/state/issueTrackers.test.ts
+  s_e1d836184d57e2::t_034c082db53b31 1-5,8-12,45-55
+packages/client-runtime/src/state/issueTrackers.ts
+  s_e1d836184d57e2::t_e5303d6c29098b 5,9,85-99,117-118,139-140,142,145-147,151,158-174,195
+packages/client-runtime/src/state/models.ts
+  s_e1d836184d57e2::t_6a7ae536515153 15,103-107,171-172,325
+packages/client-runtime/src/state/orchestrationV2Projection.test.ts
+  s_e1d836184d57e2::t_67fd64d8c0b3c1 489-495
+packages/client-runtime/src/state/peerLinks.test.ts
+  s_e1d836184d57e2::t_7d73b7b78ebf1a 3,19,30,43,51-54,110-127,129
+packages/client-runtime/src/state/peerLinks.ts
+  s_e1d836184d57e2::t_f466d043c0b9a0 90-99
+packages/client-runtime/src/state/server.ts
+  s_e1d836184d57e2::t_7602016c2a7572 56,1465-1494,1641-1660,1958-1988,2004-2012
+packages/client-runtime/src/state/shell.ts
+  s_e1d836184d57e2::t_8778a6b6a70cc2 16,29,329,342-350
+packages/client-runtime/src/state/threadExecution.test.ts
+  s_e1d836184d57e2::t_cf87d114f28e3c 419-434
+packages/client-runtime/src/state/threadExecution.ts
+  s_e1d836184d57e2::t_4af97e8e702784 116-133,137-141,143-144,148-155
+packages/client-runtime/src/state/threadSettled.ts
+  s_e1d836184d57e2::t_6e8ed6810a2cf0 222,320,343,360-363,384,394-396
+packages/client-runtime/src/state/threadShell.test.ts
+  s_e1d836184d57e2::t_c09d54c01ad0fc 64-92,192-193
+packages/client-runtime/src/state/threadShell.ts
+  s_e1d836184d57e2::t_e475e5066bca9f 150-152,502-508,515-518,554
+packages/client-runtime/src/state/threadSnoozed.test.ts
+  s_e1d836184d57e2::t_6692367e5a51be 424-434
+packages/client-runtime/src/state/threadWorkflows.test.ts
+  s_e1d836184d57e2::t_70f6b675b884fa 9,17,26,37-65,174
+packages/client-runtime/src/state/threadWorkflows.ts
+  s_e1d836184d57e2::t_1a5ced52a02c5a 11,106-132,178,219-220
+packages/client-runtime/src/state/threads-atoms.test.ts
+  s_e1d836184d57e2::t_1a0b591965af76 307-308
+packages/client-runtime/src/state/threads-sync.test.ts
+  s_e1d836184d57e2::t_f5dce009bd5918 27,42,137-139,175-187,325-333,2548,2550-2556,2558,2560-2570,2572-2581,2618-2718
+packages/client-runtime/src/state/threads.ts
+  s_e1d836184d57e2::t_0cf5a4d5f3ee45 16-17,31,43,547-551,575-585,686-692,722,725-735,737-738,742-760,770-773,776,778,1086,1089,1178,1192-1193,1222
+packages/client-runtime/src/workflows.test.ts
+  s_e1d836184d57e2::t_e8cdaefdcf6d19 1-521
+packages/client-runtime/src/workflows.ts
+  s_e1d836184d57e2::t_66b642b04c74b0 1-770
+packages/client-runtime/src/workspaceBasenameLookup.ts
+  s_e1d836184d57e2::t_008a9922b697fe 121,134-136,146,148-149,160
+packages/contracts/src/agentFeedback.ts
+  s_e1d836184d57e2::t_2958b73ffe7b05 1-84
+packages/contracts/src/assets.ts
+  s_e1d836184d57e2::t_6b6264bcde6590 44
+packages/contracts/src/auth.ts
+  s_e1d836184d57e2::t_59e2417d36c5be 557-558,675-681
+packages/contracts/src/baseSchemas.test.ts
+  s_e1d836184d57e2::t_56e57ded05fd4e 8,66-74
+packages/contracts/src/baseSchemas.ts
+  s_e1d836184d57e2::t_3877a031ac3aaf 31-63,83-93
+packages/contracts/src/clientRpcPermissions.ts
+  s_e1d836184d57e2::t_3c9c9ba18c6eb9 85-91,102-103
+packages/contracts/src/environment.ts
+  s_e1d836184d57e2::t_41227e8e133e39 223-224,227-228
+packages/contracts/src/environmentHttp.ts
+  s_e1d836184d57e2::t_a2fad90873b02b 28,729-734
+packages/contracts/src/git.test.ts
+  s_e1d836184d57e2::t_bb1376b25c6947 8-9,11,15-19,117-141
+packages/contracts/src/git.ts
+  s_e1d836184d57e2::t_06fe25e2ac4660 4,85,87,89,98,104-105,161-163,191,197,203,217-218,229,247,317,325,333,342-343,350-351,360-361,434-435
+packages/contracts/src/index.ts
+  s_e1d836184d57e2::t_d00b9aceb09d6b 71-72,78
+packages/contracts/src/issue.ts
+  s_e1d836184d57e2::t_d0786a4c2354de 33-42,163-170,178-179,603-604,632-633,647,649-655,657-658,662-665,668-669,678-679
+packages/contracts/src/milestones.ts
+  s_e1d836184d57e2::t_1cd3f0f20aa70e 1-184
+packages/contracts/src/orchestrationV2.ts
+  s_e1d836184d57e2::t_b1ad55042f04b1 11-16,164-175,193-194,198-201,203-205,509,520,785,790,794-795,1118-1122,1880-1892,2097-2100,2403,2416,2992-2995,3312,3318-3319,3468,3471,3546,4028-4039
+packages/contracts/src/orchestratorMcp.ts
+  s_e1d836184d57e2::t_8d0b4bf638697a 113,979
+packages/contracts/src/peerLink.ts
+  s_e1d836184d57e2::t_87a39eb5a6afbd 66-70
+packages/contracts/src/pullRequest.ts
+  s_e1d836184d57e2::t_8bfc46f971eef2 7,356,360-363,375-376,391-392,528-529,555,562,669,672,694-695
+packages/contracts/src/review.ts
+  s_e1d836184d57e2::t_7341581040ae85 2,22,46,84-85,100-101
+packages/contracts/src/rpc.ts
+  s_e1d836184d57e2::t_5d1102e5cf149c 48,424-439,458,637-646,654,759-761,2324-2376,2428-2432,2552-2560,2568
+packages/contracts/src/scheduledTask.ts
+  s_e1d836184d57e2::t_000f61d843acea 284-285
+packages/contracts/src/settings.ts
+  s_e1d836184d57e2::t_229ef673a8e61a 1147-1150,1401-1403,1504-1505,1877,1943
+packages/contracts/src/sourceControl.ts
+  s_e1d836184d57e2::t_aff0cde698214a 2,27-28,102
+packages/contracts/src/threadPullRequest.ts
+  s_e1d836184d57e2::t_6c045ee4d00901 5,41-42,61,72
+packages/contracts/src/workflow.ts
+  s_e1d836184d57e2::t_20af8391a83e14 1-223
+packages/contracts/src/worktreeMcp.ts
+  s_e1d836184d57e2::t_76ef372b0894df 3,7,9,68-69,80
+packages/contracts/src/worktreeSetup.ts
+  s_e1d836184d57e2::t_3e392953dbbb0a 3-9,54-55
+packages/provider-acp-registry/src/server/AcpRegistrySupport.test.ts
+  s_e1d836184d57e2::t_04f981512acd5d 321,1209,1219-1224,1227
+packages/provider-acp-registry/src/server/AcpRegistrySupport.ts
+  s_e1d836184d57e2::t_fddb7f4a221e36 676-682,1249,1297-1301,1324,1750-1752,1759-1770,1841,1869,1933,1974,2042
+packages/provider-acp/src/server/AcpSessionRuntime.ts
+  s_e1d836184d57e2::t_8581b34404e25a 88-89,1404-1422,2321,2469,2486,3085-3086,3088,3090-3103
+packages/provider-acp/src/server/adapter.ts
+  s_e1d836184d57e2::t_6e3d3366bf9a33 83,167-194,421-423,428-431,671-679,1698-1700,1783-1788,2354-2371,2377,2400-2410,2802-2807,4339-4342,4347,8049,8444,8633-8665,8761,8899-8931,8955,8976-8988,8993-9000,9024,9043,9148-9153,9163,9186-9193,9201,9220,9227-9257,9270-9278,9284-9291,9334-9348,9361-9362,9463,9484,9688-9699,9872,9896,9902-9911,9927-9933,9960,9995-10031,10053,10064,10073,10406-10426,10430-10431,10433-10468,10934
+packages/provider-acp/src/server/clientTerminals.ts
+  s_e1d836184d57e2::t_fcf8be17e259d4 266
+packages/provider-acp/src/server/runtimeModel.test.ts
+  s_e1d836184d57e2::t_a5b2367fd7b782 1210-1230,1249
+packages/provider-acp/src/server/runtimeModel.ts
+  s_e1d836184d57e2::t_a2f4731dd487d1 64-69
+packages/provider-core/src/server/ProviderAdapter.ts
+  s_e1d836184d57e2::t_f8bd98ccc3aa2b 3,12,123-133,181-188,237-238,588
+packages/provider-core/src/server/failure.test.ts
+  s_e1d836184d57e2::t_de1aa0868ac4f1 136-145
+packages/provider-core/src/server/failure.ts
+  s_e1d836184d57e2::t_0b216cd4ed6b81 12,143-144,350-351,365-370,398,425-430
+packages/provider-core/src/server/maintenanceResolver.test.ts
+  s_e1d836184d57e2::t_09305fa5a9f1ac 833-887
+packages/provider-core/src/server/maintenanceResolver.ts
+  s_e1d836184d57e2::t_378eaf51b46fff 1185-1188,1196-1218
+packages/provider-core/src/server/runtimeInstructions.test.ts
+  s_e1d836184d57e2::t_c9b35e9de50915 4,61-76,106-120
+packages/provider-core/src/server/runtimeInstructions.ts
+  s_e1d836184d57e2::t_a2ad676305333c 1-2,5-11,21,39-40,43-47
+packages/provider-core/src/server/subagentProjection.ts
+  s_e1d836184d57e2::t_591725fae589d4 398,413-421,423,434,440-441
+packages/provider-core/src/server/usage.ts
+  s_e1d836184d57e2::t_d7d5e010ea46a6 65-66
+packages/provider-cursor/src/server/CursorAgentSdk.test.ts
+  s_e1d836184d57e2::t_f4ccec02f853ff 407-440
+packages/provider-cursor/src/server/CursorAgentSdk.ts
+  s_e1d836184d57e2::t_e0be36f73416a0 12,110-111,556-568,852-859,861,863-878
+packages/provider-cursor/src/server/CursorAgentSdkProcessRunner.test.ts
+  s_e1d836184d57e2::t_02a87c00919e16 67,312,315,326
+packages/provider-cursor/src/server/CursorAgentSdkProcessRunner.ts
+  s_e1d836184d57e2::t_66682fb4b70e16 58,108-112,366-367,609-613,619-625,883-887
+packages/provider-cursor/src/server/CursorAgentSdkWorker.ts
+  s_e1d836184d57e2::t_1c4ee39c214672 228-233
+packages/provider-cursor/src/server/CursorAgentSdkWorkerProtocol.ts
+  s_e1d836184d57e2::t_2ed67618c21906 164-168
+packages/provider-cursor/src/server/adapter.test.ts
+  s_e1d836184d57e2::t_a2331bfb8165b7 448-495,2584-2585,2681-2689
+packages/provider-cursor/src/server/adapter.ts
+  s_e1d836184d57e2::t_a2b1687059b557 931-935,1156-1172,2712,2925,2930,3036,3062,3064-3072
+packages/provider-muse/src/server/MuseUsageHome.ts
+  s_e1d836184d57e2::t_fbdaccc7c04b32 69-73
+packages/provider-muse/src/server/adapter.test.ts
+  s_e1d836184d57e2::t_570246e4322a8e 391-392,400,402,405,417-423
+packages/provider-muse/src/server/adapter.ts
+  s_e1d836184d57e2::t_742941f7178db6 359,2017,2196
+packages/provider-muse/src/server/sdk.test.ts
+  s_e1d836184d57e2::t_f1d3225a0c5629 266
+packages/provider-muse/src/server/sdk.ts
+  s_e1d836184d57e2::t_436e1def5a6afd 120-121
+packages/provider-muse/src/server/usage.test.ts
+  s_e1d836184d57e2::t_ed6a3131c6b461 263
+packages/provider-opencode/src/server/adapter.test.ts
+  s_e1d836184d57e2::t_4c53b50f076298 154-188,298,505,577,652,684,900,1035,1143,1230,1272,1348,1759,1772-1774,1937,1967,1972-1973,1981-1982,2146,2239,2293-2294,2299,2381,2469-2470,2503,2506,2559-2560,2592,2607-2609,2611,2624,2661,2790,2947,3060,3179,3246,3507,3569,3623,3744,3749,3868,3976-3977,4083-4084,4128,4166-4167,4250-4251,4263,4281-4282,4286-4287,4295-4296,4344-4345,4354,4498,4504,4555,4623,4664,4718,4791
+packages/provider-opencode/src/server/adapter.ts
+  s_e1d836184d57e2::t_1be07d5e3e0e71 16,300,2518,3520,3794
+packages/provider-opencode/src/server/v2/adapter.ts
+  s_e1d836184d57e2::t_6631623804bb92 1636-1637,2284,2396,4423,4484,4720-4721,4734-4771,5452
+packages/provider-pi/src/server/adapter.test.ts
+  s_e1d836184d57e2::t_1a466a73bbe46d 4162-4217
+packages/provider-pi/src/server/adapter.ts
+  s_e1d836184d57e2::t_edb1a99ff84910 373-377,396,924-942,1033,1042-1043,1046,1048-1055,1066-1068,1089,2109,3511,4388
+packages/shared/package.json
+  s_e1d836184d57e2::t_959abfb851bc5d 154-157,526-529
+packages/shared/src/appLinks.test.ts
+  s_e1d836184d57e2::t_1acaa82bc92479 1-32
+packages/shared/src/appLinks.ts
+  s_e1d836184d57e2::t_f3b025475367c3 1-22
+packages/shared/src/composerInlineTokens.test.ts
+  s_e1d836184d57e2::t_795e7740207fe5 6,224-250,281-293
+packages/shared/src/composerInlineTokens.ts
+  s_e1d836184d57e2::t_e128ac485bc7f8 1-3,75,194-206
+packages/shared/src/composerTrigger.ts
+  s_e1d836184d57e2::t_36d25364769ddb 1-2,33-43,46-57
+packages/shared/src/keybindingMatching.ts
+  s_e1d836184d57e2::t_fd60b5901ae5cb 85-86,89,93-94,105-108,112-113,116-117,142,151-154
+packages/shared/src/keybindings.ts
+  s_e1d836184d57e2::t_26a0c1d2bb1a63 23,171,173-174
+packages/shared/src/markdownChunks.test.ts
+  s_e1d836184d57e2::t_4757c9654e3e12 1-132
+packages/shared/src/markdownChunks.ts
+  s_e1d836184d57e2::t_dbd8a6068c526d 1-130
+packages/shared/src/markdownLinks.test.ts
+  s_e1d836184d57e2::t_7e3e91c1ca1f2e 98-113,193-195
+packages/shared/src/markdownLinks.ts
+  s_e1d836184d57e2::t_959933e7fee4e9 522,528-529,533-551
+packages/shared/src/nodeSqliteClient.test.ts
+  s_e1d836184d57e2::t_7ae5433e16fd05 151-167
+packages/shared/src/nodeSqliteClient.ts
+  s_e1d836184d57e2::t_b59e3afeb967af 289-290,859-862
+packages/shared/src/orchestrationV2ThreadError.ts
+  s_e1d836184d57e2::t_5c8dbc5f2381d1 89
+packages/shared/src/orchestrationV2Timeline.test.ts
+  s_e1d836184d57e2::t_23406702ee0a41 2,95-99,103,108-161
+packages/shared/src/orchestrationV2Timeline.ts
+  s_e1d836184d57e2::t_9edadc81b470a8 8-9,42-46,62,67,86
+packages/shared/src/semver.test.ts
+  s_e1d836184d57e2::t_a718ac967a103a 97-99
+packages/shared/src/semver.ts
+  s_e1d836184d57e2::t_af3d1950b9cc1c 148
+packages/shared/src/shell.test.ts
+  s_e1d836184d57e2::t_4c6e3638bd890b 580-582,741,751-756,759-761,986-1052
+packages/shared/src/shell.ts
+  s_e1d836184d57e2::t_874ebba904b7d8 78,80,84,93,95,99-100,107-110,118,123,668,673-674,677,680,686,688,694,699-701,703,1009-1017,1019-1020,1022-1023,1103-1104,1122
+packages/shared/src/t3McpToolPresentation.ts
+  s_e1d836184d57e2::t_5c5f5aa31d5459 362
+packages/source-control-azure-devops/src/server/AzureDevOpsCli.test.ts
+  s_e1d836184d57e2::t_71d9560a2f286e 417
+packages/source-control-azure-devops/src/server/AzureDevOpsCli.ts
+  s_e1d836184d57e2::t_e39036a65a6b82 498-499
+packages/source-control-core/src/server/IssueTrackerHost.ts
+  s_e1d836184d57e2::t_d6fc169c91768c 5,7,10,23-72
+packages/source-control-core/src/server/PullRequestProvider.ts
+  s_e1d836184d57e2::t_9445a2e611c86f 43,112-113
+packages/source-control-core/src/server/SourceControlProvider.ts
+  s_e1d836184d57e2::t_3475bac7fcb127 176-187,217-218
+packages/source-control-core/src/server/discovery.ts
+  s_e1d836184d57e2::t_2b60482676575f 360-361
+packages/source-control-forgejo/src/server/ForgejoSourceControlProvider.ts
+  s_e1d836184d57e2::t_4a008a45f539ed 27,307,492-496
+packages/source-control-forgejo/src/server/forgejoChangeRequestTemplate.test.ts
+  s_e1d836184d57e2::t_e015a4109a460d 1-100
+packages/source-control-forgejo/src/server/forgejoChangeRequestTemplate.ts
+  s_e1d836184d57e2::t_b53005393476cb 1-63
+packages/source-control-github/src/server/GitHubIssueTracker.test.ts
+  s_e1d836184d57e2::t_3901e9b72eff5a 659-667
+packages/source-control-github/src/server/GitHubPullRequestApi.test.ts
+  s_e1d836184d57e2::t_cbde5751c10070 3952-3958,3964-3970
+packages/source-control-github/src/server/gitHubIssueJson.ts
+  s_e1d836184d57e2::t_00a3e0697ab402 139,166-174,177-187
+packages/source-control-github/src/server/gitHubPullRequestJson.test.ts
+  s_e1d836184d57e2::t_06a5e816e00d5a 362-368,371-373,666-798
+packages/source-control-github/src/server/gitHubPullRequestJson.ts
+  s_e1d836184d57e2::t_9fd03ac2ecd720 134-140,153-154,629-636,642-654,659-664,1284-1288
+packages/source-control-github/src/server/gitHubRepositoryResolution.test.ts
+  s_e1d836184d57e2::t_5ef23e80269243 171-194
+packages/source-control-github/src/server/gitHubRepositoryResolution.ts
+  s_e1d836184d57e2::t_5521cd98ea3c78 169-171
+packages/source-control-github/src/server/issues.graphql
+  s_e1d836184d57e2::t_440d663df2e8fe 234
+packages/source-control-github/src/server/issues.graphql.ts
+  s_e1d836184d57e2::t_cf751ce77d2f74 490-491,589
+packages/source-control-github/src/server/pullRequestReads.graphql
+  s_e1d836184d57e2::t_3a9243cfec5384 45-46,48
+packages/source-control-github/src/server/pullRequestReads.graphql.ts
+  s_e1d836184d57e2::t_f05faecac365ed 26-27,35-38,574,626
+packages/source-control-gitlab/src/server/GitLabCli.ts
+  s_e1d836184d57e2::t_2decb42ea2b8df 24-25,382-385,568-596,604,639-643,678-680
+packages/source-control-gitlab/src/server/GitLabIssueTracker.test.ts
+  s_e1d836184d57e2::t_db79a6e458e82b 62-68,216,218-223
+packages/source-control-gitlab/src/server/GitLabIssueTracker.ts
+  s_e1d836184d57e2::t_7838f1b2edab3f 28,580-585
+packages/source-control-gitlab/src/server/GitLabSourceControlProvider.git.test.ts
+  s_e1d836184d57e2::t_4ebfc7c102c7b7 109-199
+packages/source-control-gitlab/src/server/GitLabSourceControlProvider.test.ts
+  s_e1d836184d57e2::t_72a192fb9ffc71 213-219
+packages/source-control-gitlab/src/server/GitLabSourceControlProvider.ts
+  s_e1d836184d57e2::t_dc59d8f89c5a48 214-224
+packages/source-control-gitlab/src/server/gitLabIssueJson.ts
+  s_e1d836184d57e2::t_4c5984176a7efe 253-287
+packages/source-control-gitlab/src/server/gitLabMergeRequests.ts
+  s_e1d836184d57e2::t_85b845822be0ef 26-27,127-144
+packages/source-control-tanstack-source/src/server/TanStackSourcePullRequestProvider.test.ts
+  s_e1d836184d57e2::t_59e85cfa3e6396 1-138
+packages/source-control-tanstack-source/src/server/TanStackSourceSourceControlProvider.test.ts
+  s_e1d836184d57e2::t_09787db3988cee 38-39,48,55-69,105-111,154-232
+packages/source-control-tanstack-source/src/server/TanStackSourceSourceControlProvider.ts
+  s_e1d836184d57e2::t_4ffca61c20dcca 398-409,452,510-511,536-542,544-555,569,574-580
+packages/source-control-tanstack-source/src/server/tanStackSourceHosts.test.ts
+  s_e1d836184d57e2::t_df498817b478bd 1-19
+packages/source-control-tanstack-source/src/server/tanStackSourceHosts.ts
+  s_e1d836184d57e2::t_75b5655f67ea50 1,13,15-20
+packages/source-control-tanstack-source/src/server/tanStackSourceJson.test.ts
+  s_e1d836184d57e2::t_7bfae4e3122451 149
+packages/source-control-tanstack-source/src/server/tanStackSourceJson.ts
+  s_e1d836184d57e2::t_76547bc8a9e8d1 19-20,34,141-142,246,248-259,297,398-400
+packages/source-control-tanstack-source/src/shared/definition.test.ts
+  s_e1d836184d57e2::t_40b981e7068d41 34-39,43-52
+packages/source-control-tanstack-source/src/shared/definition.ts
+  s_e1d836184d57e2::t_fb0988f83f609c 40-53,97,103,139
+patches/@cursor__sdk@1.4.2.patch
+  s_e1d836184d57e2::t_fb291cdf2a2538 2,28,49,54,84,89,110
+patches/@legendapp__list@3.7.3.patch
+  s_e1d836184d57e2::t_f53ccf310a8bf1 1-28
+patches/effect@4.1.5.patch
+  s_e1d836184d57e2::t_0709a1e6f66bee 1-4086
+pnpm-lock.yaml
+  s_e1d836184d57e2::t_14f72e4c7653a6 364,369,377,435,459,490,551,575,629,816,819,858,861,864,945,985,988,1093,1099,1198,1268,1271,1337,1349,1353,1365,1368,1371,1377,1380,1383,1401,1404,1407,1411,1417,1420,1429,1441,1444,1447,1450,1460,1463,1478,1482,1485,1542,1558,1582,1586,1595,1599,1602,1605,1617,1621,1624,1627,1645,1649,1652,1676,1680,1683,1713,1717,1720,1744,1748,1751,1763,1775,1785,1788,1815,1819,1822,1852,1856,1859,1889,1893,1896,1926,1930,1933,1951,1969,1973,1976,2000,2004,2007,2022,2034,2038,2053,2057,2060,2093,2097,2100,2121,2182,2185,2221,2225,2228,2255,2259,2262,2283,2287,2299,2314,2318,2372,2376,2379,2406,2410,2425,2440,2447,2450,2474,2478,2481,2505,2509,2524,2536,2552,2556,2559,2577,2581,2599,2623,2639,13147,13149-13151,13153,13155-13158,13160,13164,13167,13175-13176,13184-13197,13203-13204,13216,13218-13219,13222,13224,13226-13231,13233-13235,13250,13252-13253,13255,13258,13260-13261,13263-13264,14218,14243,14245-14246,14248,14250-14251,14253,14255-14257,14259,14261-14262,14264,14266-14267,14269,14271,14273,14275-14276,14322,14324,14328,14330-14331,14333,14335-14336,14341,14343-14344,14349,14352,14358,14360-14361,14368,14371,14373,14375,14377,14379,14412,14414,15586,15890,15895,15900,15905,17994,17999,18007-18008,18967,18969,18971,18974-18976,18981,19020
+pnpm-workspace.yaml
+  s_e1d836184d57e2::t_2ff5873505314e 235,288-289
+scripts/scenarios/add-project-tab-reaches-submit.e2e.ts
+  s_e1d836184d57e2::t_78b56443889aa0 12-13
+scripts/scenarios/citation-skips-ambiguous-project-files.e2e.ts
+  s_e1d836184d57e2::t_d8b5d463ca6f65 1-37
+scripts/scenarios/citation-skips-other-project-after-ambiguous-local-search.e2e.ts
+  s_e1d836184d57e2::t_d0651c3f5a5053 1-34
+scripts/scenarios/clone-failure-after-dismissing-progress.e2e.ts
+  s_e1d836184d57e2::t_fc140a456e0727 1-113
+scripts/scenarios/closed-linked-thread-stays-closed-during-pairing.e2e.ts
+  s_e1d836184d57e2::t_5d63afe3a39d0a 1-139
+scripts/scenarios/linked-thread-connects-before-fallback-timeout.e2e.ts
+  s_e1d836184d57e2::t_89a556be18b776 1-88
+scripts/scenarios/linked-thread-retry-reads-again.e2e.ts
+  s_e1d836184d57e2::t_343783196ac1ec 1-105
+scripts/scenarios/notebook-shows-saved-output-in-tall-preview.e2e.ts
+  s_e1d836184d57e2::t_bcf908e42a4dd1 1-80
+scripts/scenarios/notebook-shows-visible-saved-output.e2e.ts
+  s_e1d836184d57e2::t_126ebf3bfbf760 1-77
+scripts/scenarios/queued-message-shows-file-mention-by-name.e2e.ts
+  s_e1d836184d57e2::t_27b83a1da0d95b 1-37
+scripts/scenarios/rejected-theme-file-supersedes-earlier-read.e2e.ts
+  s_e1d836184d57e2::t_c76810bbade083 1-64
+scripts/scenarios/sent-file-mention-punctuated-name-opens-file.e2e.ts
+  s_e1d836184d57e2::t_df7f11e37b7c32 1-39
+scripts/scenarios/server-preview-app-link-stops-loading.e2e.ts
+  s_e1d836184d57e2::t_248b81b6bf1c17 1-53
+scripts/scenarios/shell.ts
+  s_e1d836184d57e2::t_5b661a02cd9ef8 55
+scripts/scenarios/side-panel-preserves-reading-position.e2e.ts
+  s_e1d836184d57e2::t_46106e1add00e4 1-124
+scripts/scenarios/stopped-worktree-turn-sends-in-checkout.e2e.ts
+  s_e1d836184d57e2::t_1ab2b15d6c29b4 1-51
+scripts/scenarios/terminal-latched-modifier-reads-selected.e2e.ts
+  s_e1d836184d57e2::t_0d5582da257a45 1-41
+scripts/scenarios/xlsx-rapid-arrow-keys-advance-both-sheets.e2e.ts
+  s_e1d836184d57e2::t_1a6caaf3d87e0f 1-150
+scripts/server-metrics-report.ts
+  s_e1d836184d57e2::t_819ca7c1fdf3f0 1-339
+scripts/server-metrics.test.ts
+  s_e1d836184d57e2::t_7b0536cb376b80 1-158
+scripts/server-metrics.ts
+  s_e1d836184d57e2::t_f1ea9e81f72985 1-1137
+skills/t3-workflows/SKILL.md
+  s_e1d836184d57e2::t_282f89a7d7ff5e 1-353
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "662f0d88633a52630e219b28fa52eccdc9671ce5",
+  "prompts": {},
+  "sessions": {
+    "s_e1d836184d57e2": {
+      "agent_id": {
+        "tool": "pi",
+        "id": "01a20763-ff13-7053-821f-0bb67a9cce09",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
