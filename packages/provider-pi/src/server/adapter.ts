@@ -80,7 +80,11 @@ import {
   materializePiT3McpExtension,
   resolvePiLaunchArgs,
 } from "./mcpInjection.ts";
-import { PI_FILE_CHANGE_TOOLS, PI_T3_SERVICE_TIER_COMMAND } from "./mcpExtensionSource.ts";
+import {
+  PI_FILE_CHANGE_TOOLS,
+  PI_T3_RESUME_COMMAND,
+  PI_T3_SERVICE_TIER_COMMAND,
+} from "./mcpExtensionSource.ts";
 import {
   PI_STANDARD_SERVICE_TIER,
   PI_THINKING_LEVELS as PI_THINKING_LADDER,
@@ -137,7 +141,7 @@ const PiProviderCapabilitiesV2 = {
     emitsTurnStarted: true,
     emitsTurnCompleted: true,
     supportsInterrupt: true,
-    supportsNativeResume: false,
+    supportsNativeResume: true,
     supportsActiveSteering: true,
     supportsSteeringByInterruptRestart: false,
     supportsQueuedMessages: true,
@@ -3419,6 +3423,7 @@ export const makePiAdapterV2 = Effect.fn("makePiAdapterV2")(function* (
             ...turnInput,
             message: { ...turnInput.message, text: "/compact" },
           }),
+        resumeTurn: (input) => runtime.startTurn(ProviderAdapter.resumeTurnInput(input)),
         startTurn: Effect.fn("PiAdapter.startTurn")(
           function* (turnInput) {
             if (registrationInProgress)
@@ -3467,9 +3472,14 @@ export const makePiAdapterV2 = Effect.fn("makePiAdapterV2")(function* (
               ? null
               : parsePiCompactCommand(turnInput.message.text);
             const payload =
-              !continuation && compactCommand === null
-                ? yield* resolvePromptPayload(turnInput.message.text, turnInput.message.attachments)
-                : null;
+              turnInput.resume === true
+                ? { message: `/${PI_T3_RESUME_COMMAND}`, images: [] }
+                : !continuation && compactCommand === null
+                  ? yield* resolvePromptPayload(
+                      turnInput.message.text,
+                      turnInput.message.attachments,
+                    )
+                  : null;
             const startedAt = yield* DateTime.now;
             const syntheticNativeTurnId = `${state.providerThread.id}:attempt:${turnInput.attemptId}`;
             const providerTurn: OrchestrationV2ProviderTurn = {

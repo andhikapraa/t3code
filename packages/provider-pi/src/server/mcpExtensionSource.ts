@@ -10,6 +10,7 @@ export const T3_MCP_BEARER_ENV = "T3_MCP_BEARER_TOKEN";
 export const T3_PI_RUNTIME_MODE_ENV = "T3_PI_RUNTIME_MODE";
 export const T3_PI_MCP_EXTENSION_PATH_ENV = "T3_PI_MCP_EXTENSION_PATH";
 export const PI_T3_SERVICE_TIER_COMMAND = "t3-service-tier";
+export const PI_T3_RESUME_COMMAND = "t3-resume";
 
 // These tools trigger file-change approvals, bypassed by Auto-accept edits.
 export const PI_FILE_CHANGE_TOOLS = ["edit", "write"] as const;
@@ -28,6 +29,7 @@ const EXTENSION_PATH_ENV = ${JSON.stringify(T3_PI_MCP_EXTENSION_PATH_ENV)};
 const ORCHESTRATION_INSTRUCTIONS = ${JSON.stringify(T3_CODE_ORCHESTRATION_INSTRUCTIONS.trim())};
 const PULL_REQUEST_LINKING_INSTRUCTIONS = ${JSON.stringify(PULL_REQUEST_LINKING_INSTRUCTIONS)};
 const SERVICE_TIER_COMMAND = ${JSON.stringify(PI_T3_SERVICE_TIER_COMMAND)};
+const RESUME_COMMAND = ${JSON.stringify(PI_T3_RESUME_COMMAND)};
 const PROTOCOL = "2025-06-18";
 const READ_ONLY_TOOLS = new Set(["read", "grep", "find", "ls"]);
 const FILE_CHANGE_TOOLS = new Set(${JSON.stringify(PI_FILE_CHANGE_TOOLS)});
@@ -309,6 +311,22 @@ export default async function t3McpExtension(pi: ExtensionAPI) {
     description: "Set the service tier T3 Code sends with provider requests",
     handler: async (args) => {
       serviceTier = args.trim() || undefined;
+    },
+  });
+
+  // RPC has no continue command, so T3's Resume runs this. Pi leaves failed and aborted replies
+  // out of model context, so a hidden note continues from the last complete step.
+  pi.registerCommand(RESUME_COMMAND, {
+    description: "Continue the stopped turn without a new user message",
+    handler: async () => {
+      pi.sendMessage(
+        {
+          customType: RESUME_COMMAND,
+          content: "The previous response stopped before finishing. Continue the task from where it stopped.",
+          display: false,
+        },
+        { triggerTurn: true },
+      );
     },
   });
 

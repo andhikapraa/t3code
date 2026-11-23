@@ -93,6 +93,13 @@ installs Pi's example `subagent` extension, T3 Code also shows its task progress
 UI. Pi runs those children without a session, so they cannot be opened or resumed as T3 Code
 threads.
 
+## Resume
+
+After you stop a Pi turn, or it fails after Pi's own retries, press **Resume** in an empty
+composer to continue in the same session without sending a new message. T3 Code adds a hidden
+note asking Pi to continue from the last completed step. Pi drops the unfinished reply from the
+model's context, so tool calls that already ran stay in context but its partial text does not.
+
 ## Rate Limits
 
 When Pi's own retries give up on a rate limit, T3 Code shows the usage-limit banner, where you can

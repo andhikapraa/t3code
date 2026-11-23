@@ -7,7 +7,11 @@ import * as NodeVM from "node:vm";
 import { assert, describe, it } from "@effect/vitest";
 import { PULL_REQUEST_LINKING_INSTRUCTIONS } from "@t3tools/provider-core/server/runtimeInstructions";
 
-import { PI_T3_MCP_EXTENSION_SOURCE, PI_T3_SERVICE_TIER_COMMAND } from "./mcpExtensionSource.ts";
+import {
+  PI_T3_MCP_EXTENSION_SOURCE,
+  PI_T3_RESUME_COMMAND,
+  PI_T3_SERVICE_TIER_COMMAND,
+} from "./mcpExtensionSource.ts";
 import { loadMcpBridge } from "./mcpBridge.testkit.ts";
 
 type RequestHook = (
@@ -544,6 +548,7 @@ describe("Pi tool discovery permissions", () => {
 async function loadRequestHook() {
   const handlers = new Map<string, RequestHook>();
   const commands = new Map<string, CommandHandler>();
+  const sentMessages: Array<{ message: Record<string, unknown>; options: unknown }> = [];
   const source = NodeModule.stripTypeScriptTypes(
     PI_T3_MCP_EXTENSION_SOURCE.replace(/^import .*;$/gm, "").replace(
       "export default async function",
@@ -556,14 +561,29 @@ async function loadRequestHook() {
       on: (name: string, handler: RequestHook) => handlers.set(name, handler),
       registerCommand: (name: string, options: { handler: CommandHandler }) =>
         commands.set(name, options.handler),
+      sendMessage: (message: Record<string, unknown>, options: unknown) =>
+        sentMessages.push({ message, options }),
     },
   });
   const hook = handlers.get("before_provider_request");
   const setServiceTier = commands.get(PI_T3_SERVICE_TIER_COMMAND);
+  const resume = commands.get(PI_T3_RESUME_COMMAND);
   assert.isDefined(hook);
   assert.isDefined(setServiceTier);
-  return Object.assign(hook!, { setServiceTier: setServiceTier! });
+  assert.isDefined(resume);
+  return Object.assign(hook!, { setServiceTier: setServiceTier!, resume: resume!, sentMessages });
 }
+
+describe("Pi resume", () => {
+  it("starts a turn from a hidden note instead of a user message", async () => {
+    const hook = await loadRequestHook();
+    await hook.resume("");
+    assert.equal(hook.sentMessages.length, 1);
+    const [sent] = hook.sentMessages;
+    assert.equal(sent!.message["display"], false);
+    assert.deepEqual(sent!.options, { triggerTurn: true });
+  });
+});
 
 describe("Pi service tier", () => {
   it("sends only a tier the active model advertises, until Standard clears it", async () => {
