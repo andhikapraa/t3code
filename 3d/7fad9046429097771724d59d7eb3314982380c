@@ -1,0 +1,14 @@
+apps/server/src/provider/agentContextBudget.json
+  h_690cf8a536e111 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3d7fad9046429097771724d59d7eb3314982380c",
+  "prompts": {},
+  "humans": {
+    "h_690cf8a536e111": {
+      "author": "Muhammad Andhika Prasetya <andhikapraa@gmail.com>"
+    }
+  }
+}
